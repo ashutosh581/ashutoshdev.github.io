@@ -165,4 +165,110 @@
       const imgMatch = html.match(/<img[^>]+src="([^"]+)"/i);
       if (imgMatch && imgMatch[1]) cover = imgMatch[1];
 
-      const descText = (item.querySelector
+      const descText = (item.querySelector("description")?.textContent || "")
+        .replace(/<[^>]*>/g, "")
+        .trim();
+
+      return normalizePost({ title, link: url, pubDate, image: cover, description: descText });
+    });
+  }
+
+  async function fetchSubstackPosts() {
+    const archiveDirect = `${SUBSTACK_BASE}/api/v1/archive`;
+    const archiveViaJina = `https://r.jina.ai/https://ashutoshdev.substack.com/api/v1/archive`;
+    const archiveViaJinaHttp = `https://r.jina.ai/http://ashutoshdev.substack.com/api/v1/archive`;
+
+    const archiveUrls = [archiveDirect, archiveViaJina, archiveViaJinaHttp];
+
+    for (const url of archiveUrls) {
+      try {
+        const txt = await fetchText(url);
+        const data = safeJsonParse(txt);
+
+        const arr = Array.isArray(data)
+          ? data
+          : Array.isArray(data?.posts)
+            ? data.posts
+            : Array.isArray(data?.items)
+              ? data.items
+              : null;
+
+        if (arr && arr.length) {
+          const posts = arr.map(normalizePost).filter(p => p.url && p.title);
+          if (posts.length) return posts;
+        }
+      } catch (_) {}
+    }
+
+    const feedDirect = `${SUBSTACK_BASE}/feed`;
+    const feedViaJina = `https://r.jina.ai/https://ashutoshdev.substack.com/feed`;
+    const feedViaJinaHttp = `https://r.jina.ai/http://ashutoshdev.substack.com/feed`;
+
+    const feedUrls = [feedDirect, feedViaJina, feedViaJinaHttp];
+
+    for (const url of feedUrls) {
+      try {
+        const xmlText = await fetchText(url);
+        const posts = parseRssToPosts(xmlText);
+        if (posts.length) return posts;
+      } catch (_) {}
+    }
+
+    return [];
+  }
+
+  async function loadWritingFromSubstack() {
+    const track = document.getElementById("substackTrack");
+    const status = document.getElementById("substackStatus");
+    const openBtn = document.getElementById("substackOpen");
+
+    if (!track) return;
+    if (openBtn) openBtn.href = `${SUBSTACK_BASE}/archive`;
+
+    track.innerHTML = `
+      <div class="w-[92%] md:w-[520px] shrink-0 snap-center bg-white border border-gray-200 rounded-2xl overflow-hidden" data-slide>
+        <div class="h-64 bg-gray-100"></div>
+        <div class="p-7">
+          <div class="h-3 w-24 bg-gray-200 rounded"></div>
+          <div class="mt-4 h-5 w-3/4 bg-gray-200 rounded"></div>
+          <div class="mt-3 h-4 w-5/6 bg-gray-200 rounded"></div>
+          <div class="mt-2 h-4 w-2/3 bg-gray-200 rounded"></div>
+        </div>
+      </div>
+    `;
+
+    try {
+      const posts = await fetchSubstackPosts();
+      if (!posts.length) throw new Error("No posts returned");
+
+      const limited = posts.slice(0, 10);
+      track.innerHTML = limited.map(renderSubstackCard).join("");
+      if (status) status.textContent = "Latest posts automatically pulled from Substack.";
+      initIcons();
+    } catch (err) {
+      track.innerHTML = `
+        <a href="${SUBSTACK_BASE}/archive" target="_blank" rel="noopener"
+           class="w-[92%] md:w-[520px] shrink-0 snap-center bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-md transition-shadow"
+           data-slide>
+          <div class="h-64 bg-gray-100 flex items-center justify-center text-gray-500">Substack</div>
+          <div class="p-7">
+            <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Writing</div>
+            <h3 class="mt-3 text-xl font-semibold text-gray-900">Open Substack →</h3>
+            <p class="mt-3 text-gray-600 leading-relaxed">
+              If posts don’t load here (hosting/CORS limits), open Substack directly.
+            </p>
+          </div>
+        </a>
+      `;
+      if (status) status.textContent = "Couldn’t load posts automatically (hosting/CORS limits).";
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    initYear();
+    initSliders();
+    initIcons();
+    loadWritingFromSubstack();
+  });
+})();
+
