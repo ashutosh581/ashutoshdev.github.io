@@ -14,106 +14,151 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
-    body { font-family: 'Inter', sans-serif; background-color: #fafafa; color: #1a1a1a; -webkit-font-smoothing: antialiased; }
-    h1, h2, h3, h4, h5, .serif { font-family: 'Playfair Display', serif; }
-    .hide-scrollbar::-webkit-scrollbar { display: none; }
-    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    .image-fallback { background:#e5e5e5; display:flex; align-items:center; justify-content:center; color:#737373; font-size:.875rem; }
+    body{
+      font-family: 'Inter', sans-serif;
+      background:#fafafa;
+      color:#1a1a1a;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1,h2,h3,h4,.serif{ font-family:'Playfair Display', serif; }
+
+    /* Prevent horizontal scroll issues on mobile */
+    html, body { max-width: 100%; overflow-x: hidden; }
+    img { max-width: 100%; height: auto; }
+
+    /* Hide scrollbar for horizontal sliders but keep scroll */
+    .hide-scrollbar::-webkit-scrollbar{ display:none; }
+    .hide-scrollbar{ -ms-overflow-style:none; scrollbar-width:none; }
+
+    .image-fallback{
+      background:#e5e5e5;
+      display:flex; align-items:center; justify-content:center;
+      color:#737373; font-size:.875rem;
+    }
   </style>
 </head>
 
 <body class="antialiased selection:bg-gray-300 selection:text-black">
 
-  <!-- Navigation -->
+  <!-- NAV -->
   <nav class="fixed w-full bg-white/90 backdrop-blur-md z-50 border-b border-gray-200">
     <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-      <a href="#top" class="serif text-2xl md:text-3xl font-semibold tracking-tight">Ashutosh Dev</a>
+      <a href="#top" class="text-2xl md:text-3xl font-semibold tracking-tight serif">Ashutosh Dev</a>
 
-      <div class="hidden md:flex space-x-8 text-sm font-medium text-gray-500">
+      <button id="mobileMenuBtn" class="md:hidden inline-flex items-center gap-2 text-sm font-medium border border-gray-300 px-4 py-2 rounded-full hover:bg-gray-900 hover:text-white transition-all">
+        <i data-lucide="menu" class="w-4 h-4"></i>
+        Menu
+      </button>
+
+      <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
         <a href="#research" class="hover:text-black transition-colors">Research</a>
-        <a href="#carbon-community" class="hover:text-black transition-colors">Carbon & Community</a>
-        <a href="#trajectory" class="hover:text-black transition-colors">Trajectory</a>
+        <a href="#carbon-community" class="hover:text-black transition-colors">Carbon</a>
         <a href="#publications" class="hover:text-black transition-colors">Publications</a>
         <a href="#writing" class="hover:text-black transition-colors">Writing</a>
+        <a href="#trajectory" class="hover:text-black transition-colors">Trajectory</a>
+        <a href="#contact" class="hover:text-black transition-colors">Contact</a>
       </div>
+    </div>
 
-      <div class="flex items-center gap-3">
-        <a href="assets/resume.pdf" target="_blank" rel="noopener"
-           class="hidden sm:inline-flex items-center gap-2 text-sm font-medium border border-gray-300 px-4 py-2 rounded-full hover:bg-gray-900 hover:text-white transition-all">
-          <i data-lucide="download" class="w-4 h-4"></i>
-          <span>Download CV</span>
-        </a>
-        <a href="mailto:devashutosh31@gmail.com"
-           class="inline-flex items-center gap-2 text-sm font-medium border border-gray-300 px-4 py-2 rounded-full hover:bg-gray-900 hover:text-white transition-all">
-          <i data-lucide="mail" class="w-4 h-4"></i>
-          <span>Contact</span>
-        </a>
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="md:hidden hidden border-t border-gray-200 bg-white">
+      <div class="max-w-6xl mx-auto px-6 py-4 flex flex-col gap-3 text-sm font-medium text-gray-700">
+        <a href="#research" class="hover:text-black">Research</a>
+        <a href="#carbon-community" class="hover:text-black">Carbon</a>
+        <a href="#publications" class="hover:text-black">Publications</a>
+        <a href="#writing" class="hover:text-black">Writing</a>
+        <a href="#trajectory" class="hover:text-black">Trajectory</a>
+        <a href="#contact" class="hover:text-black">Contact</a>
+        <div class="pt-2 flex gap-3 flex-wrap">
+          <a href="assets/resume.pdf" target="_blank" class="inline-flex items-center gap-2 text-sm font-medium border border-gray-300 px-5 py-2.5 rounded-full hover:bg-gray-900 hover:text-white transition-all">
+            <i data-lucide="download" class="w-4 h-4"></i>
+            Download CV
+          </a>
+          <a href="https://github.com/ashutosh581" target="_blank" class="inline-flex items-center gap-2 text-sm font-medium border border-gray-300 px-5 py-2.5 rounded-full hover:bg-gray-900 hover:text-white transition-all">
+            <i data-lucide="github" class="w-4 h-4"></i>
+            GitHub
+          </a>
+        </div>
       </div>
     </div>
   </nav>
 
-  <!-- Hero -->
-  <section id="top" class="pt-36 md:pt-40 pb-16 px-6 max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12">
-    <div class="flex-1 space-y-6">
-      <div class="text-base md:text-xl font-semibold text-gray-700 tracking-tight">
-        New Zealand Award Scholar • Energy systems • Carbon finance & MRV • Development
+  <!-- HERO -->
+  <section id="top" class="pt-32 md:pt-40 pb-16 md:pb-20 px-6 max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 items-center">
+      <div class="space-y-6">
+        <div class="text-base md:text-lg font-semibold text-gray-900">
+          New Zealand Award Scholar • Energy systems • Carbon finance &amp; MRV • Development
+        </div>
+
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-semibold leading-[1.05] text-gray-900">
+          Energy, climate, and development — made decision-ready.
+        </h1>
+
+        <p class="text-base md:text-lg text-gray-600 max-w-2xl leading-relaxed">
+          I work at the intersection of modelling, optimisation, and climate policy, building research outputs and practical tools —
+          from digital twins for energy systems to MRV-ready carbon pricing design grounded in institutional realities.
+        </p>
+
+        <!-- Focus pills (scrollable on mobile) -->
+        <div class="flex gap-2 flex-wrap md:flex-wrap overflow-x-auto hide-scrollbar pb-1">
+          <span class="text-sm border border-gray-300 bg-white px-4 py-2 rounded-full whitespace-nowrap">Carbon pricing &amp; MRV</span>
+          <span class="text-sm border border-gray-300 bg-white px-4 py-2 rounded-full whitespace-nowrap">Implementation design</span>
+          <span class="text-sm border border-gray-300 bg-white px-4 py-2 rounded-full whitespace-nowrap">Energy systems modelling</span>
+          <span class="text-sm border border-gray-300 bg-white px-4 py-2 rounded-full whitespace-nowrap">Optimisation</span>
+          <span class="text-sm border border-gray-300 bg-white px-4 py-2 rounded-full whitespace-nowrap">Community transitions</span>
+        </div>
+
+        <div class="flex gap-3 flex-wrap pt-2">
+          <a href="#research" class="inline-flex items-center gap-2 text-sm font-medium border border-gray-300 px-5 py-2.5 rounded-full hover:bg-gray-900 hover:text-white transition-all">
+            <i data-lucide="sigma" class="w-4 h-4"></i>
+            Academic research
+          </a>
+          <a href="#carbon-community" class="inline-flex items-center gap-2 text-sm font-medium border border-gray-300 px-5 py-2.5 rounded-full hover:bg-gray-900 hover:text-white transition-all">
+            <i data-lucide="leaf" class="w-4 h-4"></i>
+            Carbon &amp; community
+          </a>
+          <a href="assets/resume.pdf" target="_blank" class="inline-flex items-center gap-2 text-sm font-medium border border-gray-300 px-5 py-2.5 rounded-full hover:bg-gray-900 hover:text-white transition-all">
+            <i data-lucide="download" class="w-4 h-4"></i>
+            CV (PDF)
+          </a>
+          <a href="https://github.com/ashutosh581" target="_blank" class="inline-flex items-center gap-2 text-sm font-medium border border-gray-300 px-5 py-2.5 rounded-full hover:bg-gray-900 hover:text-white transition-all">
+            <i data-lucide="github" class="w-4 h-4"></i>
+            GitHub
+          </a>
+          <a href="https://ashutoshdev.substack.com/" target="_blank" class="inline-flex items-center gap-2 text-sm font-medium border border-gray-300 px-5 py-2.5 rounded-full hover:bg-gray-900 hover:text-white transition-all">
+            <i data-lucide="pen-tool" class="w-4 h-4"></i>
+            Substack
+          </a>
+        </div>
       </div>
 
-      <h1 class="text-4xl md:text-5xl font-semibold leading-tight text-gray-900 serif">
-        Energy, climate, and development.
-      </h1>
-
-      <p class="text-lg text-gray-600 max-w-2xl leading-relaxed">
-        I work at the intersection of modelling, optimisation, and climate policy — building research outputs and practical tools,
-        from digital twins for energy systems to MRV-ready carbon pricing design grounded in institutional realities.
-      </p>
-
-      <!-- Focus chips slider -->
-      <div class="flex gap-2 overflow-x-auto hide-scrollbar pb-1">
-        <span class="shrink-0 text-sm font-medium border border-gray-300 bg-white px-4 py-2 rounded-full">Carbon pricing & MRV</span>
-        <span class="shrink-0 text-sm font-medium border border-gray-300 bg-white px-4 py-2 rounded-full">Implementation design</span>
-        <span class="shrink-0 text-sm font-medium border border-gray-300 bg-white px-4 py-2 rounded-full">Energy systems modelling</span>
-        <span class="shrink-0 text-sm font-medium border border-gray-300 bg-white px-4 py-2 rounded-full">Optimisation & digital twins</span>
-        <span class="shrink-0 text-sm font-medium border border-gray-300 bg-white px-4 py-2 rounded-full">Community energy</span>
+      <!-- Hero image (bigger) -->
+      <div class="justify-self-center md:justify-self-end w-full max-w-[520px]">
+        <div class="bg-white rounded-3xl shadow-lg border border-gray-200 p-3">
+          <img
+            src="assets/teaching.jpg"
+            alt="Ashutosh Dev"
+            class="w-full h-[320px] sm:h-[380px] md:h-[440px] object-cover rounded-2xl grayscale hover:grayscale-0 transition-all duration-500"
+            onerror="this.outerHTML='<div class=&quot;w-full h-[360px] rounded-2xl image-fallback&quot;>Missing: assets/teaching.jpg</div>'"
+          />
+        </div>
+        <div class="mt-3 text-sm text-gray-600">
+          Nepal-grounded work, informed by international practice — with an emphasis on implementation details, credibility (QA/QC), and decision-facing outputs.
+        </div>
       </div>
-
-      <div class="flex flex-wrap gap-3 pt-2">
-        <a href="#research" class="inline-flex items-center gap-2 text-sm font-medium border border-gray-300 px-5 py-2.5 rounded-full hover:bg-gray-900 hover:text-white transition-all">
-          <i data-lucide="flask-conical" class="w-4 h-4"></i>
-          <span>Academic research</span>
-        </a>
-        <a href="#carbon-community" class="inline-flex items-center gap-2 text-sm font-medium border border-gray-300 px-5 py-2.5 rounded-full hover:bg-gray-900 hover:text-white transition-all">
-          <i data-lucide="leaf" class="w-4 h-4"></i>
-          <span>Carbon & community</span>
-        </a>
-        <a href="https://github.com/ashutosh581" target="_blank" rel="noopener"
-           class="inline-flex items-center gap-2 text-sm font-medium border border-gray-300 px-5 py-2.5 rounded-full hover:bg-gray-900 hover:text-white transition-all">
-          <i data-lucide="github" class="w-4 h-4"></i>
-          <span>GitHub</span>
-        </a>
-        <a href="https://ashutoshdev.substack.com/" target="_blank" rel="noopener"
-           class="inline-flex items-center gap-2 text-sm font-medium border border-gray-300 px-5 py-2.5 rounded-full hover:bg-gray-900 hover:text-white transition-all">
-          <i data-lucide="pen-tool" class="w-4 h-4"></i>
-          <span>Substack</span>
-        </a>
-      </div>
-    </div>
-
-    <!-- Bigger hero image -->
-    <div class="w-full md:w-[520px] md:h-[420px] max-w-[520px] shrink-0">
-      <img src="assets/teaching.jpg" alt="Ashutosh Dev"
-           class="w-full h-[320px] md:h-[420px] object-cover rounded-[2rem] shadow-lg border-4 border-white grayscale hover:grayscale-0 transition-all duration-500"
-           onerror="this.outerHTML='<div class=&quot;w-full h-[320px] md:h-[420px] rounded-[2rem] shadow-lg border-4 border-white image-fallback grayscale&quot;>Missing: assets/teaching.jpg</div>'">
     </div>
   </section>
 
-  <!-- Academic Research Gallery -->
+  <!-- ACADEMIC RESEARCH (first) -->
   <section id="research" class="py-20 md:py-24 bg-white border-y border-gray-100 px-6">
     <div class="max-w-6xl mx-auto slider-container">
       <div class="flex justify-between items-end mb-10">
         <div>
-          <h2 class="text-4xl md:text-5xl font-semibold mb-3 text-gray-900 serif">Academic Research & Modelling</h2>
-          <p class="text-gray-600 max-w-2xl">Digital twins, thermodynamic/process simulation, CFD, and system dynamics — built to be defensible and decision-facing.</p>
+          <h2 class="text-4xl md:text-5xl font-semibold mb-3 text-gray-900 serif">Academic Research &amp; Modelling</h2>
+          <p class="text-gray-600 max-w-2xl">
+            Advanced technical modelling across geothermal ORC optimisation, CFD/fire safety, and system dynamics.
+          </p>
         </div>
         <div class="hidden md:flex gap-2">
           <button class="prev-btn p-3 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-900 transition-colors" aria-label="Previous">
@@ -125,69 +170,69 @@
         </div>
       </div>
 
-      <div class="slider-track flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-6 pb-8">
-        <a href="#" class="w-[92%] md:w-[720px] shrink-0 snap-center bg-gray-50 border border-gray-200 rounded-2xl overflow-hidden group" data-slide>
-          <div class="h-80 overflow-hidden">
-            <img src="assets/geomethod.png" alt="Geothermal ORC optimisation framework"
-                 class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                 onerror="this.outerHTML='<div class=&quot;w-full h-full image-fallback&quot;>Missing: assets/geomethod.png</div>'">
+      <div class="slider-track flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-6 pb-6">
+        <!-- Geo -->
+        <article class="w-[88vw] sm:w-[80vw] md:w-[720px] shrink-0 snap-center bg-gray-50 border border-gray-200 rounded-2xl overflow-hidden group">
+          <div class="h-80 md:h-[360px] overflow-hidden">
+            <img src="assets/geomethod.png" alt="Geothermal ORC method" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+              onerror="this.outerHTML='<div class=&quot;w-full h-full image-fallback&quot;>Missing: assets/geomethod.png</div>'">
           </div>
           <div class="p-8">
-            <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Optimisation + Digital Twin</div>
-            <h3 class="text-2xl font-medium text-gray-900 mb-3">Geothermal ORC Digital Twin & Optimisation</h3>
+            <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Geothermal ORC</div>
+            <h3 class="text-2xl font-medium text-gray-900 mb-3">Digital Twin + Optimisation under NCG (CO₂) disturbance</h3>
             <p class="text-gray-600 leading-relaxed">
-              Parametric simulation → surrogate modelling → optimisation under CO₂/NCG disturbance scenarios.
+              Parametric simulation, surrogate modelling, and robust optimisation to quantify CO₂ effects and identify optimal split-ratio strategies for dual-source geothermal ORC designs.
             </p>
           </div>
-        </a>
+        </article>
 
-        <a href="#" class="w-[92%] md:w-[720px] shrink-0 snap-center bg-gray-50 border border-gray-200 rounded-2xl overflow-hidden group" data-slide>
-          <div class="h-80 overflow-hidden">
-            <img src="assets/dwsim.png" alt="DWSIM process model"
-                 class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                 onerror="this.outerHTML='<div class=&quot;w-full h-full image-fallback&quot;>Missing: assets/dwsim.png</div>'">
+        <!-- Fire / CFD -->
+        <article class="w-[88vw] sm:w-[80vw] md:w-[720px] shrink-0 snap-center bg-gray-50 border border-gray-200 rounded-2xl overflow-hidden group">
+          <div class="h-80 md:h-[360px] overflow-hidden">
+            <img src="assets/fire.png" alt="Fire safety simulation" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+              onerror="this.outerHTML='<div class=&quot;w-full h-full image-fallback&quot;>Missing: assets/fire.png</div>'">
           </div>
           <div class="p-8">
-            <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Process Simulation</div>
-            <h3 class="text-2xl font-medium text-gray-900 mb-3">DWSIM Thermodynamic Modelling</h3>
+            <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Fire Safety</div>
+            <h3 class="text-2xl font-medium text-gray-900 mb-3">FDS / PyroSim smoke + combustion risk assessment</h3>
             <p class="text-gray-600 leading-relaxed">
-              Building reproducible process models for energy systems performance and design evaluation.
+              Scenario-based modelling of smoke propagation and fire dynamics from biomass combustion, supporting applied risk assessment and safer household interventions.
             </p>
           </div>
-        </a>
+        </article>
 
-        <a href="#" class="w-[92%] md:w-[720px] shrink-0 snap-center bg-gray-50 border border-gray-200 rounded-2xl overflow-hidden group" data-slide>
-          <div class="h-80 overflow-hidden">
-            <img src="assets/fire.png" alt="Fire/smoke simulation"
-                 class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                 onerror="this.outerHTML='<div class=&quot;w-full h-full image-fallback&quot;>Missing: assets/fire.png</div>'">
+        <!-- DWSIM -->
+        <article class="w-[88vw] sm:w-[80vw] md:w-[720px] shrink-0 snap-center bg-gray-50 border border-gray-200 rounded-2xl overflow-hidden group">
+          <div class="h-80 md:h-[360px] overflow-hidden">
+            <img src="assets/dwsim.png" alt="DWSIM flowsheet" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+              onerror="this.outerHTML='<div class=&quot;w-full h-full image-fallback&quot;>Missing: assets/dwsim.png</div>'">
           </div>
           <div class="p-8">
-            <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Applied Simulation</div>
-            <h3 class="text-2xl font-medium text-gray-900 mb-3">Fire & Smoke Simulation (FDS/PyroSim)</h3>
+            <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Process Engineering</div>
+            <h3 class="text-2xl font-medium text-gray-900 mb-3">DWSIM modelling + automation-ready workflows</h3>
             <p class="text-gray-600 leading-relaxed">
-              Scenario testing and reporting for applied risk assessment and safety design.
+              Structured simulation workflows designed to support optimisation loops, reproducible evaluation, and decision-focused reporting.
             </p>
           </div>
-        </a>
+        </article>
 
-        <a href="#" class="w-[92%] md:w-[720px] shrink-0 snap-center bg-gray-50 border border-gray-200 rounded-2xl overflow-hidden group" data-slide>
-          <div class="h-80 overflow-hidden">
-            <img src="assets/vensim.jpg" alt="System dynamics modelling"
-                 class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                 onerror="this.outerHTML='<div class=&quot;w-full h-full image-fallback&quot;>Missing: assets/vensim.jpg</div>'">
+        <!-- Vensim -->
+        <article class="w-[88vw] sm:w-[80vw] md:w-[720px] shrink-0 snap-center bg-gray-50 border border-gray-200 rounded-2xl overflow-hidden group">
+          <div class="h-80 md:h-[360px] overflow-hidden">
+            <img src="assets/vensim.jpg" alt="Vensim model" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+              onerror="this.outerHTML='<div class=&quot;w-full h-full image-fallback&quot;>Missing: assets/vensim.jpg</div>'">
           </div>
           <div class="p-8">
             <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">System Dynamics</div>
-            <h3 class="text-2xl font-medium text-gray-900 mb-3">Vensim Multi-sector Simulation</h3>
+            <h3 class="text-2xl font-medium text-gray-900 mb-3">Vensim grid dynamics + policy scenarios</h3>
             <p class="text-gray-600 leading-relaxed">
-              Modelling interactions across policy, adoption, constraints, and implementation feedback loops.
+              Multi-sector system dynamics for policy and planning, linking adoption constraints, fiscal dynamics, and reliability outcomes.
             </p>
           </div>
-        </a>
+        </article>
       </div>
 
-      <div class="flex md:hidden justify-center gap-4 mt-2">
+      <div class="flex md:hidden justify-center gap-4 mt-4">
         <button class="prev-btn p-3 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-900 transition-colors" aria-label="Previous">
           <i data-lucide="arrow-left" class="w-5 h-5"></i>
         </button>
@@ -198,13 +243,15 @@
     </div>
   </section>
 
-  <!-- Carbon & Community Projects -->
+  <!-- CARBON (second) -->
   <section id="carbon-community" class="py-20 md:py-24 bg-gray-900 text-white px-6">
     <div class="max-w-6xl mx-auto slider-container">
       <div class="flex justify-between items-end mb-10">
         <div>
-          <h2 class="text-4xl md:text-5xl font-semibold mb-3 text-white serif">Carbon & Community Projects</h2>
-          <p class="text-gray-300 max-w-2xl">MRV, institutions, field realities, and capacity-building — designed for implementation, not only design.</p>
+          <h2 class="text-4xl md:text-5xl font-semibold mb-3 text-white serif">Carbon &amp; Community Projects</h2>
+          <p class="text-gray-300 max-w-2xl">
+            MRV, institutional design, field implementation, and community-facing interventions — connected end-to-end.
+          </p>
         </div>
         <div class="hidden md:flex gap-2">
           <button class="prev-btn p-3 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors" aria-label="Previous">
@@ -216,69 +263,51 @@
         </div>
       </div>
 
-      <div class="slider-track flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-6 pb-8">
-        <a href="#" class="w-[92%] md:w-[720px] shrink-0 snap-center bg-gray-800 rounded-2xl overflow-hidden group" data-slide>
-          <div class="h-80 overflow-hidden">
-            <img src="assets/carbon_pricing_mrv_flowchart_clean.png" alt="Carbon pricing MRV framework"
-                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                 onerror="this.outerHTML='<div class=&quot;w-full h-full image-fallback bg-gray-700 text-gray-300&quot;>Missing: assets/carbon_pricing_mrv_flowchart_clean.png</div>'">
+      <div class="slider-track flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-6 pb-6">
+        <article class="w-[88vw] sm:w-[80vw] md:w-[720px] shrink-0 snap-center bg-gray-800 rounded-2xl overflow-hidden group">
+          <div class="h-80 md:h-[360px] overflow-hidden">
+            <img src="assets/carbon1.png" alt="Carbon MRV framework" class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700"
+              onerror="this.outerHTML='<div class=&quot;w-full h-full image-fallback bg-gray-700 text-gray-300&quot;>Missing: assets/carbon1.png</div>'">
           </div>
           <div class="p-8">
-            <div class="text-xs font-semibold text-gray-300 uppercase tracking-wider mb-3">Carbon Finance</div>
-            <h3 class="text-2xl font-medium mb-3">Carbon Pricing MRV Gap Analysis (Nepal)</h3>
+            <div class="text-xs font-semibold text-gray-300 uppercase tracking-wider mb-3">Carbon finance / MRV</div>
+            <h3 class="text-2xl font-medium mb-3">Carbon Pricing MRV Gap Analysis + Institutional Architecture</h3>
             <p class="text-gray-300 leading-relaxed">
-              Institutional MRV mapping, reporting architecture, verification pathways, and registry/compliance logic — designed for national delivery rather than theory-only design.
+              Institutional mapping, reporting architecture, verification pathways, and registry compliance logic — designed for Nepal’s implementation realities.
             </p>
           </div>
-        </a>
+        </article>
 
-        <a href="#" class="w-[92%] md:w-[720px] shrink-0 snap-center bg-gray-800 rounded-2xl overflow-hidden group" data-slide>
-          <div class="h-80 overflow-hidden">
-            <img src="assets/carbonproject1.jpg" alt="Community energy intervention"
-                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                 onerror="this.outerHTML='<div class=&quot;w-full h-full image-fallback bg-gray-700 text-gray-300&quot;>Missing: assets/carbonproject1.jpg</div>'">
+        <article class="w-[88vw] sm:w-[80vw] md:w-[720px] shrink-0 snap-center bg-gray-800 rounded-2xl overflow-hidden group">
+          <div class="h-80 md:h-[360px] overflow-hidden">
+            <img src="assets/carbonproject1.jpg" alt="Community intervention" class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700"
+              onerror="this.outerHTML='<div class=&quot;w-full h-full image-fallback bg-gray-700 text-gray-300&quot;>Missing: assets/carbonproject1.jpg</div>'">
           </div>
           <div class="p-8">
-            <div class="text-xs font-semibold text-gray-300 uppercase tracking-wider mb-3">Community Intervention</div>
-            <h3 class="text-2xl font-medium mb-3">Community-based Climate & Energy Actions</h3>
+            <div class="text-xs font-semibold text-gray-300 uppercase tracking-wider mb-3">Field / community</div>
+            <h3 class="text-2xl font-medium mb-3">Community-based energy interventions &amp; capacity building</h3>
             <p class="text-gray-300 leading-relaxed">
-              Grounding interventions in local realities — adoption constraints, training, verification readiness, and durable program design.
+              Community-facing implementation work that links data collection, QA/QC practice, and real-world adoption constraints to decision-ready reporting.
             </p>
           </div>
-        </a>
+        </article>
 
-        <a href="#" class="w-[92%] md:w-[720px] shrink-0 snap-center bg-gray-800 rounded-2xl overflow-hidden group" data-slide>
-          <div class="h-80 overflow-hidden">
-            <img src="assets/carbonproject2.jpg" alt="Capacity building / training"
-                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                 onerror="this.outerHTML='<div class=&quot;w-full h-full image-fallback bg-gray-700 text-gray-300&quot;>Missing: assets/carbonproject2.jpg</div>'">
+        <article class="w-[88vw] sm:w-[80vw] md:w-[720px] shrink-0 snap-center bg-gray-800 rounded-2xl overflow-hidden group">
+          <div class="h-80 md:h-[360px] overflow-hidden">
+            <img src="assets/carbonproject2.jpg" alt="Community workshop" class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700"
+              onerror="this.outerHTML='<div class=&quot;w-full h-full image-fallback bg-gray-700 text-gray-300&quot;>Missing: assets/carbonproject2.jpg</div>'">
           </div>
           <div class="p-8">
-            <div class="text-xs font-semibold text-gray-300 uppercase tracking-wider mb-3">Capacity Building</div>
-            <h3 class="text-2xl font-medium mb-3">Field QA/QC & Implementation Readiness</h3>
+            <div class="text-xs font-semibold text-gray-300 uppercase tracking-wider mb-3">Implementation</div>
+            <h3 class="text-2xl font-medium mb-3">Community coordination + monitoring workflows</h3>
             <p class="text-gray-300 leading-relaxed">
-              Training, documentation, and data quality practices to make MRV and finance mechanisms implementable at local levels.
+              Practical monitoring and delivery structures for resilient interventions — connecting stakeholder engagement to credible, auditable reporting.
             </p>
           </div>
-        </a>
-
-        <a href="#" class="w-[92%] md:w-[720px] shrink-0 snap-center bg-gray-800 rounded-2xl overflow-hidden group" data-slide>
-          <div class="h-80 overflow-hidden">
-            <img src="assets/carbon1.png" alt="MRV institutional architecture"
-                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                 onerror="this.outerHTML='<div class=&quot;w-full h-full image-fallback bg-gray-700 text-gray-300&quot;>Missing: assets/carbon1.png</div>'">
-          </div>
-          <div class="p-8">
-            <div class="text-xs font-semibold text-gray-300 uppercase tracking-wider mb-3">Institutional Design</div>
-            <h3 class="text-2xl font-medium mb-3">MRV Architecture & Coordination Design</h3>
-            <p class="text-gray-300 leading-relaxed">
-              Designing roles, responsibilities, and procedural setups across ministries, data suppliers, and verification entities.
-            </p>
-          </div>
-        </a>
+        </article>
       </div>
 
-      <div class="flex md:hidden justify-center gap-4 mt-2">
+      <div class="flex md:hidden justify-center gap-4 mt-4">
         <button class="prev-btn p-3 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors" aria-label="Previous">
           <i data-lucide="arrow-left" class="w-5 h-5"></i>
         </button>
@@ -289,255 +318,78 @@
     </div>
   </section>
 
-  <!-- Trajectory + Experience -->
-  <!-- Trajectory + Experience -->
-<section id="trajectory" class="py-20 md:py-24 bg-white border-y border-gray-100 px-6">
-  <div class="max-w-6xl mx-auto">
-    <h2 class="text-4xl md:text-5xl font-semibold mb-5 text-gray-900 serif">Trajectory & Roles</h2>
-    <p class="text-gray-600 max-w-3xl mb-12">
-      A checkpoint-style map of education + professional experience — designed around implementation, modelling depth,
-      and decision-facing outputs.
-    </p>
-
-    <div class="relative">
-      <!-- Center line -->
-      <div class="absolute left-4 md:left-1/2 md:-translate-x-1/2 top-0 bottom-0 w-px bg-gray-200"></div>
-
-      <!-- ITEM 1 -->
-      <div class="relative flex flex-col md:flex-row md:items-start gap-6 mb-12">
-        <!-- Left -->
-        <div class="md:w-1/2 md:pr-12 md:text-right">
-          <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-            Jan 2025 — Present • Wellington, New Zealand
-          </div>
-          <h3 class="text-2xl font-semibold text-gray-900 mt-2">
-            MSc Renewable Energy Systems — New Zealand Award Scholar
-          </h3>
-          <div class="text-gray-700 font-medium mt-1">Victoria University of Wellington</div>
-          <p class="text-gray-600 mt-3 leading-relaxed">
-            Fully funded under Manaaki New Zealand Scholarships (New Zealand Award Scholar). Focused on modelling,
-            optimisation, and implementation-ready climate/energy policy design.
-          </p>
+  <!-- PUBLICATIONS (with thumbnails) -->
+  <section id="publications" class="py-20 md:py-24 px-6 bg-white">
+    <div class="max-w-6xl mx-auto slider-container">
+      <div class="flex justify-between items-end mb-10">
+        <div>
+          <h2 class="text-4xl md:text-5xl font-semibold mb-3 text-gray-900 serif">Publications</h2>
+          <p class="text-gray-600">Selected peer-reviewed outputs.</p>
         </div>
-
-        <!-- Node -->
-        <div class="absolute left-4 md:left-1/2 md:-translate-x-1/2 top-2">
-          <div class="w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center ring-4 ring-white border border-gray-200">
-            <i data-lucide="graduation-cap" class="w-5 h-5"></i>
-          </div>
-        </div>
-
-        <!-- Right -->
-        <div class="md:w-1/2 md:pl-12 pl-10">
-          <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6">
-            <div class="text-sm font-semibold text-gray-900">Themes</div>
-            <div class="mt-3 flex flex-wrap gap-2">
-              <span class="text-sm border border-gray-300 bg-white px-3 py-1.5 rounded-full">Optimisation</span>
-              <span class="text-sm border border-gray-300 bg-white px-3 py-1.5 rounded-full">Digital twins</span>
-              <span class="text-sm border border-gray-300 bg-white px-3 py-1.5 rounded-full">MRV implementation</span>
-              <span class="text-sm border border-gray-300 bg-white px-3 py-1.5 rounded-full">Energy systems</span>
-              <span class="text-sm border border-gray-300 bg-white px-3 py-1.5 rounded-full">Policy design</span>
-            </div>
-          </div>
+        <div class="hidden md:flex gap-2">
+          <button class="prev-btn p-3 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-900 transition-colors" aria-label="Previous">
+            <i data-lucide="arrow-left" class="w-5 h-5"></i>
+          </button>
+          <button class="next-btn p-3 rounded-full bg-gray-900 hover:bg-gray-800 text-white transition-colors" aria-label="Next">
+            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+          </button>
         </div>
       </div>
 
-      <!-- ITEM 2 -->
-      <div class="relative flex flex-col md:flex-row-reverse md:items-start gap-6 mb-12">
-        <!-- Left (on desktop this becomes right) -->
-        <div class="md:w-1/2 md:pl-12">
-          <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-            May 2025 — Jan 2026 • Wellington, New Zealand
+      <div class="slider-track flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-6 pb-6">
+        <!-- Heliyon -->
+        <article class="w-[88vw] sm:w-[80vw] md:w-[620px] shrink-0 snap-center bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-md transition-shadow">
+          <div class="h-64 overflow-hidden">
+            <img src="assets/aluminum.jpg" alt="Heliyon paper figure" class="w-full h-full object-cover"
+              onerror="this.outerHTML='<div class=&quot;w-full h-full image-fallback&quot;>Missing: assets/aluminum.jpg</div>'">
           </div>
-          <h3 class="text-2xl font-semibold text-gray-900 mt-2">
-            Teaching & Research Assistant — Faculty of Engineering
-          </h3>
-          <div class="text-gray-700 font-medium mt-1">Victoria University of Wellington</div>
-          <p class="text-gray-600 mt-3 leading-relaxed">
-            Delivered teaching support while contributing to ongoing modelling/optimisation research with reproducible workflows.
-          </p>
-        </div>
+          <div class="p-7">
+            <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Heliyon • 2024</div>
+            <h3 class="text-xl font-medium text-gray-900 leading-snug mb-2">
+              Exploring Aluminum as a Solid Thermal Storage Medium for Solar Cooking
+            </h3>
+            <a class="text-sm font-semibold text-gray-900 underline underline-offset-4" href="https://doi.org/10.1016/j.heliyon.2024.e39855" target="_blank" rel="noopener">
+              DOI: 10.1016/j.heliyon.2024.e39855
+            </a>
+          </div>
+        </article>
 
-        <!-- Node -->
-        <div class="absolute left-4 md:left-1/2 md:-translate-x-1/2 top-2">
-          <div class="w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center ring-4 ring-white border border-gray-200">
-            <i data-lucide="presentation" class="w-5 h-5"></i>
+        <!-- PV-T -->
+        <article class="w-[88vw] sm:w-[80vw] md:w-[620px] shrink-0 snap-center bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-md transition-shadow">
+          <div class="h-64 overflow-hidden">
+            <img src="assets/photo.jpg" alt="PV-T OpenFOAM paper figure" class="w-full h-full object-cover"
+              onerror="this.outerHTML='<div class=&quot;w-full h-full image-fallback&quot;>Missing: assets/photo.jpg</div>'">
           </div>
-        </div>
+          <div class="p-7">
+            <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">American Journal of Modern Energy • 2023</div>
+            <h3 class="text-xl font-medium text-gray-900 leading-snug mb-2">
+              Numerical Modelling and Analysis of Photovoltaic-Thermal Liquid Collector using OpenFOAM
+            </h3>
+            <a class="text-sm font-semibold text-gray-900 underline underline-offset-4" href="https://doi.org/10.11648/j.ajme.20230904.11" target="_blank" rel="noopener">
+              DOI: 10.11648/j.ajme.20230904.11
+            </a>
+          </div>
+        </article>
 
-        <!-- Right (on desktop this becomes left) -->
-        <div class="md:w-1/2 md:pr-12 md:text-right pl-10 md:pl-0">
-          <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 text-left md:text-right">
-            <div class="text-sm font-semibold text-gray-900">Key contributions</div>
-            <ul class="mt-3 text-gray-600 space-y-2 leading-relaxed">
-              <li>• Delivered tutorials and teaching support for undergraduate courses in Mechanics, Thermodynamics, Engineering Research, and Project Management.</li>
-              <li>• Research involvement in Dual-Source Geothermal ORC: NCG (CO₂) effects and optimal split-ratio strategy using a digital twin approach.</li>
-              <li>• Used sustainability modelling tools to produce and validate ongoing research, including Vensim for dynamic electric grid modelling.</li>
-              <li>• Supported faculty research activities and assisted with technical reporting and reproducible analysis workflows.</li>
-            </ul>
-            <div class="mt-4 flex flex-wrap gap-2 justify-start md:justify-end">
-              <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">Digital twin</span>
-              <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">Vensim</span>
-              <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">Reproducible analysis</span>
-            </div>
+        <!-- LPG/SNG -->
+        <article class="w-[88vw] sm:w-[80vw] md:w-[620px] shrink-0 snap-center bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-md transition-shadow">
+          <div class="h-64 overflow-hidden">
+            <img src="assets/burner.jpg" alt="Burner compatibility paper figure" class="w-full h-full object-cover"
+              onerror="this.outerHTML='<div class=&quot;w-full h-full image-fallback&quot;>Missing: assets/burner.jpg</div>'">
           </div>
-        </div>
+          <div class="p-7">
+            <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">J. Phys.: Conf. Ser. • 2023</div>
+            <h3 class="text-xl font-medium text-gray-900 leading-snug mb-2">
+              Compatibility of Synthetic Natural Gas with Conventional LPG Burners
+            </h3>
+            <a class="text-sm font-semibold text-gray-900 underline underline-offset-4" href="https://doi.org/10.1088/1742-6596/2629/1/012031" target="_blank" rel="noopener">
+              DOI: 10.1088/1742-6596/2629/1/012031
+            </a>
+          </div>
+        </article>
       </div>
 
-      <!-- ITEM 3 -->
-      <div class="relative flex flex-col md:flex-row md:items-start gap-6 mb-12">
-        <div class="md:w-1/2 md:pr-12 md:text-right">
-          <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-            May 2024 — Jan 2025 • Kathmandu, Nepal
-          </div>
-          <h3 class="text-2xl font-semibold text-gray-900 mt-2">Project Engineer</h3>
-          <div class="text-gray-700 font-medium mt-1">People, Energy & Environment Development Association (PEEDA)</div>
-          <p class="text-gray-600 mt-3 leading-relaxed">
-            Applied modelling + implementation monitoring across clean cooking, solar, and municipal energy planning.
-          </p>
-        </div>
-
-        <div class="absolute left-4 md:left-1/2 md:-translate-x-1/2 top-2">
-          <div class="w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center ring-4 ring-white border border-gray-200">
-            <i data-lucide="briefcase" class="w-5 h-5"></i>
-          </div>
-        </div>
-
-        <div class="md:w-1/2 md:pl-12 pl-10">
-          <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6">
-            <div class="text-sm font-semibold text-gray-900">Key contributions</div>
-            <ul class="mt-3 text-gray-600 space-y-2 leading-relaxed">
-              <li>• Applied fire safety engineering using FDS and PyroSim to simulate fire dynamics and smoke propagation from biomass combustion in residential settings.</li>
-              <li>• Contributed to an electric cookstove project reaching more than 1,000 households, plus solar pumping, solar storage, and micro-hydropower condition monitoring using PVsyst and Homer Pro.</li>
-              <li>• Contributed to municipal energy planning and renewable energy design, implementation monitoring, and stakeholder-facing technical reporting supporting more than 1,800 households.</li>
-            </ul>
-            <div class="mt-4 flex flex-wrap gap-2">
-              <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">FDS</span>
-              <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">PyroSim</span>
-              <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">PVsyst</span>
-              <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">Homer Pro</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ITEM 4 -->
-      <div class="relative flex flex-col md:flex-row-reverse md:items-start gap-6 mb-12">
-        <div class="md:w-1/2 md:pl-12">
-          <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-            Dec 2023 — May 2024 • Nepal
-          </div>
-          <h3 class="text-2xl font-semibold text-gray-900 mt-2">Research Assistant — Energy Systems & Technology Research Lab</h3>
-          <div class="text-gray-700 font-medium mt-1">Kathmandu University</div>
-          <p class="text-gray-600 mt-3 leading-relaxed">
-            Research on storage pathways + combustion modelling with validation-first reasoning.
-          </p>
-        </div>
-
-        <div class="absolute left-4 md:left-1/2 md:-translate-x-1/2 top-2">
-          <div class="w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center ring-4 ring-white border border-gray-200">
-            <i data-lucide="flask-conical" class="w-5 h-5"></i>
-          </div>
-        </div>
-
-        <div class="md:w-1/2 md:pr-12 md:text-right pl-10 md:pl-0">
-          <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 text-left md:text-right">
-            <div class="text-sm font-semibold text-gray-900">Key contributions</div>
-            <ul class="mt-3 text-gray-600 space-y-2 leading-relaxed">
-              <li>• Reviewed and characterized thermal energy storage pathways for residential heating, including sensible, latent (PCM), and thermochemical (salt hydrate) systems.</li>
-              <li>• Conducted combustion and flame propagation modelling of premixed H2/CH4 mixtures using OpenFOAM; tested solver configurations and compared against reference data (Sandia Flame D).</li>
-              <li>• Produced technical documentation and supported lab mentoring and project reporting.</li>
-            </ul>
-            <div class="mt-4 flex flex-wrap gap-2 justify-start md:justify-end">
-              <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">OpenFOAM</span>
-              <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">Combustion</span>
-              <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">TES review</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ITEM 5 -->
-      <div class="relative flex flex-col md:flex-row md:items-start gap-6 mb-12">
-        <div class="md:w-1/2 md:pr-12 md:text-right">
-          <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-            Dec 2022 — Feb 2023 • IIT Bombay, India
-          </div>
-          <h3 class="text-2xl font-semibold text-gray-900 mt-2">CFD Research Intern (FOSSEE Internship)</h3>
-          <div class="text-gray-700 font-medium mt-1">Indian Institute of Technology Bombay</div>
-          <p class="text-gray-600 mt-3 leading-relaxed">
-            Built OpenFOAM pipelines from geometry → mesh → simulation → reporting, with clear assumptions.
-          </p>
-        </div>
-
-        <div class="absolute left-4 md:left-1/2 md:-translate-x-1/2 top-2">
-          <div class="w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center ring-4 ring-white border border-gray-200">
-            <i data-lucide="cpu" class="w-5 h-5"></i>
-          </div>
-        </div>
-
-        <div class="md:w-1/2 md:pl-12 pl-10">
-          <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6">
-            <div class="text-sm font-semibold text-gray-900">Key contributions</div>
-            <ul class="mt-3 text-gray-600 space-y-2 leading-relaxed">
-              <li>• Executed OpenFOAM workflows including geometry import, meshing (blockMesh, snappyHexMesh), and multiphase simulations (interFoam, multiphaseEulerFoam).</li>
-              <li>• Prepared technical reports describing modelling setup, assumptions, and simulation outputs.</li>
-            </ul>
-            <div class="mt-4 flex flex-wrap gap-2">
-              <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">blockMesh</span>
-              <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">snappyHexMesh</span>
-              <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">interFoam</span>
-              <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">multiphaseEulerFoam</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ITEM 6 -->
-      <div class="relative flex flex-col md:flex-row-reverse md:items-start gap-6">
-        <div class="md:w-1/2 md:pl-12">
-          <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-            Aug 2019 — May 2024 • Dhulikhel, Nepal
-          </div>
-          <h3 class="text-2xl font-semibold text-gray-900 mt-2">BEng Mechanical Engineering (Energy Technology)</h3>
-          <div class="text-gray-700 font-medium mt-1">Kathmandu University</div>
-          <p class="text-gray-600 mt-3 leading-relaxed">
-            Strong fundamentals across thermo-fluids + energy systems, forming the base for modelling and field implementation work.
-          </p>
-        </div>
-
-        <div class="absolute left-4 md:left-1/2 md:-translate-x-1/2 top-2">
-          <div class="w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center ring-4 ring-white border border-gray-200">
-            <i data-lucide="school" class="w-5 h-5"></i>
-          </div>
-        </div>
-
-        <div class="md:w-1/2 md:pr-12 md:text-right pl-10 md:pl-0">
-          <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 text-left md:text-right">
-            <div class="text-sm font-semibold text-gray-900">Core base</div>
-            <div class="mt-3 flex flex-wrap gap-2 justify-start md:justify-end">
-              <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">Thermodynamics</span>
-              <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">Heat Transfer</span>
-              <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">Fluid Mechanics</span>
-              <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">Numerical Methods</span>
-              <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">Energy Engineering</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-  <!-- Publications (NOW with thumbnails) -->
-  <section id="publications" class="py-20 md:py-24 px-6 max-w-6xl mx-auto slider-container">
-    <div class="flex justify-between items-end mb-10">
-      <div>
-        <h2 class="text-4xl md:text-5xl font-semibold mb-3 text-gray-900 serif">Publications</h2>
-        <p class="text-gray-600 max-w-2xl">Selected peer-reviewed outputs.</p>
-      </div>
-      <div class="hidden md:flex gap-2">
+      <div class="flex md:hidden justify-center gap-4 mt-4">
         <button class="prev-btn p-3 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-900 transition-colors" aria-label="Previous">
           <i data-lucide="arrow-left" class="w-5 h-5"></i>
         </button>
@@ -546,150 +398,278 @@
         </button>
       </div>
     </div>
-
-    <div class="slider-track flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-6 pb-8">
-      <!-- Heliyon -->
-      <a class="w-[92%] md:w-[620px] shrink-0 snap-center bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-md transition-shadow"
-         data-slide href="https://doi.org/10.1016/j.heliyon.2024.e39855" target="_blank" rel="noopener">
-        <div class="h-48 bg-gray-100 overflow-hidden">
-          <img src="assets/aluminum.jpg" alt="Heliyon paper thumbnail"
-               class="w-full h-full object-cover"
-               onerror="this.outerHTML='<div class=&quot;w-full h-full image-fallback&quot;>Missing: assets/aluminum.jpg</div>'">
-        </div>
-        <div class="p-8">
-          <div class="flex items-start gap-4">
-            <div class="mt-1 bg-gray-900 text-white p-2 rounded shrink-0">
-              <i data-lucide="book-open" class="w-5 h-5"></i>
-            </div>
-            <div>
-              <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Heliyon • 2024</div>
-              <h3 class="text-xl font-semibold text-gray-900 leading-snug">
-                Exploring Aluminum as a Solid Thermal Storage Medium for Solar Cooking
-              </h3>
-              <div class="mt-4 text-sm font-medium text-gray-700">DOI: 10.1016/j.heliyon.2024.e39855</div>
-            </div>
-          </div>
-        </div>
-      </a>
-
-      <!-- AJME -->
-      <a class="w-[92%] md:w-[620px] shrink-0 snap-center bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-md transition-shadow"
-         data-slide href="https://doi.org/10.11648/j.ajme.20230904.11" target="_blank" rel="noopener">
-        <div class="h-48 bg-gray-100 overflow-hidden">
-          <img src="assets/photo.jpg" alt="OpenFOAM PV-T paper thumbnail"
-               class="w-full h-full object-cover"
-               onerror="this.outerHTML='<div class=&quot;w-full h-full image-fallback&quot;>Missing: assets/photo.jpg</div>'">
-        </div>
-        <div class="p-8">
-          <div class="flex items-start gap-4">
-            <div class="mt-1 bg-gray-900 text-white p-2 rounded shrink-0">
-              <i data-lucide="book-open" class="w-5 h-5"></i>
-            </div>
-            <div>
-              <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">American Journal of Modern Energy • 2023</div>
-              <h3 class="text-xl font-semibold text-gray-900 leading-snug">
-                Numerical Modelling and Analysis of Photovoltaic-Thermal Liquid Collector using OpenFOAM
-              </h3>
-              <div class="mt-4 text-sm font-medium text-gray-700">DOI: 10.11648/j.ajme.20230904.11</div>
-            </div>
-          </div>
-        </div>
-      </a>
-
-      <!-- JPCS -->
-      <a class="w-[92%] md:w-[620px] shrink-0 snap-center bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-md transition-shadow"
-         data-slide href="https://doi.org/10.1088/1742-6596/2629/1/012031" target="_blank" rel="noopener">
-        <div class="h-48 bg-gray-100 overflow-hidden">
-          <img src="assets/burner.jpg" alt="SNG/LPG burner paper thumbnail"
-               class="w-full h-full object-cover"
-               onerror="this.outerHTML='<div class=&quot;w-full h-full image-fallback&quot;>Missing: assets/burner.jpg</div>'">
-        </div>
-        <div class="p-8">
-          <div class="flex items-start gap-4">
-            <div class="mt-1 bg-gray-900 text-white p-2 rounded shrink-0">
-              <i data-lucide="book-open" class="w-5 h-5"></i>
-            </div>
-            <div>
-              <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">J. Phys.: Conf. Ser. • 2023</div>
-              <h3 class="text-xl font-semibold text-gray-900 leading-snug">
-                Compatibility of Synthetic Natural Gas with Conventional LPG Burners
-              </h3>
-              <div class="mt-4 text-sm font-medium text-gray-700">DOI: 10.1088/1742-6596/2629/1/012031</div>
-            </div>
-          </div>
-        </div>
-      </a>
-    </div>
-
-    <div class="flex md:hidden justify-center gap-4 mt-2">
-      <button class="prev-btn p-3 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-900 transition-colors" aria-label="Previous">
-        <i data-lucide="arrow-left" class="w-5 h-5"></i>
-      </button>
-      <button class="next-btn p-3 rounded-full bg-gray-900 hover:bg-gray-800 text-white transition-colors" aria-label="Next">
-        <i data-lucide="arrow-right" class="w-5 h-5"></i>
-      </button>
-    </div>
   </section>
 
-  <!-- Writing -->
-  <section id="writing" class="py-20 md:py-24 bg-gray-50 border-t border-gray-200 px-6">
-    <div class="max-w-6xl mx-auto slider-container">
+  <!-- WRITING (Substack auto) -->
+  <section id="writing" class="py-20 md:py-24 px-6 bg-gray-50 border-t border-gray-200">
+    <div class="max-w-6xl mx-auto">
       <div class="flex justify-between items-end mb-10">
         <div>
           <h2 class="text-4xl md:text-5xl font-semibold mb-3 text-gray-900 serif">Writing</h2>
-          <p id="substackStatus" class="text-gray-600">Latest posts automatically pulled from Substack.</p>
+          <p class="text-gray-600">Latest posts automatically pulled from Substack.</p>
         </div>
-
         <div class="flex items-center gap-3">
-          <button class="prev-btn p-3 rounded-full bg-white border border-gray-200 hover:bg-gray-100 text-gray-900 transition-colors" aria-label="Previous">
+          <button id="writingPrev" class="p-3 rounded-full bg-white border border-gray-200 hover:bg-gray-100 transition-colors" aria-label="Previous">
             <i data-lucide="arrow-left" class="w-5 h-5"></i>
           </button>
-          <button class="next-btn p-3 rounded-full bg-gray-900 hover:bg-gray-800 text-white transition-colors" aria-label="Next">
+          <button id="writingNext" class="p-3 rounded-full bg-gray-900 text-white hover:bg-gray-800 transition-colors" aria-label="Next">
             <i data-lucide="arrow-right" class="w-5 h-5"></i>
           </button>
-          <a id="substackOpen" href="https://ashutoshdev.substack.com/archive" target="_blank" rel="noopener"
-             class="inline-flex items-center gap-2 text-sm font-medium bg-white border border-gray-200 px-4 py-2 rounded-full hover:bg-gray-100 transition-colors">
-            <span>View all</span>
-            <i data-lucide="external-link" class="w-4 h-4"></i>
+          <a href="https://ashutoshdev.substack.com/" target="_blank"
+             class="ml-2 inline-flex items-center gap-2 text-sm font-medium border border-gray-300 px-5 py-2.5 rounded-full hover:bg-gray-900 hover:text-white transition-all">
+            View all
           </a>
         </div>
       </div>
 
-      <div id="substackTrack" class="slider-track flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-6 pb-8">
-        <!-- JS injects Substack cards here -->
+      <div id="writingTrack" class="hide-scrollbar flex overflow-x-auto snap-x snap-mandatory gap-6 pb-6">
+        <!-- JS will render posts here -->
+        <div class="w-[88vw] sm:w-[80vw] md:w-[520px] shrink-0 snap-center bg-white border border-gray-200 rounded-2xl overflow-hidden">
+          <div class="h-48 image-fallback">Loading Substack…</div>
+          <div class="p-6">
+            <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Writing</div>
+            <div class="text-gray-700">Fetching latest posts.</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="writingError" class="hidden mt-4 text-sm text-gray-600">
+        If posts don’t load due to browser CORS restrictions, use “View all” to open Substack directly.
       </div>
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="bg-gray-900 py-12 text-center border-t border-gray-800">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="serif text-3xl md:text-4xl font-medium text-white mb-6">Ashutosh Dev</div>
+  <!-- TRAJECTORY (responsive timeline) -->
+  <section id="trajectory" class="py-20 md:py-24 bg-white border-y border-gray-100 px-6">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-4xl md:text-5xl font-semibold mb-5 text-gray-900 serif">Trajectory &amp; Roles</h2>
+      <p class="text-gray-600 max-w-3xl mb-12">
+        A checkpoint-style map of education + professional experience — designed around implementation, modelling depth,
+        and decision-facing outputs.
+      </p>
 
-      <div class="flex justify-center space-x-6 mb-8">
-        <a href="mailto:devashutosh31@gmail.com" class="text-gray-400 hover:text-white transition-colors" aria-label="Email">
-          <i data-lucide="mail" class="w-6 h-6"></i>
+      <div class="relative">
+        <!-- Center line (desktop only) -->
+        <div class="hidden md:block absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-gray-200"></div>
+
+        <!-- Each item is mobile-first: dot + content; becomes alternating on md -->
+        <div class="space-y-10">
+
+          <!-- ITEM -->
+          <div class="md:grid md:grid-cols-2 md:gap-12 relative">
+            <!-- Left -->
+            <div class="md:text-right md:pr-12">
+              <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider">May 2025 — Jan 2026 • Wellington, New Zealand</div>
+              <h3 class="text-2xl font-semibold text-gray-900 mt-2">Teaching &amp; Research Assistant — Faculty of Engineering</h3>
+              <div class="text-gray-700 font-medium mt-1">Victoria University of Wellington</div>
+              <p class="text-gray-600 mt-3 leading-relaxed">
+                Delivered teaching support while contributing to ongoing modelling/optimisation research with reproducible workflows.
+              </p>
+            </div>
+
+            <!-- Dot (mobile inline, desktop centered) -->
+            <div class="md:absolute md:left-1/2 md:-translate-x-1/2 md:top-2 mt-4 md:mt-0">
+              <div class="w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center ring-4 ring-white border border-gray-200">
+                <i data-lucide="presentation" class="w-5 h-5"></i>
+              </div>
+            </div>
+
+            <!-- Right -->
+            <div class="md:pl-12 mt-4 md:mt-0">
+              <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6">
+                <div class="text-sm font-semibold text-gray-900">Key contributions</div>
+                <ul class="mt-3 text-gray-600 space-y-2 leading-relaxed">
+                  <li>• Delivered tutorials and teaching support for undergraduate courses in Mechanics, Thermodynamics, Engineering Research, and Project Management.</li>
+                  <li>• Research involvement in Dual-Source Geothermal ORC: NCG (CO₂) effects and optimal split-ratio strategy using a digital twin approach.</li>
+                  <li>• Used sustainability modelling tools to produce and validate ongoing research, including Vensim for dynamic electric grid modelling.</li>
+                  <li>• Supported faculty research activities and assisted with technical reporting and reproducible analysis workflows.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="md:grid md:grid-cols-2 md:gap-12 relative">
+            <!-- Left -->
+            <div class="md:text-right md:pr-12">
+              <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider">May 2024 — Jan 2025 • Kathmandu, Nepal</div>
+              <h3 class="text-2xl font-semibold text-gray-900 mt-2">Project Engineer</h3>
+              <div class="text-gray-700 font-medium mt-1">People, Energy &amp; Environment Development Association (PEEDA)</div>
+              <p class="text-gray-600 mt-3 leading-relaxed">
+                Applied modelling + implementation monitoring across clean cooking, solar, and municipal energy planning.
+              </p>
+            </div>
+
+            <div class="md:absolute md:left-1/2 md:-translate-x-1/2 md:top-2 mt-4 md:mt-0">
+              <div class="w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center ring-4 ring-white border border-gray-200">
+                <i data-lucide="briefcase" class="w-5 h-5"></i>
+              </div>
+            </div>
+
+            <!-- Right -->
+            <div class="md:pl-12 mt-4 md:mt-0">
+              <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6">
+                <div class="text-sm font-semibold text-gray-900">Key contributions</div>
+                <ul class="mt-3 text-gray-600 space-y-2 leading-relaxed">
+                  <li>• Applied fire safety engineering using FDS and PyroSim to simulate fire dynamics and smoke propagation from biomass combustion in residential settings.</li>
+                  <li>• Contributed to an electric cookstove project reaching more than 1,000 households, plus solar pumping, solar storage, and micro-hydropower condition monitoring using PVsyst and Homer Pro.</li>
+                  <li>• Contributed to municipal energy planning and renewable energy design, implementation monitoring, and stakeholder-facing technical reporting supporting more than 1,800 households.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="md:grid md:grid-cols-2 md:gap-12 relative">
+            <div class="md:text-right md:pr-12">
+              <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Dec 2023 — May 2024 • Nepal</div>
+              <h3 class="text-2xl font-semibold text-gray-900 mt-2">Research Assistant — Energy Systems &amp; Technology Research Lab</h3>
+              <div class="text-gray-700 font-medium mt-1">Kathmandu University</div>
+              <p class="text-gray-600 mt-3 leading-relaxed">
+                Research on storage pathways + combustion modelling with validation-first reasoning.
+              </p>
+            </div>
+
+            <div class="md:absolute md:left-1/2 md:-translate-x-1/2 md:top-2 mt-4 md:mt-0">
+              <div class="w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center ring-4 ring-white border border-gray-200">
+                <i data-lucide="flask-conical" class="w-5 h-5"></i>
+              </div>
+            </div>
+
+            <div class="md:pl-12 mt-4 md:mt-0">
+              <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6">
+                <div class="text-sm font-semibold text-gray-900">Key contributions</div>
+                <ul class="mt-3 text-gray-600 space-y-2 leading-relaxed">
+                  <li>• Reviewed and characterized thermal energy storage pathways for residential heating, including sensible, latent (PCM), and thermochemical (salt hydrate) systems.</li>
+                  <li>• Conducted combustion and flame propagation modelling of premixed H2/CH4 mixtures using OpenFOAM; tested solver configurations and compared against reference data (Sandia Flame D).</li>
+                  <li>• Produced technical documentation and supported lab mentoring and project reporting.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="md:grid md:grid-cols-2 md:gap-12 relative">
+            <div class="md:text-right md:pr-12">
+              <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Dec 2022 — Feb 2023 • IIT Bombay, India</div>
+              <h3 class="text-2xl font-semibold text-gray-900 mt-2">CFD Research Intern (FOSSEE Internship)</h3>
+              <div class="text-gray-700 font-medium mt-1">Indian Institute of Technology Bombay</div>
+              <p class="text-gray-600 mt-3 leading-relaxed">
+                Built OpenFOAM pipelines from geometry → mesh → simulation → reporting, with clear assumptions.
+              </p>
+            </div>
+
+            <div class="md:absolute md:left-1/2 md:-translate-x-1/2 md:top-2 mt-4 md:mt-0">
+              <div class="w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center ring-4 ring-white border border-gray-200">
+                <i data-lucide="cpu" class="w-5 h-5"></i>
+              </div>
+            </div>
+
+            <div class="md:pl-12 mt-4 md:mt-0">
+              <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6">
+                <div class="text-sm font-semibold text-gray-900">Key contributions</div>
+                <ul class="mt-3 text-gray-600 space-y-2 leading-relaxed">
+                  <li>• Executed OpenFOAM workflows including geometry import, meshing (blockMesh, snappyHexMesh), and multiphase simulations (interFoam, multiphaseEulerFoam).</li>
+                  <li>• Prepared technical reports describing modelling setup, assumptions, and simulation outputs.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="md:grid md:grid-cols-2 md:gap-12 relative">
+            <div class="md:text-right md:pr-12">
+              <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Jan 2025 — Present • Wellington, New Zealand</div>
+              <h3 class="text-2xl font-semibold text-gray-900 mt-2">MSc Renewable Energy Systems — New Zealand Award Scholar</h3>
+              <div class="text-gray-700 font-medium mt-1">Victoria University of Wellington</div>
+              <p class="text-gray-600 mt-3 leading-relaxed">
+                Fully funded under Manaaki New Zealand Scholarships (New Zealand Award Scholar). Focused on modelling,
+                optimisation, and implementation-ready climate/energy policy design.
+              </p>
+            </div>
+
+            <div class="md:absolute md:left-1/2 md:-translate-x-1/2 md:top-2 mt-4 md:mt-0">
+              <div class="w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center ring-4 ring-white border border-gray-200">
+                <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+              </div>
+            </div>
+
+            <div class="md:pl-12 mt-4 md:mt-0">
+              <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6">
+                <div class="text-sm font-semibold text-gray-900">Themes</div>
+                <div class="mt-3 flex flex-wrap gap-2">
+                  <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">Optimisation</span>
+                  <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">Digital twins</span>
+                  <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">MRV implementation</span>
+                  <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">Energy systems</span>
+                  <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">Policy design</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="md:grid md:grid-cols-2 md:gap-12 relative">
+            <div class="md:text-right md:pr-12">
+              <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Aug 2019 — May 2024 • Dhulikhel, Nepal</div>
+              <h3 class="text-2xl font-semibold text-gray-900 mt-2">BEng Mechanical Engineering (Energy Technology)</h3>
+              <div class="text-gray-700 font-medium mt-1">Kathmandu University</div>
+              <p class="text-gray-600 mt-3 leading-relaxed">
+                Strong fundamentals across thermo-fluids + energy systems, forming the base for modelling and field implementation work.
+              </p>
+            </div>
+
+            <div class="md:absolute md:left-1/2 md:-translate-x-1/2 md:top-2 mt-4 md:mt-0">
+              <div class="w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center ring-4 ring-white border border-gray-200">
+                <i data-lucide="school" class="w-5 h-5"></i>
+              </div>
+            </div>
+
+            <div class="md:pl-12 mt-4 md:mt-0">
+              <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6">
+                <div class="text-sm font-semibold text-gray-900">Core base</div>
+                <div class="mt-3 flex flex-wrap gap-2">
+                  <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">Thermodynamics</span>
+                  <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">Heat Transfer</span>
+                  <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">Fluid Mechanics</span>
+                  <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">Numerical Methods</span>
+                  <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">Energy Engineering</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /space-y -->
+      </div><!-- /relative -->
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="py-16 md:py-20 px-6 bg-gray-900 text-white">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+      <div>
+        <h2 class="text-3xl md:text-4xl font-semibold serif">Contact</h2>
+        <p class="text-gray-300 mt-2 max-w-2xl">
+          Email is best. I reply fast when the ask is concrete.
+        </p>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <a href="mailto:devashutosh31@gmail.com" class="inline-flex items-center gap-2 text-sm font-medium bg-white text-gray-900 px-6 py-3 rounded-full hover:bg-gray-200 transition-all">
+          <i data-lucide="mail" class="w-4 h-4"></i>
+          devashutosh31@gmail.com
         </a>
         <a href="https://www.linkedin.com/in/ashutosh-dev-136045193/" target="_blank" rel="noopener"
-           class="text-gray-400 hover:text-white transition-colors" aria-label="LinkedIn">
-          <i data-lucide="linkedin" class="w-6 h-6"></i>
-        </a>
-        <a href="https://ashutoshdev.substack.com/" target="_blank" rel="noopener" class="text-gray-400 hover:text-white transition-colors" aria-label="Substack">
-          <i data-lucide="pen-tool" class="w-6 h-6"></i>
-        </a>
-        <a href="https://github.com/ashutosh581" target="_blank" rel="noopener" class="text-gray-400 hover:text-white transition-colors" aria-label="GitHub">
-          <i data-lucide="github" class="w-6 h-6"></i>
+           class="inline-flex items-center gap-2 text-sm font-medium border border-gray-700 px-6 py-3 rounded-full hover:bg-gray-800 transition-all">
+          <i data-lucide="linkedin" class="w-4 h-4"></i>
+          LinkedIn
         </a>
       </div>
-
-      <p class="text-gray-500 text-sm">
-        &copy; <span id="year"></span> Ashutosh Dev. New Zealand Award Scholar.
-      </p>
     </div>
-  </footer>
 
-  <script src="script.js" defer></script>
+    <div class="max-w-6xl mx-auto mt-10 pt-8 border-t border-gray-800 text-gray-400 text-sm flex flex-col md:flex-row justify-between gap-3">
+      <div>&copy; <span id="year"></span> Ashutosh Dev. New Zealand Award Scholar.</div>
+      <div class="flex gap-4">
+        <a class="hover:text-white" href="https://ashutoshdev.substack.com/" target="_blank" rel="noopener">Substack</a>
+        <a class="hover:text-white" href="https://github.com/ashutosh581" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
 </body>
 </html>
-
-
