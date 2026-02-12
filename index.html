@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ashutosh Dev — Energy, Climate & Development</title>
+  <meta name="description" content="Ashutosh Dev — energy systems, climate, and development. Projects, publications, and writing." />
+  <meta name="theme-color" content="#fbf7ef" />
+
+  <!-- Fonts (optional but makes it look premium) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:," />
+</head>
+
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="top">
+    <div class="wrap nav">
+      <a class="brand" href="#top" aria-label="Home">
+        <span class="mark" aria-hidden="true"></span>
+        <span class="brandText">Ashutosh Dev</span>
+      </a>
+
+      <nav class="navlinks" aria-label="Primary">
+        <a href="#work">Work</a>
+        <a href="#publications">Publications</a>
+        <a href="#experience">Experience</a>
+        <a href="#writing">Writing</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="navcta">
+        <a class="btn ghost" href="assets/resume.pdf" target="_blank" rel="noopener">Download CV</a>
+        <button class="menuBtn" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
+      </div>
+    </div>
+
+    <div class="wrap mobileNav" id="mobileNav" hidden>
+      <a href="#work">Work</a>
+      <a href="#publications">Publications</a>
+      <a href="#experience">Experience</a>
+      <a href="#writing">Writing</a>
+      <a href="#contact">Contact</a>
+      <a href="assets/resume.pdf" target="_blank" rel="noopener">Download CV</a>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <div class="wrap heroGrid">
+        <div class="heroLeft">
+          <div class="eyebrow">
+            <span class="chip">Energy</span>
+            <span class="chip">Climate</span>
+            <span class="chip">Development</span>
+          </div>
+
+          <h1 class="title">
+            ASHUTOSH<br />
+            DEV
+          </h1>
+
+          <p class="subtitle">
+            I build research + tools that turn messy energy systems into decisions people can act on —
+            from modelling and optimisation to evidence-led policy writing.
+          </p>
+
+          <div class="heroBtns">
+            <a class="btn" href="#work">Selected works</a>
+            <a class="btn ghost" href="#contact">Let’s talk</a>
+            <a class="btn ghost" href="https://github.com/ashutosh581" target="_blank" rel="noopener">GitHub</a>
+          </div>
+
+          <div class="heroMeta">
+            <div class="metaCard">
+              <div class="metaK">Based in</div>
+              <div class="metaV">Wellington, NZ</div>
+            </div>
+            <div class="metaCard">
+              <div class="metaK">Focus</div>
+              <div class="metaV">Energy modelling • Climate • Policy</div>
+            </div>
+            <div class="metaCard">
+              <div class="metaK">Tools</div>
+              <div class="metaV">Python • DWSIM • OpenFOAM</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="heroRight">
+          <div class="portraitFrame">
+            <!-- Put your photo here: assets/headshot.jpg -->
+            <img class="portrait" src="assets/headshot.jpg" alt="Ashutosh Dev" loading="lazy" />
+            <div class="portraitGlow" aria-hidden="true"></div>
+          </div>
+
+          <p class="caption">
+            Master’s student (Renewable Energy Systems). Interested in optimisation, simulation, and development outcomes.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SELECTED WORKS -->
+    <section class="section" id="work">
+      <div class="wrap sectionHead">
+        <div>
+          <h2>Selected works</h2>
+          <p class="muted">Curated projects and outputs. Add links + thumbnails as you publish more.</p>
+        </div>
+
+        <div class="sliderBtns">
+          <button class="icon" id="prevBtn" aria-label="Previous">‹</button>
+          <button class="icon" id="nextBtn" aria-label="Next">›</button>
+        </div>
+      </div>
+
+      <div class="wrap">
+        <div class="slider" id="workSlider" tabindex="0" aria-label="Selected works slider">
+          <!-- Card 1 -->
+          <article class="workCard">
+            <div class="workCover coverA" aria-hidden="true"></div>
+            <div class="workBody">
+              <div class="workTop">
+                <h3>Geothermal ORC Digital Twin + Optimisation</h3>
+                <span class="pill">Featured</span>
+              </div>
+              <p class="muted">
+                Parametric simulation → surrogate modelling → optimisation under CO₂/NCG disturbance scenarios.
+              </p>
+              <div class="tags">
+                <span>Python</span><span>DWSIM</span><span>Optimisation</span>
+              </div>
+              <div class="linksRow">
+                <a href="#" class="link">Case study</a>
+                <a href="#" class="link">Repo</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 2 -->
+          <article class="workCard">
+            <div class="workCover coverB" aria-hidden="true"></div>
+            <div class="workBody">
+              <div class="workTop">
+                <h3>OpenFOAM Energy Systems Modelling</h3>
+                <span class="pill soft">CFD</span>
+              </div>
+              <p class="muted">
+                Validation-first CFD workflows (meshing, multiphase modelling) for energy applications.
+              </p>
+              <div class="tags">
+                <span>OpenFOAM</span><span>CFD</span><span>Validation</span>
+              </div>
+              <div class="linksRow">
+                <a href="#" class="link">Notes</a>
+                <a href="#" class="link">Repo</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 3 -->
+          <article class="workCard">
+            <div class="workCover coverC" aria-hidden="true"></div>
+            <div class="workBody">
+              <div class="workTop">
+                <h3>Fire Safety Simulation & Reporting</h3>
+                <span class="pill soft">Applied</span>
+              </div>
+              <p class="muted">
+                Smoke propagation + scenario testing using FDS/PyroSim for applied risk assessment.
+              </p>
+              <div class="tags">
+                <span>FDS</span><span>PyroSim</span><span>Risk</span>
+              </div>
+              <div class="linksRow">
+                <a href="#" class="link">Project</a>
+                <a href="#" class="link">Report</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 4 -->
+          <article class="workCard">
+            <div class="workCover coverD" aria-hidden="true"></div>
+            <div class="workBody">
+              <div class="workTop">
+                <h3>Energy Policy & Development Writing</h3>
+                <span class="pill soft">Writing</span>
+              </div>
+              <p class="muted">
+                Evidence-led writing connecting systems modelling with development outcomes (Nepal + global context).
+              </p>
+              <div class="tags">
+                <span>Policy</span><span>Evidence</span><span>Storytelling</span>
+              </div>
+              <div class="linksRow">
+                <a href="#" class="link">Articles</a>
+                <a href="#" class="link">Notes</a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <p class="hint">Tip: Replace the colored covers with real thumbnails later (PDF cover, chart, map, etc.).</p>
+      </div>
+    </section>
+
+    <!-- PUBLICATIONS -->
+    <section class="section alt" id="publications">
+      <div class="wrap sectionHead">
+        <div>
+          <h2>Publications</h2>
+          <p class="muted">Peer-reviewed outputs with DOI links.</p>
+        </div>
+      </div>
+
+      <div class="wrap pubGrid">
+        <article class="pub">
+          <h3>Exploring Aluminum as a Solid Thermal Storage Medium for Solar Cooking</h3>
+          <p class="muted">Heliyon (2024)</p>
+          <a class="link" href="https://doi.org/10.1016/j.heliyon.2024.e39855" target="_blank" rel="noopener">DOI: 10.1016/j.heliyon.2024.e39855</a>
+        </article>
+
+        <article class="pub">
+          <h3>Numerical Modelling and Analysis of Photovoltaic-Thermal Liquid Collector using OpenFOAM</h3>
+          <p class="muted">American Journal of Modern Energy (2023)</p>
+          <a class="link" href="https://doi.org/10.11648/j.ajme.20230904.11" target="_blank" rel="noopener">DOI: 10.11648/j.ajme.20230904.11</a>
+        </article>
+
+        <article class="pub">
+          <h3>Compatibility of Synthetic Natural Gas with Conventional LPG Burners</h3>
+          <p class="muted">J. Phys.: Conf. Ser. (2023)</p>
+          <a class="link" href="https://doi.org/10.1088/1742-6596/2629/1/012031" target="_blank" rel="noopener">DOI: 10.1088/1742-6596/2629/1/012031</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section class="section" id="experience">
+      <div class="wrap sectionHead">
+        <div>
+          <h2>Experience</h2>
+          <p class="muted">A timeline of teaching, engineering practice, and research.</p>
+        </div>
+      </div>
+
+      <div class="wrap timeline">
+        <div class="row">
+          <div class="when">2025 — 2026</div>
+          <div class="what">
+            <h3>Teaching & Research Assistant — Victoria University of Wellington</h3>
+            <ul>
+              <li>Teaching support: mechanics, thermodynamics, engineering research, project management.</li>
+              <li>Geothermal ORC digital twin + optimisation workstreams.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="when">2024 — 2025</div>
+          <div class="what">
+            <h3>Project Engineer — PEEDA (Kathmandu)</h3>
+            <ul>
+              <li>Fire safety modelling (FDS/PyroSim) + reporting.</li>
+              <li>Renewable energy tools: PVsyst, Homer Pro.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="when">2023 — 2024</div>
+          <div class="what">
+            <h3>Research Assistant — Kathmandu University (Energy Systems & Tech Lab)</h3>
+            <ul>
+              <li>Thermal energy storage review + modelling support.</li>
+              <li>Combustion/flame propagation modelling using OpenFOAM.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="when">2022 — 2023</div>
+          <div class="what">
+            <h3>CFD Research Intern — IIT Bombay (FOSSEE)</h3>
+            <ul>
+              <li>OpenFOAM workflows: meshing + simulation pipelines.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WRITING -->
+    <section class="section alt" id="writing">
+      <div class="wrap sectionHead">
+        <div>
+          <h2>Writing</h2>
+          <p class="muted">Op-eds, essays, and notes (add links as you publish).</p>
+        </div>
+      </div>
+
+      <div class="wrap writingGrid">
+        <article class="note">
+          <h3>Energy transitions in Nepal: what actually scales?</h3>
+          <p class="muted">A short argument about constraints: grids, governance, finance, and real adoption.</p>
+          <a class="link" href="#">Read</a>
+        </article>
+
+        <article class="note">
+          <h3>Geothermal in the Global South: how we model uncertainty</h3>
+          <p class="muted">How to make modelling outputs honest: scenarios, sensitivity, and decision framing.</p>
+          <a class="link" href="#">Read</a>
+        </article>
+
+        <article class="note">
+          <h3>On climate, migration, and livelihoods (HKH)</h3>
+          <p class="muted">Notes toward an interpretable modelling pipeline (and why it matters).</p>
+          <a class="link" href="#">Read</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section" id="contact">
+      <div class="wrap sectionHead">
+        <div>
+          <h2>Contact</h2>
+          <p class="muted">Email is best. I reply fast when the ask is concrete.</p>
+        </div>
+      </div>
+
+      <div class="wrap contactBox">
+        <div class="contactItem">
+          <div class="muted">Email</div>
+          <a class="bigLink" href="mailto:devashutosh31@gmail.com">devashutosh31@gmail.com</a>
+        </div>
+        <div class="contactItem">
+          <div class="muted">GitHub</div>
+          <a class="bigLink" href="https://github.com/ashutosh581" target="_blank" rel="noopener">github.com/ashutosh581</a>
+        </div>
+        <div class="contactItem">
+          <div class="muted">Domain</div>
+          <a class="bigLink" href="https://ashutoshdev.com.np" target="_blank" rel="noopener">ashutoshdev.com.np</a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="wrap foot">
+        <span>© <span id="year"></span> Ashutosh Dev</span>
+        <span class="muted">Built with plain HTML/CSS/JS.</span>
+      </div>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
