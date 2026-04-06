@@ -332,8 +332,7 @@
       let cover = null;
       const imgMatch = html.match(/<img[^>]+src="([^"]+)"/i);
       if (imgMatch && imgMatch[1]) cover = imgMatch[1];
-      const descText = (item.querySelector("description")?.textContent || "")
-        .replace(/<[^>]*>/g, "").trim();
+      const descText = (item.querySelector("description")?.textContent || "").trim();
       return normalizePost({ title, link: url, pubDate, image: cover, description: descText });
     });
   }
