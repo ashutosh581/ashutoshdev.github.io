@@ -21,29 +21,48 @@
     .image-fallback { background:#e5e5e5; display:flex; align-items:center; justify-content:center; color:#737373; font-size:.875rem; padding:12px; text-align:center; }
     /* Mobile nav animation */
     #mobile-menu { transition: max-height 0.3s ease, opacity 0.3s ease; max-height: 0; opacity: 0; overflow: hidden; }
-    #mobile-menu.open { max-height: 420px; opacity: 1; }
+    #mobile-menu.open { max-height: 480px; opacity: 1; }
     /* Card hover lift */
     .card-hover { transition: transform 0.25s ease, box-shadow 0.25s ease; }
     .card-hover:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.10); }
+    /* Accent green theme */
+    .hero-gradient { background: linear-gradient(135deg, #f0fdf4 0%, #fafafa 70%); }
+    .text-accent { color: #16a34a; }
+    .bg-accent { background-color: #16a34a; }
+    .btn-accent { background:#16a34a; color:#fff; transition:background 0.2s; }
+    .btn-accent:hover { background:#15803d; }
+    .nav-link-accent { position:relative; }
+    .nav-link-accent::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:2px; background:#16a34a; transition:width 0.2s ease; }
+    .nav-link-accent:hover::after { width:100%; }
+    .section-accent-bar { width:48px; height:4px; background:#16a34a; border-radius:2px; margin-bottom:1rem; }
+    .scholar-badge { display:inline-flex; align-items:center; gap:6px; background:#dcfce7; color:#15803d; border:1px solid #86efac; border-radius:9999px; padding:4px 12px; font-size:.75rem; font-weight:600; }
+    .map-iframe-wrap { border-radius:1.25rem; overflow:hidden; box-shadow:0 12px 40px rgba(0,0,0,0.12); border:1px solid #e5e7eb; }
+    /* Pulse animation for new badge */
+    @keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    .pulse-dot { display:inline-block; width:7px; height:7px; background:#16a34a; border-radius:50%; animation:pulse-dot 2s ease-in-out infinite; }
   </style>
 </head>
 
-<body class="antialiased selection:bg-gray-300 selection:text-black">
+<body class="antialiased selection:bg-green-100 selection:text-green-900">
 
   <!-- Navigation -->
   <nav class="fixed w-full bg-white/90 backdrop-blur-md z-50 border-b border-gray-200">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center">
 
-      <a href="#top" class="serif text-xl sm:text-2xl md:text-3xl font-semibold tracking-tight">Ashutosh Dev</a>
+      <a href="#top" class="serif text-xl sm:text-2xl font-semibold tracking-tight">
+        Ashutosh Dev
+        <span class="text-accent">.</span>
+      </a>
 
       <!-- Desktop nav -->
       <div class="hidden lg:flex space-x-6 xl:space-x-8 text-sm font-medium text-gray-600">
-        <a href="#research"         class="hover:text-black transition-colors">Research</a>
-        <a href="#carbon-community" class="hover:text-black transition-colors">Carbon &amp; Community</a>
-        <a href="#publications"     class="hover:text-black transition-colors">Publications</a>
-        <a href="#reports"          class="hover:text-black transition-colors">Reports</a>
-        <a href="#trajectory"       class="hover:text-black transition-colors">Trajectory</a>
-        <a href="#writing"          class="hover:text-black transition-colors">Writing</a>
+        <a href="#research"         class="nav-link-accent hover:text-black transition-colors">Research</a>
+        <a href="#carbon-community" class="nav-link-accent hover:text-black transition-colors">Carbon &amp; Community</a>
+        <a href="#publications"     class="nav-link-accent hover:text-black transition-colors">Publications</a>
+        <a href="#map"              class="nav-link-accent hover:text-black transition-colors">Map</a>
+        <a href="#reports"          class="nav-link-accent hover:text-black transition-colors">Reports</a>
+        <a href="#trajectory"       class="nav-link-accent hover:text-black transition-colors">Trajectory</a>
+        <a href="#writing"          class="nav-link-accent hover:text-black transition-colors">Writing</a>
       </div>
 
       <div class="flex items-center gap-2 sm:gap-3">
@@ -53,7 +72,7 @@
           <span>Download CV</span>
         </a>
         <a href="mailto:devashutosh31@gmail.com"
-           class="hidden sm:inline-flex items-center gap-2 text-sm font-medium border border-gray-300 px-3 sm:px-4 py-2 rounded-full hover:bg-gray-900 hover:text-white transition-all">
+           class="hidden sm:inline-flex items-center gap-2 text-sm font-medium btn-accent px-3 sm:px-4 py-2 rounded-full">
           <i data-lucide="mail" class="w-4 h-4"></i>
           <span>Contact</span>
         </a>
@@ -71,6 +90,7 @@
         <a href="#research"         class="mobile-nav-link py-2.5 px-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black transition-colors">Research</a>
         <a href="#carbon-community" class="mobile-nav-link py-2.5 px-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black transition-colors">Carbon &amp; Community</a>
         <a href="#publications"     class="mobile-nav-link py-2.5 px-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black transition-colors">Publications</a>
+        <a href="#map"              class="mobile-nav-link py-2.5 px-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black transition-colors">Interactive Map</a>
         <a href="#reports"          class="mobile-nav-link py-2.5 px-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black transition-colors">Consultant Reports</a>
         <a href="#trajectory"       class="mobile-nav-link py-2.5 px-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black transition-colors">Trajectory</a>
         <a href="#writing"          class="mobile-nav-link py-2.5 px-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black transition-colors">Writing</a>
@@ -80,7 +100,7 @@
             Download CV
           </a>
           <a href="mailto:devashutosh31@gmail.com"
-             class="mobile-nav-link flex-1 text-center py-2.5 px-3 rounded-lg text-sm font-medium border border-gray-300 hover:bg-gray-900 hover:text-white transition-all">
+             class="mobile-nav-link flex-1 text-center py-2.5 px-3 rounded-lg text-sm font-medium btn-accent">
             Contact
           </a>
         </div>
@@ -89,14 +109,19 @@
   </nav>
 
   <!-- Hero -->
-  <section id="top" class="pt-28 sm:pt-36 md:pt-40 pb-12 sm:pb-16 px-4 sm:px-6 max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8 sm:gap-12">
+  <section id="top" class="hero-gradient pt-28 sm:pt-36 md:pt-40 pb-14 sm:pb-20 px-4 sm:px-6 max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8 sm:gap-14">
     <div class="flex-1 space-y-5 sm:space-y-6">
-      <div class="text-sm sm:text-base md:text-xl font-semibold text-gray-700 tracking-tight">
-        New Zealand Award Scholar &bull; Energy systems &bull; Carbon finance &amp; MRV &bull; Development
+
+      <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+        <span class="scholar-badge">
+          <span class="pulse-dot"></span>
+          New Zealand Award Scholar
+        </span>
+        <span class="text-xs font-medium text-gray-500 border border-gray-200 bg-white px-3 py-1 rounded-full">MSc Renewable Energy Systems</span>
       </div>
 
       <h1 class="text-3xl sm:text-4xl md:text-5xl font-semibold leading-tight text-gray-900 serif">
-        Energy, climate, and development &mdash; made decision-ready.
+        Energy, climate, and development &mdash; made <span class="text-accent">decision-ready</span>.
       </h1>
 
       <p class="text-base sm:text-lg text-gray-600 max-w-2xl leading-relaxed">
@@ -105,11 +130,11 @@
       </p>
 
       <div class="flex gap-2 overflow-x-auto hide-scrollbar pb-1">
-        <span class="shrink-0 text-xs sm:text-sm font-medium border border-gray-300 bg-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full">Carbon pricing &amp; MRV</span>
-        <span class="shrink-0 text-xs sm:text-sm font-medium border border-gray-300 bg-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full">Implementation design</span>
-        <span class="shrink-0 text-xs sm:text-sm font-medium border border-gray-300 bg-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full">Energy systems modelling</span>
-        <span class="shrink-0 text-xs sm:text-sm font-medium border border-gray-300 bg-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full">Optimisation &amp; digital twins</span>
-        <span class="shrink-0 text-xs sm:text-sm font-medium border border-gray-300 bg-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full">Community energy</span>
+        <span class="shrink-0 text-xs sm:text-sm font-medium border border-gray-200 bg-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full">Carbon pricing &amp; MRV</span>
+        <span class="shrink-0 text-xs sm:text-sm font-medium border border-gray-200 bg-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full">Implementation design</span>
+        <span class="shrink-0 text-xs sm:text-sm font-medium border border-gray-200 bg-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full">Energy systems modelling</span>
+        <span class="shrink-0 text-xs sm:text-sm font-medium border border-gray-200 bg-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full">Optimisation &amp; digital twins</span>
+        <span class="shrink-0 text-xs sm:text-sm font-medium border border-gray-200 bg-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full">Community energy</span>
       </div>
 
       <div class="flex flex-wrap gap-2 sm:gap-3 pt-1 sm:pt-2">
@@ -118,6 +143,10 @@
         </a>
         <a href="#carbon-community" class="inline-flex items-center gap-2 text-sm font-medium border border-gray-300 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full hover:bg-gray-900 hover:text-white transition-all">
           <i data-lucide="leaf" class="w-4 h-4"></i><span>Carbon &amp; community</span>
+        </a>
+        <a href="https://scholar.google.com/citations?user=attWSMsAAAAJ&hl=en" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-2 text-sm font-medium border border-green-200 bg-green-50 text-green-800 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full hover:bg-green-100 transition-all">
+          <i data-lucide="book-open" class="w-4 h-4"></i><span>Google Scholar</span>
         </a>
         <a href="https://github.com/ashutosh581" target="_blank" rel="noopener"
            class="inline-flex items-center gap-2 text-sm font-medium border border-gray-300 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full hover:bg-gray-900 hover:text-white transition-all">
@@ -130,10 +159,12 @@
       </div>
     </div>
 
-    <div class="w-full md:w-[460px] lg:w-[520px] md:h-[420px] max-w-[520px] shrink-0">
+    <div class="w-full md:w-[460px] lg:w-[520px] md:h-[420px] max-w-[520px] shrink-0 relative">
+      <!-- decorative accent ring -->
+      <div class="absolute -inset-3 rounded-[2.5rem] bg-gradient-to-br from-green-100 to-transparent opacity-60 pointer-events-none"></div>
       <img src="assets/teaching.jpg" alt="Ashutosh Dev"
-           class="w-full h-[260px] sm:h-[320px] md:h-[420px] object-cover rounded-[2rem] shadow-lg border-4 border-white grayscale hover:grayscale-0 transition-all duration-500"
-           onerror="this.outerHTML='<div class=&quot;w-full h-[260px] sm:h-[320px] md:h-[420px] rounded-[2rem] shadow-lg border-4 border-white image-fallback&quot;>Missing: assets/teaching.jpg</div>'">
+           class="relative w-full h-[260px] sm:h-[320px] md:h-[420px] object-cover rounded-[2rem] shadow-xl border-4 border-white grayscale hover:grayscale-0 transition-all duration-500"
+           onerror="this.outerHTML='<div class=&quot;relative w-full h-[260px] sm:h-[320px] md:h-[420px] rounded-[2rem] shadow-xl border-4 border-white image-fallback&quot;>Missing: assets/teaching.jpg</div>'">
     </div>
   </section>
 
@@ -142,6 +173,7 @@
     <div class="max-w-6xl mx-auto slider-container">
       <div class="flex justify-between items-end mb-8 sm:mb-10">
         <div>
+          <div class="section-accent-bar"></div>
           <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold mb-3 text-gray-900 serif">Academic Research &amp; Modelling</h2>
           <p class="text-gray-600 max-w-2xl text-sm sm:text-base">Digital twins, thermodynamic/process simulation, CFD, and system dynamics &mdash; built to be defensible and decision-facing.</p>
         </div>
@@ -217,6 +249,7 @@
     <div class="max-w-6xl mx-auto slider-container">
       <div class="flex justify-between items-end mb-8 sm:mb-10">
         <div>
+          <div class="section-accent-bar"></div>
           <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold mb-3 text-white serif">Carbon &amp; Community Projects</h2>
           <p class="text-gray-300 max-w-2xl text-sm sm:text-base">MRV, institutions, field realities, and capacity-building &mdash; designed for implementation, not only design.</p>
         </div>
@@ -291,8 +324,14 @@
   <section id="publications" class="py-16 sm:py-20 md:py-24 px-4 sm:px-6 max-w-6xl mx-auto slider-container">
     <div class="flex justify-between items-end mb-8 sm:mb-10">
       <div>
+        <div class="section-accent-bar"></div>
         <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold mb-3 text-gray-900 serif">Publications</h2>
-        <p id="pubStatus" class="text-gray-600 text-sm sm:text-base">Peer-reviewed outputs &mdash; loaded from <code>publications.json</code>.</p>
+        <p id="pubStatus" class="text-gray-600 text-sm sm:text-base">Peer-reviewed outputs &mdash; updated automatically via GitHub Actions.</p>
+        <a href="https://scholar.google.com/citations?user=attWSMsAAAAJ&hl=en" target="_blank" rel="noopener"
+           class="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-green-700 hover:text-green-900 transition-colors">
+          <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+          <span>View full profile on Google Scholar &rarr;</span>
+        </a>
       </div>
       <div class="hidden md:flex gap-2">
         <button class="prev-btn p-3 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-900 transition-colors" aria-label="Previous"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
@@ -319,6 +358,44 @@
     </div>
   </section>
 
+  <!-- Interactive Map — ICIMOD VACA Survey -->
+  <section id="map" class="py-16 sm:py-20 md:py-24 bg-white border-y border-gray-100 px-4 sm:px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 mb-8 sm:mb-10">
+        <div>
+          <div class="section-accent-bar"></div>
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold mb-3 text-gray-900 serif">Field Survey Map</h2>
+          <p class="text-gray-600 max-w-2xl text-sm sm:text-base">
+            Interactive map of the <strong>ICIMOD Vulnerability and Capacity Assessment (VACA) Survey</strong> sites across Nepal &mdash;
+            visualising community vulnerability, main hazards, and adaptation capacity scores by district.
+          </p>
+        </div>
+        <a href="Figure12_Interactive_Map.html" target="_blank" rel="noopener"
+           class="shrink-0 inline-flex items-center gap-2 text-sm font-medium border border-gray-300 px-4 py-2.5 rounded-full hover:bg-gray-900 hover:text-white transition-all">
+          <i data-lucide="maximize-2" class="w-4 h-4"></i>
+          <span>Full screen</span>
+        </a>
+      </div>
+
+      <div class="map-iframe-wrap">
+        <iframe
+          src="Figure12_Interactive_Map.html"
+          title="ICIMOD VACA Survey — Interactive Map"
+          width="100%"
+          height="520"
+          loading="lazy"
+          style="border:none;display:block;"
+          allowfullscreen>
+        </iframe>
+      </div>
+
+      <p class="mt-4 text-xs text-gray-400 text-center">
+        Click any marker to view site details &bull; Use the layer control (top-right) to switch between map and satellite view &bull;
+        <a href="Figure12_Interactive_Map.html" target="_blank" rel="noopener" class="underline hover:text-gray-600">Open in full window &rarr;</a>
+      </p>
+    </div>
+  </section>
+
   <!-- Consultant Reports — CMS-lite, rendered from data/reports.json -->
   <!--
     To add a new report:
@@ -330,6 +407,7 @@
     <div class="max-w-6xl mx-auto">
       <div class="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 mb-8 sm:mb-10">
         <div>
+          <div class="section-accent-bar"></div>
           <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold mb-3 text-gray-900 serif">Consultant Reports</h2>
           <p class="text-gray-600 max-w-2xl text-sm sm:text-base">
             Technical reports, assessments, and policy documents.
@@ -360,6 +438,7 @@
   <!-- Trajectory + Experience -->
   <section id="trajectory" class="py-16 sm:py-20 md:py-24 bg-white border-y border-gray-100 px-4 sm:px-6">
     <div class="max-w-6xl mx-auto">
+      <div class="section-accent-bar"></div>
       <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold mb-4 sm:mb-5 text-gray-900 serif">Trajectory &amp; Roles</h2>
       <p class="text-gray-600 max-w-3xl mb-10 sm:mb-12 text-sm sm:text-base">
         A checkpoint-style map of education + professional experience &mdash; designed around implementation, modelling depth, and decision-facing outputs.
@@ -550,6 +629,7 @@
     <div class="max-w-6xl mx-auto slider-container">
       <div class="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 mb-8 sm:mb-10">
         <div>
+          <div class="section-accent-bar"></div>
           <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold mb-3 text-gray-900 serif">Writing</h2>
           <p id="substackStatus" class="text-gray-600 text-sm sm:text-base">Latest posts automatically pulled from Substack.</p>
         </div>
@@ -569,12 +649,14 @@
   </section>
 
   <!-- Footer -->
-  <footer class="bg-gray-900 py-10 sm:py-12 text-center border-t border-gray-800">
+  <footer class="bg-gray-900 py-10 sm:py-14 text-center border-t border-gray-800">
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
-      <div class="serif text-2xl sm:text-3xl md:text-4xl font-medium text-white mb-5 sm:mb-6">Ashutosh Dev</div>
-      <div class="flex justify-center space-x-5 sm:space-x-6 mb-6 sm:mb-8">
+      <div class="serif text-2xl sm:text-3xl font-medium text-white mb-2">Ashutosh Dev<span class="text-accent">.</span></div>
+      <p class="text-gray-400 text-sm mb-6">Energy &bull; Climate &bull; Development</p>
+      <div class="flex justify-center space-x-5 sm:space-x-6 mb-8">
         <a href="mailto:devashutosh31@gmail.com" class="text-gray-400 hover:text-white transition-colors" aria-label="Email"><i data-lucide="mail" class="w-5 h-5 sm:w-6 sm:h-6"></i></a>
         <a href="https://www.linkedin.com/in/ashutosh-dev-136045193/" target="_blank" rel="noopener" class="text-gray-400 hover:text-white transition-colors" aria-label="LinkedIn"><i data-lucide="linkedin" class="w-5 h-5 sm:w-6 sm:h-6"></i></a>
+        <a href="https://scholar.google.com/citations?user=attWSMsAAAAJ&hl=en" target="_blank" rel="noopener" class="text-gray-400 hover:text-green-400 transition-colors" aria-label="Google Scholar"><i data-lucide="graduation-cap" class="w-5 h-5 sm:w-6 sm:h-6"></i></a>
         <a href="https://ashutoshdev.substack.com/" target="_blank" rel="noopener" class="text-gray-400 hover:text-white transition-colors" aria-label="Substack"><i data-lucide="pen-tool" class="w-5 h-5 sm:w-6 sm:h-6"></i></a>
         <a href="https://github.com/ashutosh581" target="_blank" rel="noopener" class="text-gray-400 hover:text-white transition-colors" aria-label="GitHub"><i data-lucide="github" class="w-5 h-5 sm:w-6 sm:h-6"></i></a>
       </div>
