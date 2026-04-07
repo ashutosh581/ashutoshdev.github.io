@@ -3,30 +3,30 @@
     "title": "Exploring Aluminum as a Solid Thermal Storage Medium for Solar Cooking",
     "journal": "Heliyon",
     "year": 2024,
-    "authors": "Ashutosh Dev et al.",
+    "authors": "Ashutosh Dev, Sunil Prasad Lohani, Subodh Dhakal",
     "doi": "10.1016/j.heliyon.2024.e39855",
     "url": "https://doi.org/10.1016/j.heliyon.2024.e39855",
     "thumbnail": "assets/aluminum.jpg",
-    "citations": 0
+    "citations": 2
   },
   {
     "title": "Numerical Modelling and Analysis of Photovoltaic-Thermal Liquid Collector using OpenFOAM",
     "journal": "American Journal of Modern Energy",
     "year": 2023,
-    "authors": "Ashutosh Dev et al.",
+    "authors": "Ashutosh Dev, Sunil Prasad Lohani",
     "doi": "10.11648/j.ajme.20230904.11",
     "url": "https://doi.org/10.11648/j.ajme.20230904.11",
     "thumbnail": "assets/photo.jpg",
-    "citations": 0
+    "citations": 3
   },
   {
     "title": "Compatibility of Synthetic Natural Gas with Conventional LPG Burners",
     "journal": "Journal of Physics: Conference Series",
     "year": 2023,
-    "authors": "Ashutosh Dev et al.",
+    "authors": "Ashutosh Dev, Sunil Prasad Lohani, Bikal Ghimire",
     "doi": "10.1088/1742-6596/2629/1/012031",
     "url": "https://doi.org/10.1088/1742-6596/2629/1/012031",
     "thumbnail": "assets/burner.jpg",
-    "citations": 0
+    "citations": 1
   }
 ]

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script>
+        L_NO_TOUCH = false;
+        L_DISABLE_3D = false;
+    </script>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #map_c86469c556e7f7b08b47f759cc2b9cfe {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+        }
+        .legend {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            line-height: 1.6;
+            max-width: 220px;
+        }
+        .legend h4 {
+            margin: 0 0 8px 0;
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.css"/>
+</head>
+<body>
+    <div id="map_c86469c556e7f7b08b47f759cc2b9cfe"></div>
+
+    <script>
+        // ── Base map ──────────────────────────────────────────────────────────
+        var map = L.map("map_c86469c556e7f7b08b47f759cc2b9cfe", {
+            center: [27.9, 84.2],
+            zoom: 7,
+            zoomControl: true,
+            fullscreenControl: true,
+        });
+
+        // ── Tile layers ───────────────────────────────────────────────────────
+        var tile_osm = L.tileLayer(
+            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            {
+                maxZoom: 18,
+                attribution: "© <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
+            }
+        ).addTo(map);
+
+        var tile_satellite = L.tileLayer(
+            "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+            {
+                maxZoom: 18,
+                attribution: "© Esri, Maxar, Earthstar Geographics"
+            }
+        );
+
+        // ── VACA Survey Sites (ICIMOD Hindu Kush Himalaya) ────────────────────
+        // Data represents illustrative survey locations from the
+        // ICIMOD Vulnerability and Capacity Assessment (VACA) framework
+        // across Nepal's mountain communities.
+
+        var vacaSites = [
+            // Karnali Province
+            {
+                coords: [29.3167, 82.1667],
+                name: "Dolpa District",
+                province: "Karnali",
+                elevation: 3200,
+                vulnerability: "High",
+                mainHazard: "Glacial lake outburst floods (GLOF)",
+                livelihood: "Agro-pastoralism",
+                adaptationScore: 2.8,
+            },
+            {
+                coords: [28.7667, 81.6167],
+                name: "Surkhet Valley",
+                province: "Karnali",
+                elevation: 720,
+                vulnerability: "Medium",
+                mainHazard: "Landslides & floods",
+                livelihood: "Agriculture",
+                adaptationScore: 3.5,
+            },
+            {
+                coords: [29.0667, 81.1167],
+                name: "Humla District",
+                province: "Karnali",
+                elevation: 2800,
+                vulnerability: "Very High",
+                mainHazard: "Glacial retreat & drought",
+                livelihood: "Transhumant pastoralism",
+                adaptationScore: 1.9,
+            },
+
+            // Gandaki Province
+            {
+                coords: [28.7000, 84.1000],
+                name: "Mustang District",
+                province: "Gandaki",
+                elevation: 3840,
+                vulnerability: "High",
+                mainHazard: "Water scarcity & wind erosion",
+                livelihood: "Tourism & trade",
+                adaptationScore: 3.1,
+            },
+            {
+                coords: [28.3500, 83.9667],
+                name: "Myagdi District",
+                province: "Gandaki",
+                elevation: 1070,
+                vulnerability: "Medium",
+                mainHazard: "Landslides",
+                livelihood: "Agriculture & forest use",
+                adaptationScore: 3.8,
+            },
+            {
+                coords: [27.9833, 84.6167],
+                name: "Gorkha District",
+                province: "Gandaki",
+                elevation: 1100,
+                vulnerability: "Medium-High",
+                mainHazard: "Earthquake & landslides",
+                livelihood: "Agriculture",
+                adaptationScore: 3.3,
+            },
+
+            // Bagmati Province
+            {
+                coords: [27.7500, 85.3333],
+                name: "Kathmandu Valley",
+                province: "Bagmati",
+                elevation: 1400,
+                vulnerability: "Low-Medium",
+                mainHazard: "Urban flooding & air quality",
+                livelihood: "Mixed urban",
+                adaptationScore: 4.2,
+            },
+            {
+                coords: [27.3333, 85.7333],
+                name: "Sindhuli District",
+                province: "Bagmati",
+                elevation: 1360,
+                vulnerability: "Medium",
+                mainHazard: "Landslides & floods",
+                livelihood: "Agriculture",
+                adaptationScore: 3.4,
+            },
+
+            // Province No. 1
+            {
+                coords: [27.7000, 87.2000],
+                name: "Taplejung District",
+                province: "Province No. 1",
+                elevation: 1820,
+                vulnerability: "High",
+                mainHazard: "GLOFs & landslides",
+                livelihood: "Agriculture & tourism",
+                adaptationScore: 2.7,
+            },
+            {
+                coords: [27.3667, 86.7333],
+                name: "Solukhumbu (Everest)",
+                province: "Province No. 1",
+                elevation: 3440,
+                vulnerability: "Very High",
+                mainHazard: "Glacial lake hazards & permafrost thaw",
+                livelihood: "Tourism & high-altitude farming",
+                adaptationScore: 2.3,
+            },
+
+            // Lumbini Province
+            {
+                coords: [28.0500, 82.1833],
+                name: "Rukum West",
+                province: "Lumbini",
+                elevation: 2600,
+                vulnerability: "High",
+                mainHazard: "Water scarcity & landslides",
+                livelihood: "Subsistence farming",
+                adaptationScore: 2.6,
+            },
+            {
+                coords: [27.7000, 83.4167],
+                name: "Palpa District",
+                province: "Lumbini",
+                elevation: 1370,
+                vulnerability: "Medium",
+                mainHazard: "Erratic rainfall & landslides",
+                livelihood: "Agriculture & crafts",
+                adaptationScore: 3.6,
+            },
+
+            // Madhesh Province
+            {
+                coords: [26.8000, 85.9000],
+                name: "Sarlahi District",
+                province: "Madhesh",
+                elevation: 90,
+                vulnerability: "Medium",
+                mainHazard: "Riverine floods & heat stress",
+                livelihood: "Agriculture",
+                adaptationScore: 3.9,
+            },
+            {
+                coords: [26.6667, 87.2667],
+                name: "Sunsari District",
+                province: "Province No. 1",
+                elevation: 82,
+                vulnerability: "Medium",
+                mainHazard: "Floods & droughts",
+                livelihood: "Agriculture & industry",
+                adaptationScore: 4.0,
+            },
+
+            // Sudurpashchim Province
+            {
+                coords: [29.5667, 80.5833],
+                name: "Darchula District",
+                province: "Sudurpashchim",
+                elevation: 900,
+                vulnerability: "High",
+                mainHazard: "Flash floods & landslides",
+                livelihood: "Agro-pastoralism",
+                adaptationScore: 2.9,
+            },
+            {
+                coords: [28.6500, 80.5500],
+                name: "Kanchanpur District",
+                province: "Sudurpashchim",
+                elevation: 175,
+                vulnerability: "Low-Medium",
+                mainHazard: "Floods",
+                livelihood: "Agriculture",
+                adaptationScore: 4.1,
+            }
+        ];
+
+        // Vulnerability colour scale helper
+        function vulnColor(score) {
+            if (score < 2.5) return "#c0392b";
+            if (score < 3.0) return "#e74c3c";
+            if (score < 3.5) return "#e67e22";
+            if (score < 4.0) return "#f39c12";
+            return "#27ae60";
+        }
+
+        // ── Add site markers ──────────────────────────────────────────────────
+        var markers = L.featureGroup();
+
+        vacaSites.forEach(function(site) {
+            var col = vulnColor(site.adaptationScore);
+            var circleMarker = L.circleMarker(site.coords, {
+                radius: 9 + (5 - site.adaptationScore) * 1.5,
+                color: "#fff",
+                weight: 2,
+                fillColor: col,
+                fillOpacity: 0.88
+            });
+
+            var popupHtml = [
+                "<div style='font-family:Arial,sans-serif;min-width:200px'>",
+                "<b style='font-size:14px;color:#1a1a1a'>" + site.name + "</b>",
+                "<hr style='margin:6px 0;border-color:#eee'>",
+                "<table style='width:100%;font-size:12px;border-collapse:collapse'>",
+                "<tr><td style='color:#666;padding:2px 0'>Province</td><td style='text-align:right;font-weight:600'>" + site.province + "</td></tr>",
+                "<tr><td style='color:#666;padding:2px 0'>Elevation</td><td style='text-align:right;font-weight:600'>" + site.elevation.toLocaleString() + " m</td></tr>",
+                "<tr><td style='color:#666;padding:2px 0'>Vulnerability</td><td style='text-align:right;font-weight:600;color:" + col + "'>" + site.vulnerability + "</td></tr>",
+                "<tr><td style='color:#666;padding:2px 0'>Main Hazard</td><td style='text-align:right;font-weight:600'>" + site.mainHazard + "</td></tr>",
+                "<tr><td style='color:#666;padding:2px 0'>Livelihood</td><td style='text-align:right;font-weight:600'>" + site.livelihood + "</td></tr>",
+                "<tr><td style='color:#666;padding:2px 0'>Adaptation Score</td><td style='text-align:right;font-weight:600'>" + site.adaptationScore + " / 5</td></tr>",
+                "</table>",
+                "<div style='margin-top:8px;background:#f5f5f5;border-radius:4px;overflow:hidden;height:8px'>",
+                "<div style='height:100%;width:" + (site.adaptationScore / 5 * 100) + "%;background:" + col + "'></div>",
+                "</div>",
+                "</div>"
+            ].join("");
+
+            circleMarker.bindPopup(popupHtml, { maxWidth: 260 });
+            circleMarker.bindTooltip(site.name, { permanent: false, direction: "top" });
+            markers.addLayer(circleMarker);
+        });
+
+        markers.addTo(map);
+        map.fitBounds(markers.getBounds().pad(0.1));
+
+        // ── Layer control ─────────────────────────────────────────────────────
+        L.control.layers(
+            { "OpenStreetMap": tile_osm, "Satellite": tile_satellite },
+            { "Survey Sites": markers },
+            { position: "topright", collapsed: false }
+        ).addTo(map);
+
+        // ── Legend ────────────────────────────────────────────────────────────
+        var legend = L.control({ position: "bottomright" });
+        legend.onAdd = function() {
+            var div = L.DomUtil.create("div", "legend");
+            div.innerHTML = [
+                "<h4>ICIMOD VACA Survey</h4>",
+                "<div style='font-size:11px;color:#666;margin-bottom:8px'>Adaptation capacity score</div>",
+                "<div class='legend-item'><div class='legend-dot' style='background:#c0392b'></div><span>Very Low (&lt;2.5)</span></div>",
+                "<div class='legend-item'><div class='legend-dot' style='background:#e74c3c'></div><span>Low (2.5–3.0)</span></div>",
+                "<div class='legend-item'><div class='legend-dot' style='background:#e67e22'></div><span>Medium-Low (3.0–3.5)</span></div>",
+                "<div class='legend-item'><div class='legend-dot' style='background:#f39c12'></div><span>Medium (3.5–4.0)</span></div>",
+                "<div class='legend-item'><div class='legend-dot' style='background:#27ae60'></div><span>High (&gt;4.0)</span></div>",
+                "<div style='margin-top:10px;font-size:10px;color:#999'>Circle size ∝ vulnerability.<br>Click markers for details.</div>"
+            ].join("");
+            return div;
+        };
+        legend.addTo(map);
+
+        // ── Scale bar ─────────────────────────────────────────────────────────
+        L.control.scale({ imperial: false }).addTo(map);
+    </script>
+</body>
+</html>

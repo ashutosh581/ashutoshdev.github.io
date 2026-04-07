@@ -9,50 +9,87 @@ Usage:
 This script is run automatically by .github/workflows/scholar-fetch.yml every Monday.
 To add new publications manually, edit publications.json directly — they will be
 preserved across automated runs (the script only adds new entries, never removes).
+Existing entries also have their citation counts refreshed on each run.
 
 Configuration:
-    Set SCHOLAR_ID to your Google Scholar profile ID (found in the URL of your
-    Scholar profile page: scholar.google.com/citations?user=<SCHOLAR_ID>).
-    Leave as empty string "" to fall back to name-based search.
+    SCHOLAR_ID is the Google Scholar profile ID from the profile URL:
+    https://scholar.google.com/citations?user=attWSMsAAAAJ
 """
 
 import json
 import sys
+import time
 from pathlib import Path
 
 try:
-    from scholarly import scholarly
+    from scholarly import scholarly, ProxyGenerator
 except ImportError:
     print("ERROR: scholarly not installed. Run: pip install scholarly")
     sys.exit(1)
 
 # ── Configuration ──────────────────────────────────────────────────────────────
-# TODO: Replace with your actual Google Scholar ID.
-# Find it at: https://scholar.google.com/citations?user=<YOUR_ID>
-SCHOLAR_ID = ""
+# Google Scholar profile ID:
+# https://scholar.google.com/citations?user=attWSMsAAAAJ
+SCHOLAR_ID = "attWSMsAAAAJ"
 SCHOLAR_NAME = "Ashutosh Dev"
 OUTPUT_FILE = Path(__file__).parent.parent / "publications.json"
+MAX_RETRIES = 3
+RETRY_DELAY = 10  # seconds between retries
 # ──────────────────────────────────────────────────────────────────────────────
+
+
+def setup_proxy():
+    """Try to configure a free proxy to avoid Google bot detection."""
+    try:
+        pg = ProxyGenerator()
+        success = pg.FreeProxies()
+        if success:
+            scholarly.use_proxy(pg)
+            print("Using free proxy for Scholar requests.")
+        else:
+            print("No free proxy available; attempting direct connection.")
+    except Exception as exc:
+        print(f"Proxy setup skipped: {exc}")
 
 
 def fetch_by_id(scholar_id: str) -> list:
     """Fetch all publications for a given Google Scholar author ID."""
     print(f"Fetching by Scholar ID: {scholar_id}")
-    author = scholarly.search_author_id(scholar_id)
-    scholarly.fill(author, sections=["publications"])
-    return author.get("publications", [])
+    for attempt in range(1, MAX_RETRIES + 1):
+        try:
+            author = scholarly.search_author_id(scholar_id)
+            scholarly.fill(author, sections=["publications"])
+            pubs = author.get("publications", [])
+            print(f"  Found {len(pubs)} publications.")
+            return pubs
+        except Exception as exc:
+            print(f"  Attempt {attempt}/{MAX_RETRIES} failed: {exc}")
+            if attempt < MAX_RETRIES:
+                # Exponential backoff: 10s, 20s, 40s for attempts 1, 2, 3
+                time.sleep(RETRY_DELAY * (2 ** (attempt - 1)))
+    return []
 
 
 def fetch_by_name(name: str) -> list:
     """Fetch publications for the first Scholar profile matching name."""
     print(f"Fetching by author name: {name}")
-    results = scholarly.search_author(name)
-    author = next(results, None)
-    if author is None:
-        print(f"No Scholar profile found for: {name}")
-        return []
-    scholarly.fill(author, sections=["publications"])
-    return author.get("publications", [])
+    for attempt in range(1, MAX_RETRIES + 1):
+        try:
+            results = scholarly.search_author(name)
+            author = next(results, None)
+            if author is None:
+                print(f"No Scholar profile found for: {name}")
+                return []
+            scholarly.fill(author, sections=["publications"])
+            pubs = author.get("publications", [])
+            print(f"  Found {len(pubs)} publications.")
+            return pubs
+        except Exception as exc:
+            print(f"  Attempt {attempt}/{MAX_RETRIES} failed: {exc}")
+            if attempt < MAX_RETRIES:
+                # Exponential backoff: 10s, 20s, 40s for attempts 1, 2, 3
+                time.sleep(RETRY_DELAY * (2 ** (attempt - 1)))
+    return []
 
 
 def normalise(pub: dict) -> dict:
@@ -86,22 +123,43 @@ def merge(existing: list, fetched: list) -> list:
     """
     Merge newly-fetched publications into the existing list.
     Existing entries (including manually-added ones) are always preserved.
-    New entries from Scholar are appended only if their URL is not already present.
+    New entries from Scholar are appended only if their title is not already present.
+    Citation counts are updated for existing entries that match by title.
     """
-    existing_urls = {p.get("url", "") for p in existing if p.get("url")}
-    result = list(existing)
+    # Build lookup by normalised title for citation updates
+    fetched_by_title = {
+        p["title"].strip().lower(): p for p in fetched if p.get("title")
+    }
+
+    result = []
+    updated = 0
+    for entry in existing:
+        key = (entry.get("title") or "").strip().lower()
+        if key in fetched_by_title:
+            new_citations = fetched_by_title[key].get("citations", 0)
+            if entry.get("citations") != new_citations:
+                entry = dict(entry)
+                entry["citations"] = new_citations
+                updated += 1
+            # Remove from fetched so we don't double-add
+            del fetched_by_title[key]
+        result.append(entry)
+
     added = 0
-    for pub in fetched:
-        if pub.get("title") and pub.get("url") not in existing_urls:
+    for pub in fetched_by_title.values():
+        if pub.get("title"):
             result.append(pub)
-            existing_urls.add(pub.get("url", ""))
             added += 1
-    print(f"Merged {added} new publications (total: {len(result)})")
+
+    print(f"Added {added} new, updated citations for {updated} existing (total: {len(result)})")
     return result
 
 
 def main():
     print("=== Google Scholar Publication Fetcher ===")
+    print(f"Scholar ID: {SCHOLAR_ID}")
+
+    setup_proxy()
 
     raw = []
     try:
@@ -114,8 +172,8 @@ def main():
         print("Keeping existing publications.json unchanged.")
 
     if not raw:
-        print("No new publications fetched. Exiting without changes.")
-        return
+        print("No publications fetched. Exiting without changes.")
+        sys.exit(0)
 
     fetched = [normalise(p) for p in raw if p.get("bib", {}).get("title")]
     existing = load_existing()
