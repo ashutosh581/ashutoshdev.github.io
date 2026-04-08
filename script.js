@@ -131,6 +131,7 @@
     const doi = escapeHtml(pub.doi || "");
     const url = pub.url || "#";
     const citations = pub.citations != null ? pub.citations : null;
+    const isPlaceholder = !!(pub._note);
 
     // Prefer a local thumbnail; fall back to Microlink screenshot of the DOI page.
     const imgSrc = pub.thumbnail
@@ -139,29 +140,33 @@
 
     const badgeLabel = [journal, year].filter(Boolean).join(" \u2022 ");
 
+    const placeholderBadge = isPlaceholder
+      ? `<span class="text-xs font-bold px-2.5 py-1 rounded-full bg-amber-100 text-amber-700 border border-amber-200 ml-2">Update needed</span>`
+      : "";
+
     return `
-      <a class="w-[88%] sm:w-[92%] md:w-[620px] shrink-0 snap-center bg-white border border-gray-200 rounded-2xl overflow-hidden card-hover"
+      <a class="w-[88%] sm:w-[92%] md:w-[600px] shrink-0 snap-center bg-white border border-slate-200 rounded-2xl overflow-hidden card-hover"
          data-slide href="${escapeHtml(url)}" target="_blank" rel="noopener">
-        <div class="h-44 sm:h-48 bg-gray-100 overflow-hidden">
+        <div class="h-44 sm:h-48 bg-slate-100 overflow-hidden relative">
           <img src="${imgSrc}" alt="${title}"
                class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                loading="lazy"
-               onerror="this.outerHTML='<div class=&quot;w-full h-full image-fallback&quot;>${escapeHtml(journal || "Publication")}</div>'">
+               onerror="this.outerHTML='<div class=&quot;w-full h-full img-fallback&quot;>${escapeHtml(journal || "Publication")}</div>'">
         </div>
         <div class="p-6 sm:p-8">
           <div class="flex items-start gap-4">
-            <div class="mt-1 bg-gray-900 text-white p-2 rounded shrink-0">
-              <i data-lucide="book-open" class="w-5 h-5"></i>
+            <div class="mt-1 bg-slate-900 text-white p-2 rounded-lg shrink-0">
+              <i data-lucide="book-open" class="w-4 h-4"></i>
             </div>
             <div class="flex-1 min-w-0">
-              ${badgeLabel ? `<div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">${badgeLabel}</div>` : ""}
-              <h3 class="text-lg sm:text-xl font-semibold text-gray-900 leading-snug">${title}</h3>
-              ${doi ? `<div class="mt-3 text-sm font-medium text-gray-600 truncate">DOI: ${doi}</div>` : ""}
-              ${citations != null ? `<div class="mt-1 text-xs text-gray-500">${citations} citation${citations !== 1 ? "s" : ""}</div>` : ""}
+              ${badgeLabel ? `<div class="text-xs font-bold text-teal-600 uppercase tracking-widest mb-2 flex items-center flex-wrap gap-1">${badgeLabel}${placeholderBadge}</div>` : ""}
+              <h3 class="text-base sm:text-lg font-semibold text-slate-900 leading-snug">${title}</h3>
+              ${doi && !doi.startsWith("TODO") ? `<div class="mt-2 text-xs font-mono text-slate-500 truncate">DOI: ${doi}</div>` : ""}
+              ${citations != null && !isPlaceholder ? `<div class="mt-1 text-xs text-slate-400">${citations} citation${citations !== 1 ? "s" : ""}</div>` : ""}
             </div>
           </div>
-          <div class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-gray-900">
-            <span>Read paper</span><span aria-hidden="true">&rarr;</span>
+          <div class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-teal-600 hover:text-teal-800 transition-colors">
+            <span>${isPlaceholder ? "View Scholar profile" : "Read paper"}</span><span aria-hidden="true">&rarr;</span>
           </div>
         </div>
       </a>
@@ -187,7 +192,7 @@
       initSliders();
     } catch (err) {
       track.innerHTML = `
-        <div class="w-[88%] sm:w-[92%] md:w-[620px] shrink-0 snap-center bg-white border border-gray-200 rounded-2xl p-8 text-gray-500" data-slide>
+        <div class="w-[88%] sm:w-[92%] md:w-[600px] shrink-0 snap-center bg-white border border-slate-200 rounded-2xl p-8 text-slate-500" data-slide>
           Could not load <code>publications.json</code>. Add publications to that file and they will appear here.
         </div>`;
       if (status) status.textContent = "Could not load publications.json.";
@@ -210,7 +215,7 @@
     const isDownload = link !== "#" && !link.startsWith("http");
 
     const tagHtml = tags
-      .map((t) => `<span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-gray-100 text-gray-600 border border-gray-200">${escapeHtml(t)}</span>`)
+      .map((t) => `<span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-teal-50 text-teal-700 border border-teal-100">${escapeHtml(t)}</span>`)
       .join("");
 
     const linkAttrs = isDownload
@@ -218,18 +223,18 @@
       : `href="${escapeHtml(link)}" target="_blank" rel="noopener"`;
 
     return `
-      <div class="bg-white border border-gray-200 rounded-2xl p-6 sm:p-7 flex flex-col gap-4 card-hover">
-        ${date ? `<div class="text-xs font-semibold text-gray-400 uppercase tracking-wider">${escapeHtml(date)}</div>` : ""}
+      <div class="bg-white border border-teal-100 rounded-2xl p-6 sm:p-7 flex flex-col gap-4 card-hover shadow-sm">
+        ${date ? `<div class="text-xs font-bold text-slate-400 uppercase tracking-widest">${escapeHtml(date)}</div>` : ""}
         <div class="flex items-start gap-3">
-          <div class="mt-0.5 bg-gray-900 text-white p-2 rounded shrink-0">
+          <div class="mt-0.5 bg-slate-900 text-white p-2 rounded-lg shrink-0">
             <i data-lucide="file-text" class="w-4 h-4"></i>
           </div>
-          <h3 class="text-lg font-semibold text-gray-900 leading-snug">${title}</h3>
+          <h3 class="text-lg font-semibold text-slate-900 leading-snug">${title}</h3>
         </div>
-        ${description ? `<p class="text-gray-600 leading-relaxed text-sm line-clamp-3">${description}</p>` : ""}
+        ${description ? `<p class="text-slate-500 leading-relaxed text-sm line-clamp-3">${description}</p>` : ""}
         ${tagHtml ? `<div class="flex flex-wrap gap-2">${tagHtml}</div>` : ""}
         <a ${linkAttrs}
-           class="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-gray-900 hover:text-gray-600 transition-colors">
+           class="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-teal-600 hover:text-teal-800 transition-colors">
           ${isDownload ? '<i data-lucide="download" class="w-4 h-4"></i><span>Download PDF</span>' : '<i data-lucide="external-link" class="w-4 h-4"></i><span>View report</span>'}
         </a>
       </div>
@@ -251,7 +256,7 @@
       initIcons();
     } catch (err) {
       grid.innerHTML = `
-        <div class="col-span-full bg-white border border-gray-200 rounded-2xl p-8 text-gray-500">
+        <div class="col-span-full bg-white border border-teal-100 rounded-2xl p-8 text-slate-500">
           Could not load <code>data/reports.json</code>. Add report entries to that file and they will appear here.
         </div>`;
     }
@@ -295,23 +300,23 @@
 
     const img = post.cover
       ? `<img src="${post.cover}" alt="${title}" class="w-full h-full object-cover" loading="lazy"
-              onerror="this.outerHTML='<div class=&quot;w-full h-full image-fallback&quot;>Substack</div>'">`
-      : `<div class="w-full h-full image-fallback">Substack</div>`;
+              onerror="this.outerHTML='<div class=&quot;w-full h-full img-fallback&quot;>Substack</div>'">`
+      : `<div class="w-full h-full img-fallback">Substack</div>`;
 
     return `
       <a href="${post.url}" target="_blank" rel="noopener"
-         class="w-[88%] sm:w-[92%] md:w-[520px] shrink-0 snap-center bg-white border border-gray-200 rounded-2xl overflow-hidden card-hover"
+         class="w-[88%] sm:w-[92%] md:w-[520px] shrink-0 snap-center bg-white border border-slate-200 rounded-2xl overflow-hidden card-hover"
          data-slide>
-        <div class="h-52 sm:h-64 overflow-hidden bg-gray-100">${img}</div>
+        <div class="h-52 sm:h-64 overflow-hidden bg-slate-100">${img}</div>
         <div class="p-6 sm:p-7">
           <div class="flex items-center justify-between gap-3">
-            <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Writing</div>
-            <div class="text-xs text-gray-500">${escapeHtml(date)}</div>
+            <div class="text-xs font-bold text-teal-600 uppercase tracking-widest">Writing</div>
+            <div class="text-xs text-slate-400">${escapeHtml(date)}</div>
           </div>
-          <h3 class="mt-3 text-lg sm:text-xl font-semibold text-gray-900 leading-snug">${title}</h3>
-          ${subtitle ? `<p class="mt-3 text-gray-600 leading-relaxed line-clamp-2 text-sm sm:text-base">${subtitle}</p>` : ""}
-          <div class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-gray-900">
-            <span>Open</span><span aria-hidden="true">&rarr;</span>
+          <h3 class="mt-3 text-lg sm:text-xl font-semibold text-slate-900 leading-snug">${title}</h3>
+          ${subtitle ? `<p class="mt-3 text-slate-500 leading-relaxed line-clamp-2 text-sm sm:text-base">${subtitle}</p>` : ""}
+          <div class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-teal-600 hover:text-teal-800 transition-colors">
+            <span>Read</span><span aria-hidden="true">&rarr;</span>
           </div>
         </div>
       </a>
@@ -385,13 +390,13 @@
 
     // Show loading skeleton
     track.innerHTML = `
-      <div class="w-[88%] sm:w-[92%] md:w-[520px] shrink-0 snap-center bg-white border border-gray-200 rounded-2xl overflow-hidden" data-slide>
-        <div class="h-52 sm:h-64 bg-gray-100 animate-pulse"></div>
+      <div class="w-[88%] sm:w-[92%] md:w-[520px] shrink-0 snap-center bg-white border border-slate-200 rounded-2xl overflow-hidden" data-slide>
+        <div class="h-52 sm:h-64 bg-slate-100 animate-pulse"></div>
         <div class="p-6 sm:p-7">
-          <div class="h-3 w-24 bg-gray-200 rounded animate-pulse"></div>
-          <div class="mt-4 h-5 w-3/4 bg-gray-200 rounded animate-pulse"></div>
-          <div class="mt-3 h-4 w-5/6 bg-gray-200 rounded animate-pulse"></div>
-          <div class="mt-2 h-4 w-2/3 bg-gray-200 rounded animate-pulse"></div>
+          <div class="h-3 w-24 bg-slate-200 rounded animate-pulse"></div>
+          <div class="mt-4 h-5 w-3/4 bg-slate-200 rounded animate-pulse"></div>
+          <div class="mt-3 h-4 w-5/6 bg-slate-200 rounded animate-pulse"></div>
+          <div class="mt-2 h-4 w-2/3 bg-slate-200 rounded animate-pulse"></div>
         </div>
       </div>
     `;
@@ -406,13 +411,13 @@
     } catch (err) {
       track.innerHTML = `
         <a href="${SUBSTACK_BASE}/archive" target="_blank" rel="noopener"
-           class="w-[88%] sm:w-[92%] md:w-[520px] shrink-0 snap-center bg-white border border-gray-200 rounded-2xl overflow-hidden card-hover"
+           class="w-[88%] sm:w-[92%] md:w-[520px] shrink-0 snap-center bg-white border border-slate-200 rounded-2xl overflow-hidden card-hover"
            data-slide>
-          <div class="h-52 sm:h-64 bg-gray-100 flex items-center justify-center text-gray-500">Substack</div>
+          <div class="h-52 sm:h-64 bg-slate-100 flex items-center justify-center text-slate-400">Substack</div>
           <div class="p-6 sm:p-7">
-            <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Writing</div>
-            <h3 class="mt-3 text-xl font-semibold text-gray-900">Open Substack &rarr;</h3>
-            <p class="mt-3 text-gray-600 leading-relaxed text-sm sm:text-base">
+            <div class="text-xs font-bold text-teal-600 uppercase tracking-widest">Writing</div>
+            <h3 class="mt-3 text-xl font-semibold text-slate-900 serif">Open Substack &rarr;</h3>
+            <p class="mt-3 text-slate-500 leading-relaxed text-sm sm:text-base">
               Posts couldn&rsquo;t load here (CORS/hosting limits) &mdash; open Substack directly.
             </p>
           </div>

@@ -3,104 +3,151 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ashutosh Dev | New Zealand Award Scholar</title>
+  <title>Ashutosh Dev | Energy · Climate · Development</title>
 
+  <!-- Tailwind CSS (CDN) -->
   <script src="https://cdn.tailwindcss.com"></script>
 
+  <!-- Google Fonts: Inter (body) + Playfair Display (headings) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
+  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
-    body { font-family: 'Inter', sans-serif; background-color: #fafafa; color: #1a1a1a; -webkit-font-smoothing: antialiased; }
+    /* ── Base typography ── */
+    body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; -webkit-font-smoothing: antialiased; }
     h1, h2, h3, h4, h5, .serif { font-family: 'Playfair Display', serif; }
-    .hide-scrollbar::-webkit-scrollbar { display: none; }
-    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    .image-fallback { background:#e5e5e5; display:flex; align-items:center; justify-content:center; color:#737373; font-size:.875rem; padding:12px; text-align:center; }
-    /* Mobile nav animation */
-    #mobile-menu { transition: max-height 0.3s ease, opacity 0.3s ease; max-height: 0; opacity: 0; overflow: hidden; }
-    #mobile-menu.open { max-height: 480px; opacity: 1; }
-    /* Card hover lift */
-    .card-hover { transition: transform 0.25s ease, box-shadow 0.25s ease; }
-    .card-hover:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.10); }
-    /* Accent green theme */
-    .hero-gradient { background: linear-gradient(135deg, #f0fdf4 0%, #fafafa 70%); }
-    .text-accent { color: #16a34a; }
-    .bg-accent { background-color: #16a34a; }
-    .btn-accent { background:#16a34a; color:#fff; transition:background 0.2s; }
-    .btn-accent:hover { background:#15803d; }
-    .nav-link-accent { position:relative; }
-    .nav-link-accent::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:2px; background:#16a34a; transition:width 0.2s ease; }
-    .nav-link-accent:hover::after { width:100%; }
-    .section-accent-bar { width:48px; height:4px; background:#16a34a; border-radius:2px; margin-bottom:1rem; }
-    .scholar-badge { display:inline-flex; align-items:center; gap:6px; background:#dcfce7; color:#15803d; border:1px solid #86efac; border-radius:9999px; padding:4px 12px; font-size:.75rem; font-weight:600; }
-    .map-iframe-wrap { border-radius:1.25rem; overflow:hidden; box-shadow:0 12px 40px rgba(0,0,0,0.12); border:1px solid #e5e7eb; }
-    /* Pulse animation for new badge */
-    @keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:0.4} }
-    .pulse-dot { display:inline-block; width:7px; height:7px; background:#16a34a; border-radius:50%; animation:pulse-dot 2s ease-in-out infinite; }
+
+    /* ── Accent & palette: ocean-teal ── */
+    :root {
+      --accent:       #0d9488;   /* teal-600 */
+      --accent-dark:  #0f766e;   /* teal-700 */
+      --accent-light: #f0fdfa;   /* teal-50  */
+      --accent-ring:  #99f6e4;   /* teal-200 */
+      --navy:         #0f172a;   /* slate-950 */
+    }
+    .text-accent   { color: var(--accent); }
+    .bg-accent     { background: var(--accent); }
+    .btn-accent    { background: var(--accent); color: #fff; transition: background .2s; }
+    .btn-accent:hover { background: var(--accent-dark); }
+    .border-accent { border-color: var(--accent); }
+
+    /* ── Section accent bar ── */
+    .accent-bar { width: 44px; height: 3px; background: var(--accent); border-radius: 2px; margin-bottom: .9rem; }
+
+    /* ── Hero gradient ── */
+    .hero-gradient { background: linear-gradient(135deg, var(--accent-light) 0%, #f8fafc 55%, #f1f5f9 100%); }
+
+    /* ── Nav ── */
+    .nav-link-u { position: relative; }
+    .nav-link-u::after { content:''; position:absolute; bottom:-3px; left:0; width:0; height:2px; background:var(--accent); border-radius:2px; transition:width .2s ease; }
+    .nav-link-u:hover::after { width:100%; }
+
+    /* ── Mobile menu ── */
+    #mobile-menu { transition: max-height .35s ease, opacity .3s ease; max-height:0; opacity:0; overflow:hidden; }
+    #mobile-menu.open { max-height:520px; opacity:1; }
+
+    /* ── Card hover ── */
+    .card-hover { transition: transform .25s ease, box-shadow .25s ease; }
+    .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 48px rgba(13,148,136,.12), 0 4px 16px rgba(0,0,0,.08); }
+
+    /* ── Scholar badge ── */
+    .scholar-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #ccfbf1; color: #0f766e; border: 1px solid #99f6e4;
+      border-radius: 9999px; padding: 4px 14px; font-size: .75rem; font-weight: 600;
+    }
+
+    /* ── Scrollable slider ── */
+    .hide-scrollbar::-webkit-scrollbar { display:none; }
+    .hide-scrollbar { -ms-overflow-style:none; scrollbar-width:none; }
+
+    /* ── Image fallback ── */
+    .img-fallback { background:#e2e8f0; display:flex; align-items:center; justify-content:center; color:#94a3b8; font-size:.875rem; padding:12px; text-align:center; }
+
+    /* ── Pulse dot ── */
+    @keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:.35} }
+    .pulse-dot { display:inline-block; width:7px; height:7px; background:var(--accent); border-radius:50%; animation:pulse-dot 2s ease-in-out infinite; }
+
+    /* ── Interactive map iframe ── */
+    .map-wrap { border-radius:1.5rem; overflow:hidden; box-shadow:0 16px 48px rgba(13,148,136,.14), 0 2px 8px rgba(0,0,0,.06); border:1px solid #e2e8f0; }
+    .map-wrap iframe { display:block; }
+
+    /* ── Timeline dot ── */
+    .timeline-dot { width:40px; height:40px; border-radius:50%; background:var(--navy); color:#fff; display:flex; align-items:center; justify-content:center; ring:4px solid #fff; border:1px solid #e2e8f0; flex-shrink:0; }
+
+    /* ── Tag pill ── */
+    .tag-pill { font-size:.75rem; font-weight:600; padding:3px 11px; border-radius:9999px; background:#e0f2fe; color:#0369a1; border:1px solid #bae6fd; }
+    .tag-pill-teal { background:#ccfbf1; color:#0f766e; border-color:#99f6e4; }
+
+    /* ── Section dividers ── */
+    .section-light  { background:#ffffff; }
+    .section-teal   { background:var(--accent-light); }
+    .section-slate  { background:#f8fafc; }
+    .section-dark   { background:var(--navy); }
   </style>
 </head>
 
-<body class="antialiased selection:bg-green-100 selection:text-green-900">
+<body class="antialiased selection:bg-teal-100 selection:text-teal-900">
 
-  <!-- Navigation -->
-  <nav class="fixed w-full bg-white/90 backdrop-blur-md z-50 border-b border-gray-200">
+  <!-- ═══════════════════════════════════════════════════════════ NAVIGATION ══ -->
+  <nav class="fixed w-full bg-white/92 backdrop-blur-md z-50 border-b border-slate-200/80 shadow-sm">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center">
 
-      <a href="#top" class="serif text-xl sm:text-2xl font-semibold tracking-tight">
-        Ashutosh Dev
-        <span class="text-accent">.</span>
+      <!-- Wordmark -->
+      <a href="#top" class="serif text-xl sm:text-2xl font-semibold tracking-tight text-slate-900">
+        Ashutosh Dev<span class="text-accent">.</span>
       </a>
 
       <!-- Desktop nav -->
-      <div class="hidden lg:flex space-x-6 xl:space-x-8 text-sm font-medium text-gray-600">
-        <a href="#research"         class="nav-link-accent hover:text-black transition-colors">Research</a>
-        <a href="#carbon-community" class="nav-link-accent hover:text-black transition-colors">Carbon &amp; Community</a>
-        <a href="#publications"     class="nav-link-accent hover:text-black transition-colors">Publications</a>
-        <a href="#map"              class="nav-link-accent hover:text-black transition-colors">Map</a>
-        <a href="#reports"          class="nav-link-accent hover:text-black transition-colors">Reports</a>
-        <a href="#trajectory"       class="nav-link-accent hover:text-black transition-colors">Trajectory</a>
-        <a href="#writing"          class="nav-link-accent hover:text-black transition-colors">Writing</a>
+      <div class="hidden lg:flex space-x-6 xl:space-x-8 text-sm font-medium text-slate-500">
+        <a href="#research"         class="nav-link-u hover:text-slate-900 transition-colors">Research</a>
+        <a href="#carbon-community" class="nav-link-u hover:text-slate-900 transition-colors">Carbon &amp; Community</a>
+        <a href="#publications"     class="nav-link-u hover:text-slate-900 transition-colors">Publications</a>
+        <a href="#map"              class="nav-link-u hover:text-slate-900 transition-colors">Map</a>
+        <a href="#reports"          class="nav-link-u hover:text-slate-900 transition-colors">Reports</a>
+        <a href="#trajectory"       class="nav-link-u hover:text-slate-900 transition-colors">Trajectory</a>
+        <a href="#writing"          class="nav-link-u hover:text-slate-900 transition-colors">Writing</a>
       </div>
 
+      <!-- CTA buttons + hamburger -->
       <div class="flex items-center gap-2 sm:gap-3">
         <a href="assets/resume.pdf" target="_blank" rel="noopener"
-           class="hidden sm:inline-flex items-center gap-2 text-sm font-medium border border-gray-300 px-3 sm:px-4 py-2 rounded-full hover:bg-gray-900 hover:text-white transition-all">
-          <i data-lucide="download" class="w-4 h-4"></i>
-          <span>Download CV</span>
+           class="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium border border-slate-300 px-3 sm:px-4 py-2 rounded-full hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all">
+          <i data-lucide="download" class="w-3.5 h-3.5"></i><span>Download CV</span>
         </a>
         <a href="mailto:devashutosh31@gmail.com"
-           class="hidden sm:inline-flex items-center gap-2 text-sm font-medium btn-accent px-3 sm:px-4 py-2 rounded-full">
-          <i data-lucide="mail" class="w-4 h-4"></i>
-          <span>Contact</span>
+           class="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium btn-accent px-3 sm:px-4 py-2 rounded-full">
+          <i data-lucide="mail" class="w-3.5 h-3.5"></i><span>Contact</span>
         </a>
-        <!-- Hamburger (mobile/tablet only) -->
+        <!-- Hamburger -->
         <button id="hamburger-btn" aria-label="Toggle menu" aria-expanded="false"
-                class="lg:hidden p-2 rounded-full border border-gray-200 hover:bg-gray-100 transition-colors">
-          <i data-lucide="menu" class="w-5 h-5" id="hamburger-icon"></i>
+                class="lg:hidden p-2 rounded-full border border-slate-200 hover:bg-slate-100 transition-colors">
+          <i data-lucide="menu" class="w-5 h-5 text-slate-700" id="hamburger-icon"></i>
         </button>
       </div>
     </div>
 
     <!-- Mobile menu -->
     <div id="mobile-menu" role="navigation" aria-label="Mobile navigation">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 pb-4 flex flex-col gap-1 border-t border-gray-100">
-        <a href="#research"         class="mobile-nav-link py-2.5 px-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black transition-colors">Research</a>
-        <a href="#carbon-community" class="mobile-nav-link py-2.5 px-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black transition-colors">Carbon &amp; Community</a>
-        <a href="#publications"     class="mobile-nav-link py-2.5 px-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black transition-colors">Publications</a>
-        <a href="#map"              class="mobile-nav-link py-2.5 px-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black transition-colors">Interactive Map</a>
-        <a href="#reports"          class="mobile-nav-link py-2.5 px-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black transition-colors">Consultant Reports</a>
-        <a href="#trajectory"       class="mobile-nav-link py-2.5 px-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black transition-colors">Trajectory</a>
-        <a href="#writing"          class="mobile-nav-link py-2.5 px-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black transition-colors">Writing</a>
-        <div class="mt-2 pt-2 border-t border-gray-100 flex gap-3">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 pb-5 flex flex-col gap-1 border-t border-slate-100">
+        <a href="#research"         class="mobile-nav-link py-2.5 px-3 rounded-xl text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-colors">Research</a>
+        <a href="#carbon-community" class="mobile-nav-link py-2.5 px-3 rounded-xl text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-colors">Carbon &amp; Community</a>
+        <a href="#publications"     class="mobile-nav-link py-2.5 px-3 rounded-xl text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-colors">Publications</a>
+        <a href="#map"              class="mobile-nav-link py-2.5 px-3 rounded-xl text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-colors">HKH Map</a>
+        <a href="#reports"          class="mobile-nav-link py-2.5 px-3 rounded-xl text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-colors">Consultant Reports</a>
+        <a href="#trajectory"       class="mobile-nav-link py-2.5 px-3 rounded-xl text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-colors">Trajectory</a>
+        <a href="#writing"          class="mobile-nav-link py-2.5 px-3 rounded-xl text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-colors">Writing</a>
+        <div class="mt-3 pt-3 border-t border-slate-100 flex gap-3">
           <a href="assets/resume.pdf" target="_blank" rel="noopener"
-             class="mobile-nav-link flex-1 text-center py-2.5 px-3 rounded-lg text-sm font-medium border border-gray-300 hover:bg-gray-900 hover:text-white transition-all">
+             class="mobile-nav-link flex-1 text-center py-2.5 px-3 rounded-xl text-sm font-medium border border-slate-300 hover:bg-slate-900 hover:text-white transition-all">
             Download CV
           </a>
           <a href="mailto:devashutosh31@gmail.com"
-             class="mobile-nav-link flex-1 text-center py-2.5 px-3 rounded-lg text-sm font-medium btn-accent">
+             class="mobile-nav-link flex-1 text-center py-2.5 px-3 rounded-xl text-sm font-medium btn-accent">
             Contact
           </a>
         </div>
@@ -108,310 +155,347 @@
     </div>
   </nav>
 
-  <!-- Hero -->
-  <section id="top" class="hero-gradient pt-28 sm:pt-36 md:pt-40 pb-14 sm:pb-20 px-4 sm:px-6 max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8 sm:gap-14">
-    <div class="flex-1 space-y-5 sm:space-y-6">
+  <!-- ═══════════════════════════════════════════════════════════════════ HERO ══ -->
+  <section id="top" class="hero-gradient pt-28 sm:pt-36 md:pt-44 pb-16 sm:pb-24 px-4 sm:px-6">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10 sm:gap-16">
 
-      <div class="flex flex-wrap items-center gap-2 sm:gap-3">
-        <span class="scholar-badge">
-          <span class="pulse-dot"></span>
-          New Zealand Award Scholar
-        </span>
-        <span class="text-xs font-medium text-gray-500 border border-gray-200 bg-white px-3 py-1 rounded-full">MSc Renewable Energy Systems</span>
+      <!-- Text column -->
+      <div class="flex-1 space-y-6 sm:space-y-7">
+
+        <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+          <span class="scholar-badge">
+            <span class="pulse-dot"></span>
+            New Zealand Award Scholar
+          </span>
+          <span class="text-xs font-semibold text-slate-500 border border-slate-200 bg-white px-3 py-1.5 rounded-full">MSc Renewable Energy Systems</span>
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight text-slate-900 serif">
+          Energy, climate, and development &mdash; made <span class="text-accent">decision-ready</span>.
+        </h1>
+
+        <p class="text-base sm:text-lg text-slate-600 max-w-xl leading-relaxed">
+          I work at the intersection of modelling, optimisation, and climate policy &mdash; from digital twins for energy systems to MRV-ready carbon pricing design grounded in Nepal&rsquo;s institutional realities.
+        </p>
+
+        <!-- Domain tags -->
+        <div class="flex gap-2 overflow-x-auto hide-scrollbar pb-1 -mx-1 px-1">
+          <span class="shrink-0 text-xs font-semibold bg-white border border-slate-200 px-3 py-1.5 rounded-full">Carbon pricing &amp; MRV</span>
+          <span class="shrink-0 text-xs font-semibold bg-white border border-slate-200 px-3 py-1.5 rounded-full">Implementation design</span>
+          <span class="shrink-0 text-xs font-semibold bg-white border border-slate-200 px-3 py-1.5 rounded-full">Energy systems modelling</span>
+          <span class="shrink-0 text-xs font-semibold bg-white border border-slate-200 px-3 py-1.5 rounded-full">Optimisation &amp; digital twins</span>
+          <span class="shrink-0 text-xs font-semibold bg-white border border-slate-200 px-3 py-1.5 rounded-full">Community energy</span>
+        </div>
+
+        <!-- CTA buttons -->
+        <div class="flex flex-wrap gap-2 sm:gap-3 pt-1">
+          <a href="#research"
+             class="inline-flex items-center gap-2 text-sm font-semibold border border-slate-300 bg-white px-4 sm:px-5 py-2.5 rounded-full hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all">
+            <i data-lucide="flask-conical" class="w-4 h-4"></i><span>Academic research</span>
+          </a>
+          <a href="#publications"
+             class="inline-flex items-center gap-2 text-sm font-semibold border border-teal-200 bg-teal-50 text-teal-800 px-4 sm:px-5 py-2.5 rounded-full hover:bg-teal-100 transition-all">
+            <i data-lucide="book-open" class="w-4 h-4"></i><span>Publications</span>
+          </a>
+          <a href="https://scholar.google.com/citations?user=attWSMsAAAAJ&hl=en" target="_blank" rel="noopener"
+             class="inline-flex items-center gap-2 text-sm font-semibold border border-slate-300 bg-white px-4 sm:px-5 py-2.5 rounded-full hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all">
+            <i data-lucide="graduation-cap" class="w-4 h-4"></i><span>Google Scholar</span>
+          </a>
+          <a href="https://github.com/ashutosh581" target="_blank" rel="noopener"
+             class="inline-flex items-center gap-2 text-sm font-semibold border border-slate-300 bg-white px-4 sm:px-5 py-2.5 rounded-full hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all">
+            <i data-lucide="github" class="w-4 h-4"></i><span>GitHub</span>
+          </a>
+          <a href="https://ashutoshdev.substack.com/" target="_blank" rel="noopener"
+             class="inline-flex items-center gap-2 text-sm font-semibold border border-slate-300 bg-white px-4 sm:px-5 py-2.5 rounded-full hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all">
+            <i data-lucide="pen-tool" class="w-4 h-4"></i><span>Substack</span>
+          </a>
+        </div>
       </div>
 
-      <h1 class="text-3xl sm:text-4xl md:text-5xl font-semibold leading-tight text-gray-900 serif">
-        Energy, climate, and development &mdash; made <span class="text-accent">decision-ready</span>.
-      </h1>
-
-      <p class="text-base sm:text-lg text-gray-600 max-w-2xl leading-relaxed">
-        I work at the intersection of modelling, optimisation, and climate policy &mdash; building research outputs and practical tools,
-        from digital twins for energy systems to MRV-ready carbon pricing design grounded in Nepal&rsquo;s institutional realities.
-      </p>
-
-      <div class="flex gap-2 overflow-x-auto hide-scrollbar pb-1">
-        <span class="shrink-0 text-xs sm:text-sm font-medium border border-gray-200 bg-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full">Carbon pricing &amp; MRV</span>
-        <span class="shrink-0 text-xs sm:text-sm font-medium border border-gray-200 bg-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full">Implementation design</span>
-        <span class="shrink-0 text-xs sm:text-sm font-medium border border-gray-200 bg-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full">Energy systems modelling</span>
-        <span class="shrink-0 text-xs sm:text-sm font-medium border border-gray-200 bg-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full">Optimisation &amp; digital twins</span>
-        <span class="shrink-0 text-xs sm:text-sm font-medium border border-gray-200 bg-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full">Community energy</span>
+      <!-- Photo column -->
+      <div class="w-full md:w-[440px] lg:w-[500px] shrink-0 relative">
+        <!-- Decorative teal ring -->
+        <div class="absolute -inset-3 rounded-[2.5rem] bg-gradient-to-br from-teal-100 via-teal-50 to-transparent opacity-70 pointer-events-none"></div>
+        <img src="assets/teaching.jpg" alt="Ashutosh Dev"
+             class="relative w-full h-[260px] sm:h-[320px] md:h-[420px] object-cover rounded-[2rem] shadow-2xl border-4 border-white grayscale hover:grayscale-0 transition-all duration-700"
+             onerror="this.outerHTML='<div class=&quot;relative w-full h-[260px] sm:h-[320px] md:h-[420px] rounded-[2rem] shadow-2xl border-4 border-white img-fallback&quot;>Missing: assets/teaching.jpg</div>'">
       </div>
-
-      <div class="flex flex-wrap gap-2 sm:gap-3 pt-1 sm:pt-2">
-        <a href="#research" class="inline-flex items-center gap-2 text-sm font-medium border border-gray-300 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full hover:bg-gray-900 hover:text-white transition-all">
-          <i data-lucide="flask-conical" class="w-4 h-4"></i><span>Academic research</span>
-        </a>
-        <a href="#carbon-community" class="inline-flex items-center gap-2 text-sm font-medium border border-gray-300 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full hover:bg-gray-900 hover:text-white transition-all">
-          <i data-lucide="leaf" class="w-4 h-4"></i><span>Carbon &amp; community</span>
-        </a>
-        <a href="https://scholar.google.com/citations?user=attWSMsAAAAJ&hl=en" target="_blank" rel="noopener"
-           class="inline-flex items-center gap-2 text-sm font-medium border border-green-200 bg-green-50 text-green-800 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full hover:bg-green-100 transition-all">
-          <i data-lucide="book-open" class="w-4 h-4"></i><span>Google Scholar</span>
-        </a>
-        <a href="https://github.com/ashutosh581" target="_blank" rel="noopener"
-           class="inline-flex items-center gap-2 text-sm font-medium border border-gray-300 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full hover:bg-gray-900 hover:text-white transition-all">
-          <i data-lucide="github" class="w-4 h-4"></i><span>GitHub</span>
-        </a>
-        <a href="https://ashutoshdev.substack.com/" target="_blank" rel="noopener"
-           class="inline-flex items-center gap-2 text-sm font-medium border border-gray-300 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full hover:bg-gray-900 hover:text-white transition-all">
-          <i data-lucide="pen-tool" class="w-4 h-4"></i><span>Substack</span>
-        </a>
-      </div>
-    </div>
-
-    <div class="w-full md:w-[460px] lg:w-[520px] md:h-[420px] max-w-[520px] shrink-0 relative">
-      <!-- decorative accent ring -->
-      <div class="absolute -inset-3 rounded-[2.5rem] bg-gradient-to-br from-green-100 to-transparent opacity-60 pointer-events-none"></div>
-      <img src="assets/teaching.jpg" alt="Ashutosh Dev"
-           class="relative w-full h-[260px] sm:h-[320px] md:h-[420px] object-cover rounded-[2rem] shadow-xl border-4 border-white grayscale hover:grayscale-0 transition-all duration-500"
-           onerror="this.outerHTML='<div class=&quot;relative w-full h-[260px] sm:h-[320px] md:h-[420px] rounded-[2rem] shadow-xl border-4 border-white image-fallback&quot;>Missing: assets/teaching.jpg</div>'">
     </div>
   </section>
 
-  <!-- Academic Research Gallery -->
-  <section id="research" class="py-16 sm:py-20 md:py-24 bg-white border-y border-gray-100 px-4 sm:px-6">
+  <!-- ════════════════════════════════════════════ ACADEMIC RESEARCH GALLERY ══ -->
+  <section id="research" class="py-16 sm:py-20 md:py-24 section-light border-y border-slate-100 px-4 sm:px-6">
     <div class="max-w-6xl mx-auto slider-container">
       <div class="flex justify-between items-end mb-8 sm:mb-10">
         <div>
-          <div class="section-accent-bar"></div>
-          <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold mb-3 text-gray-900 serif">Academic Research &amp; Modelling</h2>
-          <p class="text-gray-600 max-w-2xl text-sm sm:text-base">Digital twins, thermodynamic/process simulation, CFD, and system dynamics &mdash; built to be defensible and decision-facing.</p>
+          <div class="accent-bar"></div>
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold mb-3 text-slate-900 serif">Academic Research &amp; Modelling</h2>
+          <p class="text-slate-500 max-w-2xl text-sm sm:text-base">Digital twins, process simulation, CFD, and system dynamics &mdash; built to be defensible and decision-facing.</p>
         </div>
-        <div class="hidden md:flex gap-2">
-          <button class="prev-btn p-3 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-900 transition-colors" aria-label="Previous"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
-          <button class="next-btn p-3 rounded-full bg-gray-900 hover:bg-gray-800 text-white transition-colors" aria-label="Next"><i data-lucide="arrow-right" class="w-5 h-5"></i></button>
+        <div class="hidden md:flex gap-2 shrink-0 ml-4">
+          <button class="prev-btn p-3 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors" aria-label="Previous"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+          <button class="next-btn p-3 rounded-full bg-slate-900 hover:bg-slate-700 text-white transition-colors" aria-label="Next"><i data-lucide="arrow-right" class="w-5 h-5"></i></button>
         </div>
       </div>
 
       <div class="slider-track flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-4 sm:gap-6 pb-8">
-        <a href="#" class="w-[88%] sm:w-[92%] md:w-[720px] shrink-0 snap-center bg-gray-50 border border-gray-200 rounded-2xl overflow-hidden group card-hover" data-slide>
+
+        <a href="#" class="w-[88%] sm:w-[92%] md:w-[700px] shrink-0 snap-center bg-slate-50 border border-slate-200 rounded-2xl overflow-hidden group card-hover" data-slide>
           <div class="h-56 sm:h-72 md:h-80 overflow-hidden">
             <img src="assets/geomethod.png" alt="Geothermal ORC optimisation framework"
                  class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                 onerror="this.outerHTML='<div class=&quot;w-full h-full image-fallback&quot;>Missing: assets/geomethod.png</div>'">
+                 onerror="this.outerHTML='<div class=&quot;w-full h-full img-fallback&quot;>Missing: assets/geomethod.png</div>'">
           </div>
           <div class="p-6 sm:p-8">
-            <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Optimisation + Digital Twin</div>
-            <h3 class="text-xl sm:text-2xl font-medium text-gray-900 mb-3">Geothermal ORC Digital Twin &amp; Optimisation</h3>
-            <p class="text-gray-600 leading-relaxed text-sm sm:text-base">Parametric simulation &rarr; surrogate modelling &rarr; optimisation under CO&#8322;/NCG disturbance scenarios.</p>
+            <div class="text-xs font-bold text-teal-600 uppercase tracking-widest mb-3">Optimisation + Digital Twin</div>
+            <h3 class="text-xl sm:text-2xl font-semibold text-slate-900 mb-3 serif">Geothermal ORC Digital Twin &amp; Optimisation</h3>
+            <p class="text-slate-500 leading-relaxed text-sm sm:text-base">Parametric simulation &rarr; surrogate modelling &rarr; optimisation under CO&#8322;/NCG disturbance scenarios.</p>
           </div>
         </a>
 
-        <a href="#" class="w-[88%] sm:w-[92%] md:w-[720px] shrink-0 snap-center bg-gray-50 border border-gray-200 rounded-2xl overflow-hidden group card-hover" data-slide>
+        <a href="#" class="w-[88%] sm:w-[92%] md:w-[700px] shrink-0 snap-center bg-slate-50 border border-slate-200 rounded-2xl overflow-hidden group card-hover" data-slide>
           <div class="h-56 sm:h-72 md:h-80 overflow-hidden">
             <img src="assets/dwsim.png" alt="DWSIM process model"
                  class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                 onerror="this.outerHTML='<div class=&quot;w-full h-full image-fallback&quot;>Missing: assets/dwsim.png</div>'">
+                 onerror="this.outerHTML='<div class=&quot;w-full h-full img-fallback&quot;>Missing: assets/dwsim.png</div>'">
           </div>
           <div class="p-6 sm:p-8">
-            <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Process Simulation</div>
-            <h3 class="text-xl sm:text-2xl font-medium text-gray-900 mb-3">DWSIM Thermodynamic Modelling</h3>
-            <p class="text-gray-600 leading-relaxed text-sm sm:text-base">Building reproducible process models for energy systems performance and design evaluation.</p>
+            <div class="text-xs font-bold text-teal-600 uppercase tracking-widest mb-3">Process Simulation</div>
+            <h3 class="text-xl sm:text-2xl font-semibold text-slate-900 mb-3 serif">DWSIM Thermodynamic Modelling</h3>
+            <p class="text-slate-500 leading-relaxed text-sm sm:text-base">Building reproducible process models for energy systems performance and design evaluation.</p>
           </div>
         </a>
 
-        <a href="#" class="w-[88%] sm:w-[92%] md:w-[720px] shrink-0 snap-center bg-gray-50 border border-gray-200 rounded-2xl overflow-hidden group card-hover" data-slide>
+        <a href="#" class="w-[88%] sm:w-[92%] md:w-[700px] shrink-0 snap-center bg-slate-50 border border-slate-200 rounded-2xl overflow-hidden group card-hover" data-slide>
           <div class="h-56 sm:h-72 md:h-80 overflow-hidden">
             <img src="assets/fire.png" alt="Fire/smoke simulation"
                  class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                 onerror="this.outerHTML='<div class=&quot;w-full h-full image-fallback&quot;>Missing: assets/fire.png</div>'">
+                 onerror="this.outerHTML='<div class=&quot;w-full h-full img-fallback&quot;>Missing: assets/fire.png</div>'">
           </div>
           <div class="p-6 sm:p-8">
-            <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Applied Simulation</div>
-            <h3 class="text-xl sm:text-2xl font-medium text-gray-900 mb-3">Fire &amp; Smoke Simulation (FDS/PyroSim)</h3>
-            <p class="text-gray-600 leading-relaxed text-sm sm:text-base">Scenario testing and reporting for applied risk assessment and safety design.</p>
+            <div class="text-xs font-bold text-teal-600 uppercase tracking-widest mb-3">Applied Simulation</div>
+            <h3 class="text-xl sm:text-2xl font-semibold text-slate-900 mb-3 serif">Fire &amp; Smoke Simulation (FDS/PyroSim)</h3>
+            <p class="text-slate-500 leading-relaxed text-sm sm:text-base">Scenario testing and reporting for applied risk assessment and safety design.</p>
           </div>
         </a>
 
-        <a href="#" class="w-[88%] sm:w-[92%] md:w-[720px] shrink-0 snap-center bg-gray-50 border border-gray-200 rounded-2xl overflow-hidden group card-hover" data-slide>
+        <a href="#" class="w-[88%] sm:w-[92%] md:w-[700px] shrink-0 snap-center bg-slate-50 border border-slate-200 rounded-2xl overflow-hidden group card-hover" data-slide>
           <div class="h-56 sm:h-72 md:h-80 overflow-hidden">
             <img src="assets/vensim.jpg" alt="System dynamics modelling"
                  class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                 onerror="this.outerHTML='<div class=&quot;w-full h-full image-fallback&quot;>Missing: assets/vensim.jpg</div>'">
+                 onerror="this.outerHTML='<div class=&quot;w-full h-full img-fallback&quot;>Missing: assets/vensim.jpg</div>'">
           </div>
           <div class="p-6 sm:p-8">
-            <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">System Dynamics</div>
-            <h3 class="text-xl sm:text-2xl font-medium text-gray-900 mb-3">Vensim Multi-sector Simulation</h3>
-            <p class="text-gray-600 leading-relaxed text-sm sm:text-base">Modelling interactions across policy, adoption, constraints, and implementation feedback loops.</p>
+            <div class="text-xs font-bold text-teal-600 uppercase tracking-widest mb-3">System Dynamics</div>
+            <h3 class="text-xl sm:text-2xl font-semibold text-slate-900 mb-3 serif">Vensim Multi-sector Simulation</h3>
+            <p class="text-slate-500 leading-relaxed text-sm sm:text-base">Modelling interactions across policy, adoption, constraints, and implementation feedback loops.</p>
           </div>
         </a>
       </div>
 
       <div class="flex md:hidden justify-center gap-4 mt-2">
-        <button class="prev-btn p-3 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-900 transition-colors" aria-label="Previous"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
-        <button class="next-btn p-3 rounded-full bg-gray-900 hover:bg-gray-800 text-white transition-colors" aria-label="Next"><i data-lucide="arrow-right" class="w-5 h-5"></i></button>
+        <button class="prev-btn p-3 rounded-full bg-slate-100 hover:bg-slate-200 transition-colors" aria-label="Previous"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+        <button class="next-btn p-3 rounded-full bg-slate-900 hover:bg-slate-700 text-white transition-colors" aria-label="Next"><i data-lucide="arrow-right" class="w-5 h-5"></i></button>
       </div>
     </div>
   </section>
 
-  <!-- Carbon & Community Projects -->
-  <section id="carbon-community" class="py-16 sm:py-20 md:py-24 bg-gray-900 text-white px-4 sm:px-6">
+  <!-- ════════════════════════════════════════════ CARBON & COMMUNITY ══ -->
+  <section id="carbon-community" class="py-16 sm:py-20 md:py-24 section-dark text-white px-4 sm:px-6">
     <div class="max-w-6xl mx-auto slider-container">
       <div class="flex justify-between items-end mb-8 sm:mb-10">
         <div>
-          <div class="section-accent-bar"></div>
+          <div class="accent-bar"></div>
           <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold mb-3 text-white serif">Carbon &amp; Community Projects</h2>
-          <p class="text-gray-300 max-w-2xl text-sm sm:text-base">MRV, institutions, field realities, and capacity-building &mdash; designed for implementation, not only design.</p>
+          <p class="text-slate-300 max-w-2xl text-sm sm:text-base">MRV, institutions, field realities, and capacity-building &mdash; designed for implementation, not only design.</p>
         </div>
-        <div class="hidden md:flex gap-2">
-          <button class="prev-btn p-3 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors" aria-label="Previous"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
-          <button class="next-btn p-3 rounded-full bg-white text-black hover:bg-gray-200 transition-colors" aria-label="Next"><i data-lucide="arrow-right" class="w-5 h-5"></i></button>
+        <div class="hidden md:flex gap-2 shrink-0 ml-4">
+          <button class="prev-btn p-3 rounded-full bg-slate-800 hover:bg-slate-700 transition-colors" aria-label="Previous"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+          <button class="next-btn p-3 rounded-full bg-white text-slate-900 hover:bg-slate-100 transition-colors" aria-label="Next"><i data-lucide="arrow-right" class="w-5 h-5"></i></button>
         </div>
       </div>
 
       <div class="slider-track flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-4 sm:gap-6 pb-8">
-        <a href="#" class="w-[88%] sm:w-[92%] md:w-[720px] shrink-0 snap-center bg-gray-800 rounded-2xl overflow-hidden group card-hover" data-slide>
+
+        <a href="#" class="w-[88%] sm:w-[92%] md:w-[700px] shrink-0 snap-center bg-slate-800 rounded-2xl overflow-hidden group card-hover" data-slide>
           <div class="h-56 sm:h-72 md:h-80 overflow-hidden">
             <img src="assets/carbon_pricing_mrv_flowchart_clean.png" alt="Carbon pricing MRV framework"
                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                 onerror="this.outerHTML='<div class=&quot;w-full h-full image-fallback bg-gray-700 text-gray-300&quot;>Missing image</div>'">
+                 onerror="this.outerHTML='<div class=&quot;w-full h-full img-fallback bg-slate-700 text-slate-400&quot;>Missing image</div>'">
           </div>
           <div class="p-6 sm:p-8">
-            <div class="text-xs font-semibold text-gray-300 uppercase tracking-wider mb-3">Carbon Finance</div>
-            <h3 class="text-xl sm:text-2xl font-medium mb-3">Carbon Pricing MRV Gap Analysis (Nepal)</h3>
-            <p class="text-gray-300 leading-relaxed text-sm sm:text-base">Institutional MRV mapping, reporting architecture, verification pathways, and registry/compliance logic.</p>
+            <div class="text-xs font-bold text-teal-400 uppercase tracking-widest mb-3">Carbon Finance</div>
+            <h3 class="text-xl sm:text-2xl font-semibold text-white mb-3 serif">Carbon Pricing MRV Gap Analysis (Nepal)</h3>
+            <p class="text-slate-300 leading-relaxed text-sm sm:text-base">Institutional MRV mapping, reporting architecture, verification pathways, and registry/compliance logic.</p>
           </div>
         </a>
 
-        <a href="#" class="w-[88%] sm:w-[92%] md:w-[720px] shrink-0 snap-center bg-gray-800 rounded-2xl overflow-hidden group card-hover" data-slide>
+        <a href="#" class="w-[88%] sm:w-[92%] md:w-[700px] shrink-0 snap-center bg-slate-800 rounded-2xl overflow-hidden group card-hover" data-slide>
           <div class="h-56 sm:h-72 md:h-80 overflow-hidden">
             <img src="assets/carbonproject1.jpg" alt="Community energy intervention"
                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                 onerror="this.outerHTML='<div class=&quot;w-full h-full image-fallback bg-gray-700 text-gray-300&quot;>Missing image</div>'">
+                 onerror="this.outerHTML='<div class=&quot;w-full h-full img-fallback bg-slate-700 text-slate-400&quot;>Missing image</div>'">
           </div>
           <div class="p-6 sm:p-8">
-            <div class="text-xs font-semibold text-gray-300 uppercase tracking-wider mb-3">Community Intervention</div>
-            <h3 class="text-xl sm:text-2xl font-medium mb-3">Community-based Climate &amp; Energy Actions</h3>
-            <p class="text-gray-300 leading-relaxed text-sm sm:text-base">Grounding interventions in local realities &mdash; adoption constraints, training, verification readiness, and durable program design.</p>
+            <div class="text-xs font-bold text-teal-400 uppercase tracking-widest mb-3">Community Intervention</div>
+            <h3 class="text-xl sm:text-2xl font-semibold text-white mb-3 serif">Community-based Climate &amp; Energy Actions</h3>
+            <p class="text-slate-300 leading-relaxed text-sm sm:text-base">Grounding interventions in local realities &mdash; adoption constraints, training, verification readiness, and durable program design.</p>
           </div>
         </a>
 
-        <a href="#" class="w-[88%] sm:w-[92%] md:w-[720px] shrink-0 snap-center bg-gray-800 rounded-2xl overflow-hidden group card-hover" data-slide>
+        <a href="#" class="w-[88%] sm:w-[92%] md:w-[700px] shrink-0 snap-center bg-slate-800 rounded-2xl overflow-hidden group card-hover" data-slide>
           <div class="h-56 sm:h-72 md:h-80 overflow-hidden">
             <img src="assets/carbonproject2.jpg" alt="Capacity building / training"
                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                 onerror="this.outerHTML='<div class=&quot;w-full h-full image-fallback bg-gray-700 text-gray-300&quot;>Missing image</div>'">
+                 onerror="this.outerHTML='<div class=&quot;w-full h-full img-fallback bg-slate-700 text-slate-400&quot;>Missing image</div>'">
           </div>
           <div class="p-6 sm:p-8">
-            <div class="text-xs font-semibold text-gray-300 uppercase tracking-wider mb-3">Capacity Building</div>
-            <h3 class="text-xl sm:text-2xl font-medium mb-3">Field QA/QC &amp; Implementation Readiness</h3>
-            <p class="text-gray-300 leading-relaxed text-sm sm:text-base">Training, documentation, and data quality practices to make MRV and finance mechanisms implementable at local levels.</p>
+            <div class="text-xs font-bold text-teal-400 uppercase tracking-widest mb-3">Capacity Building</div>
+            <h3 class="text-xl sm:text-2xl font-semibold text-white mb-3 serif">Field QA/QC &amp; Implementation Readiness</h3>
+            <p class="text-slate-300 leading-relaxed text-sm sm:text-base">Training, documentation, and data quality practices to make MRV and finance mechanisms implementable at local levels.</p>
           </div>
         </a>
 
-        <a href="#" class="w-[88%] sm:w-[92%] md:w-[720px] shrink-0 snap-center bg-gray-800 rounded-2xl overflow-hidden group card-hover" data-slide>
+        <a href="#" class="w-[88%] sm:w-[92%] md:w-[700px] shrink-0 snap-center bg-slate-800 rounded-2xl overflow-hidden group card-hover" data-slide>
           <div class="h-56 sm:h-72 md:h-80 overflow-hidden">
             <img src="assets/carbon1.png" alt="MRV institutional architecture"
                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                 onerror="this.outerHTML='<div class=&quot;w-full h-full image-fallback bg-gray-700 text-gray-300&quot;>Missing image</div>'">
+                 onerror="this.outerHTML='<div class=&quot;w-full h-full img-fallback bg-slate-700 text-slate-400&quot;>Missing image</div>'">
           </div>
           <div class="p-6 sm:p-8">
-            <div class="text-xs font-semibold text-gray-300 uppercase tracking-wider mb-3">Institutional Design</div>
-            <h3 class="text-xl sm:text-2xl font-medium mb-3">MRV Architecture &amp; Coordination Design</h3>
-            <p class="text-gray-300 leading-relaxed text-sm sm:text-base">Designing roles, responsibilities, and procedural setups across ministries, data suppliers, and verification entities.</p>
+            <div class="text-xs font-bold text-teal-400 uppercase tracking-widest mb-3">Institutional Design</div>
+            <h3 class="text-xl sm:text-2xl font-semibold text-white mb-3 serif">MRV Architecture &amp; Coordination Design</h3>
+            <p class="text-slate-300 leading-relaxed text-sm sm:text-base">Designing roles, responsibilities, and procedural setups across ministries, data suppliers, and verification entities.</p>
           </div>
         </a>
       </div>
 
       <div class="flex md:hidden justify-center gap-4 mt-2">
-        <button class="prev-btn p-3 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors" aria-label="Previous"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
-        <button class="next-btn p-3 rounded-full bg-white text-black hover:bg-gray-200 transition-colors" aria-label="Next"><i data-lucide="arrow-right" class="w-5 h-5"></i></button>
+        <button class="prev-btn p-3 rounded-full bg-slate-800 hover:bg-slate-700 transition-colors" aria-label="Previous"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+        <button class="next-btn p-3 rounded-full bg-white text-slate-900 hover:bg-slate-100 transition-colors" aria-label="Next"><i data-lucide="arrow-right" class="w-5 h-5"></i></button>
       </div>
     </div>
   </section>
 
-  <!-- Publications — dynamic, rendered from publications.json -->
-  <section id="publications" class="py-16 sm:py-20 md:py-24 px-4 sm:px-6 max-w-6xl mx-auto slider-container">
-    <div class="flex justify-between items-end mb-8 sm:mb-10">
-      <div>
-        <div class="section-accent-bar"></div>
-        <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold mb-3 text-gray-900 serif">Publications</h2>
-        <p id="pubStatus" class="text-gray-600 text-sm sm:text-base">Peer-reviewed outputs &mdash; updated automatically via GitHub Actions.</p>
-        <a href="https://scholar.google.com/citations?user=attWSMsAAAAJ&hl=en" target="_blank" rel="noopener"
-           class="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-green-700 hover:text-green-900 transition-colors">
-          <i data-lucide="graduation-cap" class="w-4 h-4"></i>
-          <span>View full profile on Google Scholar &rarr;</span>
-        </a>
-      </div>
-      <div class="hidden md:flex gap-2">
-        <button class="prev-btn p-3 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-900 transition-colors" aria-label="Previous"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
-        <button class="next-btn p-3 rounded-full bg-gray-900 hover:bg-gray-800 text-white transition-colors" aria-label="Next"><i data-lucide="arrow-right" class="w-5 h-5"></i></button>
-      </div>
-    </div>
-
-    <!-- JS renders publication cards here -->
-    <div id="pubTrack" class="slider-track flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-4 sm:gap-6 pb-8">
-      <!-- Loading skeleton -->
-      <div class="w-[88%] sm:w-[92%] md:w-[620px] shrink-0 snap-center bg-white border border-gray-200 rounded-2xl overflow-hidden" data-slide>
-        <div class="h-44 bg-gray-100 animate-pulse"></div>
-        <div class="p-6 sm:p-8 space-y-3">
-          <div class="h-3 w-24 bg-gray-200 rounded animate-pulse"></div>
-          <div class="h-5 w-3/4 bg-gray-200 rounded animate-pulse"></div>
-          <div class="h-4 w-1/2 bg-gray-200 rounded animate-pulse"></div>
+  <!-- ════════════════════════════════════════════════════ PUBLICATIONS ══ -->
+  <!--
+    Publication cards are rendered dynamically from publications.json.
+    To add/update publications:
+      1. Edit publications.json — add objects with title, journal, year, doi, url, thumbnail, citations.
+      2. GitHub Actions (scholar-fetch.yml) refreshes this file every Monday automatically.
+    To update the 2 placeholder entries (papers 4 & 5), find the DOIs on your Google Scholar
+    profile (https://scholar.google.com/citations?user=attWSMsAAAAJ) and edit publications.json.
+  -->
+  <section id="publications" class="py-16 sm:py-20 md:py-24 section-slate border-y border-slate-100 px-4 sm:px-6">
+    <div class="max-w-6xl mx-auto slider-container">
+      <div class="flex justify-between items-end mb-8 sm:mb-10">
+        <div>
+          <div class="accent-bar"></div>
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold mb-3 text-slate-900 serif">Publications</h2>
+          <p id="pubStatus" class="text-slate-500 text-sm sm:text-base">Peer-reviewed outputs &mdash; updated automatically via GitHub Actions.</p>
+          <a href="https://scholar.google.com/citations?user=attWSMsAAAAJ&hl=en" target="_blank" rel="noopener"
+             class="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-teal-600 hover:text-teal-800 transition-colors">
+            <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+            <span>View full profile on Google Scholar &rarr;</span>
+          </a>
+        </div>
+        <div class="hidden md:flex gap-2 shrink-0 ml-4">
+          <button class="prev-btn p-3 rounded-full bg-slate-100 hover:bg-slate-200 transition-colors" aria-label="Previous"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+          <button class="next-btn p-3 rounded-full bg-slate-900 hover:bg-slate-700 text-white transition-colors" aria-label="Next"><i data-lucide="arrow-right" class="w-5 h-5"></i></button>
         </div>
       </div>
-    </div>
 
-    <div class="flex md:hidden justify-center gap-4 mt-2">
-      <button class="prev-btn p-3 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-900 transition-colors" aria-label="Previous"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
-      <button class="next-btn p-3 rounded-full bg-gray-900 hover:bg-gray-800 text-white transition-colors" aria-label="Next"><i data-lucide="arrow-right" class="w-5 h-5"></i></button>
+      <!-- JS renders publication cards here -->
+      <div id="pubTrack" class="slider-track flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-4 sm:gap-6 pb-8">
+        <!-- Loading skeleton -->
+        <div class="w-[88%] sm:w-[92%] md:w-[600px] shrink-0 snap-center bg-white border border-slate-200 rounded-2xl overflow-hidden" data-slide>
+          <div class="h-44 bg-slate-100 animate-pulse"></div>
+          <div class="p-6 sm:p-8 space-y-3">
+            <div class="h-3 w-24 bg-slate-200 rounded animate-pulse"></div>
+            <div class="h-5 w-3/4 bg-slate-200 rounded animate-pulse"></div>
+            <div class="h-4 w-1/2 bg-slate-200 rounded animate-pulse"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex md:hidden justify-center gap-4 mt-2">
+        <button class="prev-btn p-3 rounded-full bg-slate-100 hover:bg-slate-200 transition-colors" aria-label="Previous"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+        <button class="next-btn p-3 rounded-full bg-slate-900 hover:bg-slate-700 text-white transition-colors" aria-label="Next"><i data-lucide="arrow-right" class="w-5 h-5"></i></button>
+      </div>
     </div>
   </section>
 
-  <!-- Interactive Map — ICIMOD VACA Survey -->
-  <section id="map" class="py-16 sm:py-20 md:py-24 bg-white border-y border-gray-100 px-4 sm:px-6">
+  <!-- ════════════════════════════════════ HKH ENERGY-SHOCK ANALYSIS MAP ══ -->
+  <!--
+    The interactive Folium map is embedded via iframe.
+    UPLOAD INSTRUCTIONS:
+      1. Run your Python notebook to generate Figure12_Interactive_Map.html.
+      2. Place the generated file in the assets/ folder of this repository.
+         Path: assets/Figure12_Interactive_Map.html
+      3. The iframe below will automatically display it.
+    The map shows ICIMOD VACA Survey district-level Energy Tier Index (ETI)
+    and Climate Shock Index (CSI) across the Hindu Kush Himalaya (HKH) region.
+  -->
+  <section id="map" class="py-16 sm:py-20 md:py-24 section-light border-y border-slate-100 px-4 sm:px-6">
     <div class="max-w-6xl mx-auto">
+
       <div class="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 mb-8 sm:mb-10">
         <div>
-          <div class="section-accent-bar"></div>
-          <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold mb-3 text-gray-900 serif">Field Survey Map</h2>
-          <p class="text-gray-600 max-w-2xl text-sm sm:text-base">
-            Interactive map of the <strong>ICIMOD Vulnerability and Capacity Assessment (VACA) Survey</strong> sites across Nepal &mdash;
-            visualising community vulnerability, main hazards, and adaptation capacity scores by district.
+          <div class="accent-bar"></div>
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold mb-3 text-slate-900 serif">HKH Energy-Shock Analysis Map</h2>
+          <p class="text-slate-500 max-w-2xl text-sm sm:text-base">
+            Interactive district-level visualisation of <strong class="text-slate-700">Energy Tier Index (ETI)</strong> and
+            <strong class="text-slate-700">Climate Shock Index (CSI)</strong> from the
+            <strong class="text-slate-700">ICIMOD Vulnerability &amp; Capacity Assessment (VACA) Survey</strong> across the Hindu Kush Himalaya region.
+            Circle radius &prop; sample size; colour &prop; mean ETI.
           </p>
         </div>
-        <a href="Figure12_Interactive_Map.html" target="_blank" rel="noopener"
-           class="shrink-0 inline-flex items-center gap-2 text-sm font-medium border border-gray-300 px-4 py-2.5 rounded-full hover:bg-gray-900 hover:text-white transition-all">
+        <a href="assets/Figure12_Interactive_Map.html" target="_blank" rel="noopener"
+           class="shrink-0 inline-flex items-center gap-2 text-sm font-semibold border border-slate-300 bg-white px-4 py-2.5 rounded-full hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all">
           <i data-lucide="maximize-2" class="w-4 h-4"></i>
           <span>Full screen</span>
         </a>
       </div>
 
-      <div class="map-iframe-wrap">
-        <iframe
-          src="Figure12_Interactive_Map.html"
-          title="ICIMOD VACA Survey — Interactive Map"
-          width="100%"
-          height="520"
-          loading="lazy"
-          style="border:none;display:block;"
-          allowfullscreen>
-        </iframe>
+      <!-- Responsive iframe wrapper with 16:9-ish aspect ratio -->
+      <div class="map-wrap w-full">
+        <div class="relative w-full" style="padding-top: clamp(420px, 52%, 620px);">
+          <iframe
+            src="assets/Figure12_Interactive_Map.html"
+            title="ICIMOD VACA Survey — HKH Energy-Shock Analysis Interactive Map"
+            class="absolute inset-0 w-full h-full"
+            loading="lazy"
+            allowfullscreen
+            style="border:none;">
+          </iframe>
+        </div>
       </div>
 
-      <p class="mt-4 text-xs text-gray-400 text-center">
-        Click any marker to view site details &bull; Use the layer control (top-right) to switch between map and satellite view &bull;
-        <a href="Figure12_Interactive_Map.html" target="_blank" rel="noopener" class="underline hover:text-gray-600">Open in full window &rarr;</a>
-      </p>
+      <div class="mt-5 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-400">
+        <span>Click any circle marker to view district statistics &bull; Use layer control (top-right) to switch basemap</span>
+        <a href="assets/Figure12_Interactive_Map.html" target="_blank" rel="noopener"
+           class="underline hover:text-teal-600 transition-colors">Open in full window &rarr;</a>
+      </div>
     </div>
   </section>
 
-  <!-- Consultant Reports — CMS-lite, rendered from data/reports.json -->
+  <!-- ════════════════════════════════════════════ CONSULTANT REPORTS ══ -->
   <!--
-    To add a new report:
-      1. Add an entry to data/reports.json (Title, Date, Description, Link, Tags).
-      2. Optionally, place the PDF in assets/reports/ and update the "link" field.
-    No code changes needed — JavaScript renders the cards automatically.
+    CMS-lite: Report cards are rendered from data/reports.json.
+    TO ADD A NEW REPORT:
+      1. Edit data/reports.json — add an object with: title, date, description, link, tags.
+      2. (Optionally) place the PDF in assets/reports/ and set "link" to "assets/reports/filename.pdf".
+    No code changes needed — JavaScript auto-builds the grid.
   -->
-  <section id="reports" class="py-16 sm:py-20 md:py-24 bg-gray-50 border-y border-gray-200 px-4 sm:px-6">
+  <section id="reports" class="py-16 sm:py-20 md:py-24 section-teal border-y border-teal-100 px-4 sm:px-6">
     <div class="max-w-6xl mx-auto">
       <div class="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 mb-8 sm:mb-10">
         <div>
-          <div class="section-accent-bar"></div>
-          <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold mb-3 text-gray-900 serif">Consultant Reports</h2>
-          <p class="text-gray-600 max-w-2xl text-sm sm:text-base">
-            Technical reports, assessments, and policy documents.
-            Add new reports by editing <code class="bg-gray-200 px-1 rounded text-xs">data/reports.json</code>.
+          <div class="accent-bar"></div>
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold mb-3 text-slate-900 serif">Consultant Reports</h2>
+          <p class="text-slate-600 max-w-2xl text-sm sm:text-base">
+            Technical reports, policy assessments, and implementation documents.
+            Add new entries to <code class="bg-white/70 px-1.5 py-0.5 rounded text-xs font-mono border border-teal-200">data/reports.json</code> to publish a new card automatically.
           </p>
         </div>
       </div>
@@ -419,175 +503,166 @@
       <!-- JS renders report cards here -->
       <div id="reportsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         <!-- Loading skeletons (replaced by JS) -->
-        <div class="bg-white border border-gray-200 rounded-2xl p-6 space-y-3">
-          <div class="h-3 w-20 bg-gray-200 rounded animate-pulse"></div>
-          <div class="h-5 w-3/4 bg-gray-200 rounded animate-pulse"></div>
-          <div class="h-4 w-full bg-gray-200 rounded animate-pulse"></div>
-          <div class="h-4 w-5/6 bg-gray-200 rounded animate-pulse"></div>
+        <div class="bg-white border border-teal-100 rounded-2xl p-6 space-y-3 shadow-sm">
+          <div class="h-3 w-20 bg-teal-100 rounded animate-pulse"></div>
+          <div class="h-5 w-3/4 bg-slate-200 rounded animate-pulse"></div>
+          <div class="h-4 w-full bg-slate-100 rounded animate-pulse"></div>
+          <div class="h-4 w-5/6 bg-slate-100 rounded animate-pulse"></div>
         </div>
-        <div class="bg-white border border-gray-200 rounded-2xl p-6 space-y-3 hidden sm:block">
-          <div class="h-3 w-20 bg-gray-200 rounded animate-pulse"></div>
-          <div class="h-5 w-3/4 bg-gray-200 rounded animate-pulse"></div>
-          <div class="h-4 w-full bg-gray-200 rounded animate-pulse"></div>
-          <div class="h-4 w-5/6 bg-gray-200 rounded animate-pulse"></div>
+        <div class="bg-white border border-teal-100 rounded-2xl p-6 space-y-3 shadow-sm hidden sm:block">
+          <div class="h-3 w-20 bg-teal-100 rounded animate-pulse"></div>
+          <div class="h-5 w-3/4 bg-slate-200 rounded animate-pulse"></div>
+          <div class="h-4 w-full bg-slate-100 rounded animate-pulse"></div>
+          <div class="h-4 w-5/6 bg-slate-100 rounded animate-pulse"></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Trajectory + Experience -->
-  <section id="trajectory" class="py-16 sm:py-20 md:py-24 bg-white border-y border-gray-100 px-4 sm:px-6">
+  <!-- ════════════════════════════════════════════ TRAJECTORY & ROLES ══ -->
+  <section id="trajectory" class="py-16 sm:py-20 md:py-24 section-light border-y border-slate-100 px-4 sm:px-6">
     <div class="max-w-6xl mx-auto">
-      <div class="section-accent-bar"></div>
-      <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold mb-4 sm:mb-5 text-gray-900 serif">Trajectory &amp; Roles</h2>
-      <p class="text-gray-600 max-w-3xl mb-10 sm:mb-12 text-sm sm:text-base">
-        A checkpoint-style map of education + professional experience &mdash; designed around implementation, modelling depth, and decision-facing outputs.
+      <div class="accent-bar"></div>
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold mb-4 text-slate-900 serif">Trajectory &amp; Roles</h2>
+      <p class="text-slate-500 max-w-3xl mb-10 sm:mb-14 text-sm sm:text-base">
+        Education and professional experience &mdash; focused on implementation depth, modelling rigour, and decision-facing outputs.
       </p>
 
       <div class="relative">
-        <div class="absolute left-4 md:left-1/2 md:-translate-x-1/2 top-0 bottom-0 w-px bg-gray-200"></div>
+        <!-- Vertical timeline line -->
+        <div class="absolute left-4 md:left-1/2 md:-translate-x-px top-0 bottom-0 w-px bg-slate-200"></div>
 
         <!-- ITEM 1 -->
-        <div class="relative flex flex-col md:flex-row md:items-start gap-6 mb-10 sm:mb-12">
-          <div class="md:w-1/2 md:pr-12 md:text-right pl-10 md:pl-0">
-            <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Jan 2025 &mdash; Present &bull; Wellington, New Zealand</div>
-            <h3 class="text-xl sm:text-2xl font-semibold text-gray-900 mt-2">MSc Renewable Energy Systems &mdash; New Zealand Award Scholar</h3>
-            <div class="text-gray-700 font-medium mt-1">Victoria University of Wellington</div>
-            <p class="text-gray-600 mt-3 leading-relaxed text-sm sm:text-base">Fully funded under Manaaki New Zealand Scholarships. Focused on modelling, optimisation, and implementation-ready climate/energy policy design.</p>
+        <div class="relative flex flex-col md:flex-row md:items-start gap-6 mb-12">
+          <div class="md:w-1/2 md:pr-14 md:text-right pl-12 md:pl-0">
+            <div class="text-xs font-bold text-teal-600 uppercase tracking-widest">Jan 2025 &mdash; Present &bull; Wellington, NZ</div>
+            <h3 class="text-xl sm:text-2xl font-semibold text-slate-900 mt-2 serif">MSc Renewable Energy Systems &mdash; New Zealand Award Scholar</h3>
+            <div class="text-slate-600 font-medium mt-1">Victoria University of Wellington</div>
+            <p class="text-slate-500 mt-3 leading-relaxed text-sm">Fully funded under Manaaki New Zealand Scholarships. Focused on modelling, optimisation, and implementation-ready climate/energy policy design.</p>
           </div>
           <div class="absolute left-0 md:left-1/2 md:-translate-x-1/2 top-2">
-            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gray-900 text-white flex items-center justify-center ring-4 ring-white border border-gray-200">
-              <i data-lucide="graduation-cap" class="w-4 h-4 sm:w-5 sm:h-5"></i>
-            </div>
+            <div class="timeline-dot ring-4 ring-white"><i data-lucide="graduation-cap" class="w-4 h-4 sm:w-5 sm:h-5"></i></div>
           </div>
-          <div class="md:w-1/2 md:pl-12 pl-10">
-            <div class="bg-gray-50 border border-gray-200 rounded-2xl p-5 sm:p-6">
-              <div class="text-sm font-semibold text-gray-900">Themes</div>
+          <div class="md:w-1/2 md:pl-14 pl-12">
+            <div class="bg-teal-50 border border-teal-100 rounded-2xl p-5 sm:p-6">
+              <div class="text-sm font-semibold text-slate-800">Themes</div>
               <div class="mt-3 flex flex-wrap gap-2">
-                <span class="text-xs sm:text-sm border border-gray-300 bg-white px-3 py-1.5 rounded-full">Optimisation</span>
-                <span class="text-xs sm:text-sm border border-gray-300 bg-white px-3 py-1.5 rounded-full">Digital twins</span>
-                <span class="text-xs sm:text-sm border border-gray-300 bg-white px-3 py-1.5 rounded-full">MRV implementation</span>
-                <span class="text-xs sm:text-sm border border-gray-300 bg-white px-3 py-1.5 rounded-full">Energy systems</span>
-                <span class="text-xs sm:text-sm border border-gray-300 bg-white px-3 py-1.5 rounded-full">Policy design</span>
+                <span class="tag-pill-teal tag-pill">Optimisation</span>
+                <span class="tag-pill-teal tag-pill">Digital twins</span>
+                <span class="tag-pill-teal tag-pill">MRV implementation</span>
+                <span class="tag-pill-teal tag-pill">Energy systems</span>
+                <span class="tag-pill-teal tag-pill">Policy design</span>
               </div>
             </div>
           </div>
         </div>
 
         <!-- ITEM 2 -->
-        <div class="relative flex flex-col md:flex-row-reverse md:items-start gap-6 mb-10 sm:mb-12">
-          <div class="md:w-1/2 md:pl-12 pl-10">
-            <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider">May 2025 &mdash; Jan 2026 &bull; Wellington, New Zealand</div>
-            <h3 class="text-xl sm:text-2xl font-semibold text-gray-900 mt-2">Teaching &amp; Research Assistant &mdash; Faculty of Engineering</h3>
-            <div class="text-gray-700 font-medium mt-1">Victoria University of Wellington</div>
-            <p class="text-gray-600 mt-3 leading-relaxed text-sm sm:text-base">Delivered teaching support while contributing to ongoing modelling/optimisation research with reproducible workflows.</p>
+        <div class="relative flex flex-col md:flex-row-reverse md:items-start gap-6 mb-12">
+          <div class="md:w-1/2 md:pl-14 pl-12">
+            <div class="text-xs font-bold text-teal-600 uppercase tracking-widest">May 2025 &mdash; Jan 2026 &bull; Wellington, NZ</div>
+            <h3 class="text-xl sm:text-2xl font-semibold text-slate-900 mt-2 serif">Teaching &amp; Research Assistant &mdash; Faculty of Engineering</h3>
+            <div class="text-slate-600 font-medium mt-1">Victoria University of Wellington</div>
+            <p class="text-slate-500 mt-3 leading-relaxed text-sm">Delivered teaching support while contributing to ongoing modelling/optimisation research with reproducible workflows.</p>
           </div>
           <div class="absolute left-0 md:left-1/2 md:-translate-x-1/2 top-2">
-            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gray-900 text-white flex items-center justify-center ring-4 ring-white border border-gray-200">
-              <i data-lucide="presentation" class="w-4 h-4 sm:w-5 sm:h-5"></i>
-            </div>
+            <div class="timeline-dot ring-4 ring-white"><i data-lucide="presentation" class="w-4 h-4 sm:w-5 sm:h-5"></i></div>
           </div>
-          <div class="md:w-1/2 md:pr-12 md:text-right pl-10 md:pl-0">
-            <div class="bg-gray-50 border border-gray-200 rounded-2xl p-5 sm:p-6 text-left md:text-right">
-              <div class="text-sm font-semibold text-gray-900">Key contributions</div>
-              <ul class="mt-3 text-gray-600 space-y-2 leading-relaxed text-sm">
+          <div class="md:w-1/2 md:pr-14 md:text-right pl-12 md:pl-0">
+            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 sm:p-6 text-left md:text-right">
+              <div class="text-sm font-semibold text-slate-800">Key contributions</div>
+              <ul class="mt-3 text-slate-500 space-y-1.5 leading-relaxed text-sm">
                 <li>&bull; Tutorials: Mechanics, Thermodynamics, Engineering Research, Project Management.</li>
                 <li>&bull; Research: Dual-Source Geothermal ORC digital twin (NCG/CO&#8322; effects, optimal split-ratio).</li>
                 <li>&bull; Dynamic electric grid modelling using Vensim.</li>
               </ul>
               <div class="mt-4 flex flex-wrap gap-2 justify-start md:justify-end">
-                <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">Digital twin</span>
-                <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">Vensim</span>
-                <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">Reproducible analysis</span>
+                <span class="tag-pill">Digital twin</span>
+                <span class="tag-pill">Vensim</span>
+                <span class="tag-pill">Reproducible analysis</span>
               </div>
             </div>
           </div>
         </div>
 
         <!-- ITEM 3 -->
-        <div class="relative flex flex-col md:flex-row md:items-start gap-6 mb-10 sm:mb-12">
-          <div class="md:w-1/2 md:pr-12 md:text-right pl-10 md:pl-0">
-            <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider">May 2024 &mdash; Jan 2025 &bull; Kathmandu, Nepal</div>
-            <h3 class="text-xl sm:text-2xl font-semibold text-gray-900 mt-2">Project Engineer</h3>
-            <div class="text-gray-700 font-medium mt-1">People, Energy &amp; Environment Development Association (PEEDA)</div>
-            <p class="text-gray-600 mt-3 leading-relaxed text-sm sm:text-base">Applied modelling + implementation monitoring across clean cooking, solar, and municipal energy planning.</p>
+        <div class="relative flex flex-col md:flex-row md:items-start gap-6 mb-12">
+          <div class="md:w-1/2 md:pr-14 md:text-right pl-12 md:pl-0">
+            <div class="text-xs font-bold text-teal-600 uppercase tracking-widest">May 2024 &mdash; Jan 2025 &bull; Kathmandu, Nepal</div>
+            <h3 class="text-xl sm:text-2xl font-semibold text-slate-900 mt-2 serif">Project Engineer</h3>
+            <div class="text-slate-600 font-medium mt-1">People, Energy &amp; Environment Development Association (PEEDA)</div>
+            <p class="text-slate-500 mt-3 leading-relaxed text-sm">Applied modelling + implementation monitoring across clean cooking, solar, and municipal energy planning.</p>
           </div>
           <div class="absolute left-0 md:left-1/2 md:-translate-x-1/2 top-2">
-            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gray-900 text-white flex items-center justify-center ring-4 ring-white border border-gray-200">
-              <i data-lucide="briefcase" class="w-4 h-4 sm:w-5 sm:h-5"></i>
-            </div>
+            <div class="timeline-dot ring-4 ring-white"><i data-lucide="briefcase" class="w-4 h-4 sm:w-5 sm:h-5"></i></div>
           </div>
-          <div class="md:w-1/2 md:pl-12 pl-10">
-            <div class="bg-gray-50 border border-gray-200 rounded-2xl p-5 sm:p-6">
-              <div class="text-sm font-semibold text-gray-900">Key contributions</div>
-              <ul class="mt-3 text-gray-600 space-y-2 leading-relaxed text-sm">
+          <div class="md:w-1/2 md:pl-14 pl-12">
+            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 sm:p-6">
+              <div class="text-sm font-semibold text-slate-800">Key contributions</div>
+              <ul class="mt-3 text-slate-500 space-y-1.5 leading-relaxed text-sm">
                 <li>&bull; Fire safety engineering (FDS, PyroSim) &mdash; biomass combustion in residential settings.</li>
                 <li>&bull; Electric cookstove project (1,000+ households); solar pumping, storage, and micro-hydro monitoring.</li>
                 <li>&bull; Municipal energy planning, implementation monitoring, and stakeholder-facing technical reporting.</li>
               </ul>
               <div class="mt-4 flex flex-wrap gap-2">
-                <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">FDS</span>
-                <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">PyroSim</span>
-                <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">PVsyst</span>
-                <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">Homer Pro</span>
+                <span class="tag-pill">FDS</span>
+                <span class="tag-pill">PyroSim</span>
+                <span class="tag-pill">PVsyst</span>
+                <span class="tag-pill">Homer Pro</span>
               </div>
             </div>
           </div>
         </div>
 
         <!-- ITEM 4 -->
-        <div class="relative flex flex-col md:flex-row-reverse md:items-start gap-6 mb-10 sm:mb-12">
-          <div class="md:w-1/2 md:pl-12 pl-10">
-            <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Dec 2023 &mdash; May 2024 &bull; Nepal</div>
-            <h3 class="text-xl sm:text-2xl font-semibold text-gray-900 mt-2">Research Assistant &mdash; Energy Systems &amp; Technology Research Lab</h3>
-            <div class="text-gray-700 font-medium mt-1">Kathmandu University</div>
-            <p class="text-gray-600 mt-3 leading-relaxed text-sm sm:text-base">Research on storage pathways + combustion modelling with validation-first reasoning.</p>
+        <div class="relative flex flex-col md:flex-row-reverse md:items-start gap-6 mb-12">
+          <div class="md:w-1/2 md:pl-14 pl-12">
+            <div class="text-xs font-bold text-teal-600 uppercase tracking-widest">Dec 2023 &mdash; May 2024 &bull; Nepal</div>
+            <h3 class="text-xl sm:text-2xl font-semibold text-slate-900 mt-2 serif">Research Assistant &mdash; Energy Systems &amp; Technology Research Lab</h3>
+            <div class="text-slate-600 font-medium mt-1">Kathmandu University</div>
+            <p class="text-slate-500 mt-3 leading-relaxed text-sm">Research on storage pathways + combustion modelling with validation-first reasoning.</p>
           </div>
           <div class="absolute left-0 md:left-1/2 md:-translate-x-1/2 top-2">
-            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gray-900 text-white flex items-center justify-center ring-4 ring-white border border-gray-200">
-              <i data-lucide="flask-conical" class="w-4 h-4 sm:w-5 sm:h-5"></i>
-            </div>
+            <div class="timeline-dot ring-4 ring-white"><i data-lucide="flask-conical" class="w-4 h-4 sm:w-5 sm:h-5"></i></div>
           </div>
-          <div class="md:w-1/2 md:pr-12 md:text-right pl-10 md:pl-0">
-            <div class="bg-gray-50 border border-gray-200 rounded-2xl p-5 sm:p-6 text-left md:text-right">
-              <div class="text-sm font-semibold text-gray-900">Key contributions</div>
-              <ul class="mt-3 text-gray-600 space-y-2 leading-relaxed text-sm">
+          <div class="md:w-1/2 md:pr-14 md:text-right pl-12 md:pl-0">
+            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 sm:p-6 text-left md:text-right">
+              <div class="text-sm font-semibold text-slate-800">Key contributions</div>
+              <ul class="mt-3 text-slate-500 space-y-1.5 leading-relaxed text-sm">
                 <li>&bull; Reviewed TES pathways (sensible, PCM, thermochemical) for residential heating.</li>
                 <li>&bull; Combustion/flame propagation of H&#8322;/CH&#8324; mixtures in OpenFOAM; validated vs. Sandia Flame D.</li>
               </ul>
               <div class="mt-4 flex flex-wrap gap-2 justify-start md:justify-end">
-                <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">OpenFOAM</span>
-                <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">Combustion</span>
-                <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">TES review</span>
+                <span class="tag-pill">OpenFOAM</span>
+                <span class="tag-pill">Combustion</span>
+                <span class="tag-pill">TES review</span>
               </div>
             </div>
           </div>
         </div>
 
         <!-- ITEM 5 -->
-        <div class="relative flex flex-col md:flex-row md:items-start gap-6 mb-10 sm:mb-12">
-          <div class="md:w-1/2 md:pr-12 md:text-right pl-10 md:pl-0">
-            <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Dec 2022 &mdash; Feb 2023 &bull; IIT Bombay, India</div>
-            <h3 class="text-xl sm:text-2xl font-semibold text-gray-900 mt-2">CFD Research Intern (FOSSEE Internship)</h3>
-            <div class="text-gray-700 font-medium mt-1">Indian Institute of Technology Bombay</div>
-            <p class="text-gray-600 mt-3 leading-relaxed text-sm sm:text-base">Built OpenFOAM pipelines from geometry &rarr; mesh &rarr; simulation &rarr; reporting.</p>
+        <div class="relative flex flex-col md:flex-row md:items-start gap-6 mb-12">
+          <div class="md:w-1/2 md:pr-14 md:text-right pl-12 md:pl-0">
+            <div class="text-xs font-bold text-teal-600 uppercase tracking-widest">Dec 2022 &mdash; Feb 2023 &bull; IIT Bombay, India</div>
+            <h3 class="text-xl sm:text-2xl font-semibold text-slate-900 mt-2 serif">CFD Research Intern (FOSSEE Internship)</h3>
+            <div class="text-slate-600 font-medium mt-1">Indian Institute of Technology Bombay</div>
+            <p class="text-slate-500 mt-3 leading-relaxed text-sm">Built OpenFOAM pipelines from geometry &rarr; mesh &rarr; simulation &rarr; reporting.</p>
           </div>
           <div class="absolute left-0 md:left-1/2 md:-translate-x-1/2 top-2">
-            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gray-900 text-white flex items-center justify-center ring-4 ring-white border border-gray-200">
-              <i data-lucide="cpu" class="w-4 h-4 sm:w-5 sm:h-5"></i>
-            </div>
+            <div class="timeline-dot ring-4 ring-white"><i data-lucide="cpu" class="w-4 h-4 sm:w-5 sm:h-5"></i></div>
           </div>
-          <div class="md:w-1/2 md:pl-12 pl-10">
-            <div class="bg-gray-50 border border-gray-200 rounded-2xl p-5 sm:p-6">
-              <div class="text-sm font-semibold text-gray-900">Key contributions</div>
-              <ul class="mt-3 text-gray-600 space-y-2 leading-relaxed text-sm">
+          <div class="md:w-1/2 md:pl-14 pl-12">
+            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 sm:p-6">
+              <div class="text-sm font-semibold text-slate-800">Key contributions</div>
+              <ul class="mt-3 text-slate-500 space-y-1.5 leading-relaxed text-sm">
                 <li>&bull; OpenFOAM: geometry import, blockMesh, snappyHexMesh, multiphase simulations.</li>
               </ul>
               <div class="mt-4 flex flex-wrap gap-2">
-                <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">blockMesh</span>
-                <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">snappyHexMesh</span>
-                <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">interFoam</span>
-                <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">multiphaseEulerFoam</span>
+                <span class="tag-pill">blockMesh</span>
+                <span class="tag-pill">snappyHexMesh</span>
+                <span class="tag-pill">interFoam</span>
+                <span class="tag-pill">multiphaseEulerFoam</span>
               </div>
             </div>
           </div>
@@ -595,26 +670,24 @@
 
         <!-- ITEM 6 -->
         <div class="relative flex flex-col md:flex-row-reverse md:items-start gap-6">
-          <div class="md:w-1/2 md:pl-12 pl-10">
-            <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Aug 2019 &mdash; May 2024 &bull; Dhulikhel, Nepal</div>
-            <h3 class="text-xl sm:text-2xl font-semibold text-gray-900 mt-2">BEng Mechanical Engineering (Energy Technology)</h3>
-            <div class="text-gray-700 font-medium mt-1">Kathmandu University</div>
-            <p class="text-gray-600 mt-3 leading-relaxed text-sm sm:text-base">Strong fundamentals across thermo-fluids + energy systems, forming the base for modelling and field implementation work.</p>
+          <div class="md:w-1/2 md:pl-14 pl-12">
+            <div class="text-xs font-bold text-teal-600 uppercase tracking-widest">Aug 2019 &mdash; May 2024 &bull; Dhulikhel, Nepal</div>
+            <h3 class="text-xl sm:text-2xl font-semibold text-slate-900 mt-2 serif">BEng Mechanical Engineering (Energy Technology)</h3>
+            <div class="text-slate-600 font-medium mt-1">Kathmandu University</div>
+            <p class="text-slate-500 mt-3 leading-relaxed text-sm">Strong fundamentals across thermo-fluids + energy systems, forming the base for modelling and field implementation work.</p>
           </div>
           <div class="absolute left-0 md:left-1/2 md:-translate-x-1/2 top-2">
-            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gray-900 text-white flex items-center justify-center ring-4 ring-white border border-gray-200">
-              <i data-lucide="school" class="w-4 h-4 sm:w-5 sm:h-5"></i>
-            </div>
+            <div class="timeline-dot ring-4 ring-white"><i data-lucide="school" class="w-4 h-4 sm:w-5 sm:h-5"></i></div>
           </div>
-          <div class="md:w-1/2 md:pr-12 md:text-right pl-10 md:pl-0">
-            <div class="bg-gray-50 border border-gray-200 rounded-2xl p-5 sm:p-6 text-left md:text-right">
-              <div class="text-sm font-semibold text-gray-900">Core base</div>
+          <div class="md:w-1/2 md:pr-14 md:text-right pl-12 md:pl-0">
+            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 sm:p-6 text-left md:text-right">
+              <div class="text-sm font-semibold text-slate-800">Core base</div>
               <div class="mt-3 flex flex-wrap gap-2 justify-start md:justify-end">
-                <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">Thermodynamics</span>
-                <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">Heat Transfer</span>
-                <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">Fluid Mechanics</span>
-                <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">Numerical Methods</span>
-                <span class="text-xs border border-gray-300 bg-white px-3 py-1.5 rounded-full">Energy Engineering</span>
+                <span class="tag-pill">Thermodynamics</span>
+                <span class="tag-pill">Heat Transfer</span>
+                <span class="tag-pill">Fluid Mechanics</span>
+                <span class="tag-pill">Numerical Methods</span>
+                <span class="tag-pill">Energy Engineering</span>
               </div>
             </div>
           </div>
@@ -624,20 +697,20 @@
     </div>
   </section>
 
-  <!-- Writing (Substack) -->
-  <section id="writing" class="py-16 sm:py-20 md:py-24 bg-gray-50 border-t border-gray-200 px-4 sm:px-6">
+  <!-- ════════════════════════════════════════════════════════ WRITING ══ -->
+  <section id="writing" class="py-16 sm:py-20 md:py-24 section-slate border-t border-slate-200 px-4 sm:px-6">
     <div class="max-w-6xl mx-auto slider-container">
       <div class="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 mb-8 sm:mb-10">
         <div>
-          <div class="section-accent-bar"></div>
-          <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold mb-3 text-gray-900 serif">Writing</h2>
-          <p id="substackStatus" class="text-gray-600 text-sm sm:text-base">Latest posts automatically pulled from Substack.</p>
+          <div class="accent-bar"></div>
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold mb-3 text-slate-900 serif">Writing</h2>
+          <p id="substackStatus" class="text-slate-500 text-sm sm:text-base">Latest posts automatically pulled from Substack.</p>
         </div>
-        <div class="flex items-center gap-2 sm:gap-3">
-          <button class="prev-btn p-3 rounded-full bg-white border border-gray-200 hover:bg-gray-100 text-gray-900 transition-colors" aria-label="Previous"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
-          <button class="next-btn p-3 rounded-full bg-gray-900 hover:bg-gray-800 text-white transition-colors" aria-label="Next"><i data-lucide="arrow-right" class="w-5 h-5"></i></button>
+        <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+          <button class="prev-btn p-3 rounded-full bg-white border border-slate-200 hover:bg-slate-100 transition-colors" aria-label="Previous"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+          <button class="next-btn p-3 rounded-full bg-slate-900 hover:bg-slate-700 text-white transition-colors" aria-label="Next"><i data-lucide="arrow-right" class="w-5 h-5"></i></button>
           <a id="substackOpen" href="https://ashutoshdev.substack.com/archive" target="_blank" rel="noopener"
-             class="inline-flex items-center gap-2 text-sm font-medium bg-white border border-gray-200 px-3 sm:px-4 py-2 rounded-full hover:bg-gray-100 transition-colors">
+             class="inline-flex items-center gap-2 text-sm font-semibold bg-white border border-slate-200 px-3 sm:px-4 py-2 rounded-full hover:bg-slate-100 transition-colors">
             <span>View all</span><i data-lucide="external-link" class="w-4 h-4"></i>
           </a>
         </div>
@@ -648,19 +721,29 @@
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="bg-gray-900 py-10 sm:py-14 text-center border-t border-gray-800">
+  <!-- ════════════════════════════════════════════════════════ FOOTER ══ -->
+  <footer class="section-dark py-12 sm:py-16 text-center border-t border-slate-800">
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
-      <div class="serif text-2xl sm:text-3xl font-medium text-white mb-2">Ashutosh Dev<span class="text-accent">.</span></div>
-      <p class="text-gray-400 text-sm mb-6">Energy &bull; Climate &bull; Development</p>
+      <div class="serif text-2xl sm:text-3xl font-semibold text-white mb-2">Ashutosh Dev<span class="text-accent">.</span></div>
+      <p class="text-slate-400 text-sm mb-7">Energy &bull; Climate &bull; Development</p>
       <div class="flex justify-center space-x-5 sm:space-x-6 mb-8">
-        <a href="mailto:devashutosh31@gmail.com" class="text-gray-400 hover:text-white transition-colors" aria-label="Email"><i data-lucide="mail" class="w-5 h-5 sm:w-6 sm:h-6"></i></a>
-        <a href="https://www.linkedin.com/in/ashutosh-dev-136045193/" target="_blank" rel="noopener" class="text-gray-400 hover:text-white transition-colors" aria-label="LinkedIn"><i data-lucide="linkedin" class="w-5 h-5 sm:w-6 sm:h-6"></i></a>
-        <a href="https://scholar.google.com/citations?user=attWSMsAAAAJ&hl=en" target="_blank" rel="noopener" class="text-gray-400 hover:text-green-400 transition-colors" aria-label="Google Scholar"><i data-lucide="graduation-cap" class="w-5 h-5 sm:w-6 sm:h-6"></i></a>
-        <a href="https://ashutoshdev.substack.com/" target="_blank" rel="noopener" class="text-gray-400 hover:text-white transition-colors" aria-label="Substack"><i data-lucide="pen-tool" class="w-5 h-5 sm:w-6 sm:h-6"></i></a>
-        <a href="https://github.com/ashutosh581" target="_blank" rel="noopener" class="text-gray-400 hover:text-white transition-colors" aria-label="GitHub"><i data-lucide="github" class="w-5 h-5 sm:w-6 sm:h-6"></i></a>
+        <a href="mailto:devashutosh31@gmail.com" class="text-slate-500 hover:text-white transition-colors" aria-label="Email">
+          <i data-lucide="mail" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/ashutosh-dev-136045193/" target="_blank" rel="noopener" class="text-slate-500 hover:text-white transition-colors" aria-label="LinkedIn">
+          <i data-lucide="linkedin" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+        </a>
+        <a href="https://scholar.google.com/citations?user=attWSMsAAAAJ&hl=en" target="_blank" rel="noopener" class="text-slate-500 hover:text-teal-400 transition-colors" aria-label="Google Scholar">
+          <i data-lucide="graduation-cap" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+        </a>
+        <a href="https://ashutoshdev.substack.com/" target="_blank" rel="noopener" class="text-slate-500 hover:text-white transition-colors" aria-label="Substack">
+          <i data-lucide="pen-tool" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+        </a>
+        <a href="https://github.com/ashutosh581" target="_blank" rel="noopener" class="text-slate-500 hover:text-white transition-colors" aria-label="GitHub">
+          <i data-lucide="github" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+        </a>
       </div>
-      <p class="text-gray-500 text-sm">&copy; <span id="year"></span> Ashutosh Dev. New Zealand Award Scholar.</p>
+      <p class="text-slate-600 text-xs">&copy; <span id="year"></span> Ashutosh Dev. New Zealand Award Scholar.</p>
     </div>
   </footer>
 
