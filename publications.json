@@ -17,7 +17,7 @@
     "doi": "10.11648/j.ajme.20230904.11",
     "url": "https://doi.org/10.11648/j.ajme.20230904.11",
     "thumbnail": "assets/photo.jpg",
-    "citations": 3
+    "citations": 0
   },
   {
     "title": "Compatibility of Synthetic Natural Gas with Conventional LPG Burners",
@@ -50,5 +50,45 @@
     "thumbnail": "",
     "citations": 0,
     "_note": "PLACEHOLDER — update title, journal, doi, url, and thumbnail from your Google Scholar profile (paper 5 of 5)"
+  },
+  {
+    "title": "Exploring aluminum as a solid thermal storage medium for solar cooking application: An experimental investigation coupled with numerical modeling using OpenFOAM",
+    "journal": "",
+    "year": "2024",
+    "authors": "",
+    "doi": "",
+    "url": "",
+    "thumbnail": "",
+    "citations": 1
+  },
+  {
+    "title": "Numerical Investigation of Compatibility of Synthetic Natural Gas with Conventional Liquefied Petroleum Gas Burners",
+    "journal": "",
+    "year": "2023",
+    "authors": "",
+    "doi": "",
+    "url": "",
+    "thumbnail": "",
+    "citations": 1
+  },
+  {
+    "title": "Modelling sustainable electric mobility transition in Nepal: Grid seasonality, systemic constraints and endogenous policy feedback within a bifurcated transport fleet",
+    "journal": "",
+    "year": "2026",
+    "authors": "",
+    "doi": "",
+    "url": "",
+    "thumbnail": "",
+    "citations": 0
+  },
+  {
+    "title": "Energy Storage Potential of Used Electric Vehicle Batteries for Supporting Surplus Hydro-Energy in Nepal",
+    "journal": "",
+    "year": "",
+    "authors": "",
+    "doi": "",
+    "url": "",
+    "thumbnail": "",
+    "citations": 0
   }
 ]
