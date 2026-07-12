@@ -21,6 +21,7 @@
   <div class="nav-inner">
     <a href="#top" class="brand">Ashutosh&nbsp;Dev</a>
     <nav class="nav-menu" aria-label="Primary">
+      <a href="#about" data-nav>About</a>
       <a href="#consulting" data-nav>Consulting</a>
       <a href="#publications" data-nav>Publications</a>
       <a href="#writing" data-nav>Writing</a>
@@ -32,6 +33,7 @@
     </button>
   </div>
   <div class="nav-drawer" id="navDrawer">
+    <a href="#about">About</a>
     <a href="#consulting">Consulting</a>
     <a href="#publications">Publications</a>
     <a href="#writing">Writing</a>
@@ -77,11 +79,51 @@
   </div>
 </section>
 
-<!-- ═══════════ 01 · CONSULTING ═══════════ -->
+<!-- ═══════════ 01 · ABOUT ═══════════ -->
+<section id="about" class="band">
+  <div class="wrap about-grid">
+    <figure class="about-photo reveal">
+      <!-- Upload assets/about.jpg to change this photo (falls back to a field photo) -->
+      <img src="assets/about.jpg" alt="Ashutosh Dev at work"
+           onerror="this.onerror=null; this.src='assets/carbon-04-training.jpg';">
+    </figure>
+    <div class="reveal reveal-delay-1">
+      <div class="section-head about-head">
+        <p class="section-no">01 — About</p>
+        <h2>A bit about me</h2>
+      </div>
+      <div class="about-text">
+        <p>
+          I trained as a mechanical engineer in Nepal and grew into research the
+          practical way — building experiments, running simulations, and taking
+          the results into villages, ministries, and journals. My work sits at
+          the junction of <strong>energy systems, climate policy, and
+          development practice</strong>: thermal storage and clean cooking,
+          carbon-market MRV frameworks, energy vulnerability in the Hindu Kush
+          Himalaya, and the politics that shape all of it.
+        </p>
+        <p>
+          Alongside research and consulting, I write — op-eds and commentary in
+          Nepali and English press, essays on my Substack, and the occasional
+          creative piece. I'm currently an MSc Renewable Energy Systems
+          candidate at Victoria University of Wellington as a New Zealand
+          Award Scholar.
+        </p>
+      </div>
+      <ul class="about-facts">
+        <li><span>Focus</span>Energy systems · Carbon markets · Climate policy</li>
+        <li><span>Methods</span>CFD &amp; systems modelling · Field assessment · Geospatial analysis</li>
+        <li><span>Based</span>Wellington, New Zealand · Kathmandu, Nepal</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 02 · CONSULTING ═══════════ -->
 <section id="consulting" class="band band-tint">
   <div class="wrap">
     <div class="section-head reveal">
-      <p class="section-no">01 — Practice</p>
+      <p class="section-no">02 — Practice</p>
       <h2>Selected Consultation Work</h2>
       <p class="section-sub">Reports, field assessments, and analytical projects. Each card links to the report or an interactive output.</p>
     </div>
@@ -91,48 +133,36 @@
   </div>
 </section>
 
-<!-- ═══════════ 02 · PUBLICATIONS ═══════════ -->
+<!-- ═══════════ 03 · PUBLICATIONS ═══════════ -->
 <section id="publications" class="band">
   <div class="wrap">
     <div class="section-head reveal">
-      <p class="section-no">02 — Research</p>
+      <p class="section-no">03 — Research</p>
       <h2>Academic Publications</h2>
       <p class="section-sub">
-        Peer-reviewed work, updated automatically from
+        The list below is rendered live by <a href="https://bibbase.org" target="_blank" rel="noopener">BibBase</a>
+        from my Zotero library — new papers appear automatically. Also on
         <a href="https://scholar.google.com/citations?user=attWSMsAAAAJ" target="_blank" rel="noopener">Google&nbsp;Scholar</a>.
-        Scroll the gallery, or open the full bibliography below.
       </p>
     </div>
 
-    <div class="scroller-shell reveal">
-      <div class="scroller" id="pubGallery" tabindex="0">
-        <p class="loading-note">Loading publications…</p>
-      </div>
-      <div class="scroller-nav">
-        <button class="scroll-btn" data-target="pubGallery" data-dir="-1" aria-label="Previous">←</button>
-        <button class="scroll-btn" data-target="pubGallery" data-dir="1" aria-label="Next">→</button>
-      </div>
+    <!-- BibBase publication list (Zotero-backed). Scrollable panel. -->
+    <div class="bibbase-scroller reveal" id="bibbaseScroller" tabindex="0">
+      <p class="loading-note" id="bibbaseNote">Loading publication list…</p>
+      <script src="https://bibbase.org/show?bib=https%3A%2F%2Fapi.zotero.org%2Fusers%2F18423835%2Fcollections%2FNDPBJ35N%2Fitems%3Fkey%3DtNHqMVAuVDGaGqoYXyggZeWw%26format%3Dbibtex%26limit%3D100&jsonp=1"></script>
+      <noscript>
+        View my publications on
+        <a href="https://scholar.google.com/citations?user=attWSMsAAAAJ">Google Scholar</a>.
+      </noscript>
     </div>
-
-    <!-- BibBase renders publications.bib as the full formatted bibliography. -->
-    <details class="bib-details reveal">
-      <summary>Full bibliography <span class="bib-note">(BibBase · publications.bib)</span></summary>
-      <div class="bibbase-wrap">
-        <script src="https://bibbase.org/show?bib=https%3A%2F%2Fashutoshdev.com.np%2Fpublications.bib&jsonp=1"></script>
-        <noscript>
-          <a href="publications.bib">Download the BibTeX file</a> or view
-          <a href="https://scholar.google.com/citations?user=attWSMsAAAAJ">Google Scholar</a>.
-        </noscript>
-      </div>
-    </details>
   </div>
 </section>
 
-<!-- ═══════════ 03 · OP-EDS & ARTICLES ═══════════ -->
+<!-- ═══════════ 04 · OP-EDS & ARTICLES ═══════════ -->
 <section id="writing" class="band band-tint">
   <div class="wrap">
     <div class="section-head reveal">
-      <p class="section-no">03 — Commentary</p>
+      <p class="section-no">04 — Commentary</p>
       <h2>Selected Op-Eds &amp; Articles</h2>
       <p class="section-sub">Published commentary and essays, filed under four topics. Each topic has its own archive page.</p>
     </div>
@@ -160,16 +190,16 @@
   </div>
 </section>
 
-<!-- ═══════════ 04 · SUBSTACK ═══════════ -->
+<!-- ═══════════ 05 · SUBSTACK ═══════════ -->
 <section id="substack" class="band">
   <div class="wrap">
     <div class="section-head reveal">
-      <p class="section-no">04 — Newsletter</p>
+      <p class="section-no">05 — Newsletter</p>
       <h2>Latest from Substack</h2>
       <p class="section-sub">
         Pulled automatically from
         <a href="https://ashutoshdev.substack.com" target="_blank" rel="noopener">ashutoshdev.substack.com</a> —
-        nothing to maintain here.
+        a daily GitHub Action refreshes the feed, nothing to maintain here.
       </p>
     </div>
 
@@ -202,6 +232,7 @@
     <div class="footer-col">
       <h4>Pages</h4>
       <ul>
+        <li><a href="#about">About</a></li>
         <li><a href="#consulting">Consulting Work</a></li>
         <li><a href="#publications">Publications</a></li>
         <li><a href="writing/climate/">Writing — Climate</a></li>
@@ -229,7 +260,6 @@
 </footer>
 
 <button class="to-top" id="toTop" aria-label="Back to top">↑</button>
-<div class="toast" id="toast" role="status"></div>
 
 <script src="script.js"></script>
 </body>

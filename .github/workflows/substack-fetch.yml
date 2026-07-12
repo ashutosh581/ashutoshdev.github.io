@@ -1,0 +1,34 @@
+name: Fetch Substack Posts
+
+# Runs daily at 03:00 UTC and can be triggered manually from the Actions tab.
+on:
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch-substack:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Fetch latest posts from Substack
+        run: python scripts/fetch_substack.py
+
+      - name: Commit updated data/substack.json (if changed)
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/substack.json
+          git diff --cached --quiet || git commit -m "chore: update substack posts [skip ci]"
+          git push

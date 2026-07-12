@@ -5,8 +5,9 @@ touch HTML to add content. Edit the files below directly on GitHub
 (open the file → pencil icon → commit), and the site updates automatically
 within a minute or two of the commit.
 
-**Automatic (nothing to do):** Google Scholar publications (weekly GitHub
-Action) and Substack posts (fetched live in the browser).
+**Automatic (nothing to do):** the publication list (BibBase renders your
+Zotero collection live), the publication/citation stats (weekly GitHub
+Action from Google Scholar), and Substack posts (daily GitHub Action).
 **Manual (edit a JSON file / upload a file):** consulting reports, op-eds
 and articles, photos, CV.
 
@@ -60,24 +61,26 @@ Edit **`data/articles.json`**:
 
 ## 3. Update publications
 
-Two mechanisms, both already wired up:
+The visible publication list is rendered by **BibBase** directly from your
+**Zotero** collection (user `18423835`, collection `NDPBJ35N`):
 
-1. **`publications.json`** — auto-updated weekly (Mondays 02:00 UTC) from
-   Google Scholar by the GitHub Action
-   (`.github/workflows/scholar-fetch.yml`). Drives the thumbnail gallery
-   and the stats strip. You can also edit it manually to add thumbnails
-   (`"thumbnail": "assets/…"`) or fix metadata — manual edits are
-   preserved by the Action.
-2. **`publications.bib`** — the BibTeX file rendered by **BibBase** as the
-   full formatted bibliography (the "Full bibliography" panel). Add a
-   standard BibTeX entry per new paper.
+- **To add a paper:** add it to that Zotero collection — the site updates
+  itself, no commit needed.
+- The **stats strip** (publication + citation counts) comes from
+  `publications.json`, auto-updated weekly (Mondays 02:00 UTC) from Google
+  Scholar by `.github/workflows/scholar-fetch.yml`. You can edit it
+  manually to fix metadata; manual edits are preserved by the Action.
 
 ## 4. Substack
 
-Nothing to do — the site pulls your latest posts from
-`ashutoshdev.substack.com` automatically in the browser.
+Nothing to do — `.github/workflows/substack-fetch.yml` pulls your latest
+posts from `ashutoshdev.substack.com` every day at 03:00 UTC and commits
+them to `data/substack.json`. To refresh immediately: GitHub → **Actions**
+→ *Fetch Substack Posts* → **Run workflow**.
 
 ## 5. Photos & CV
 
 - Hero portrait: replace `assets/headshot.jpg` (keep the same filename).
+- About-section photo: upload **`assets/about.jpg`** (until it exists, the
+  site shows a field photo as fallback).
 - CV: replace `assets/resume.pdf` (keep the same filename).

@@ -1,11 +1,14 @@
 /* Ashutosh Dev — site logic
    Data sources (all auto-rendered, no HTML edits needed to add content):
-     publications.json    → publications gallery + stats (refreshed weekly by
-                            .github/workflows/scholar-fetch.yml from Google Scholar)
+     publications.json    → stats strip only (refreshed weekly by
+                            .github/workflows/scholar-fetch.yml from Google Scholar);
+                            the visible publication list is BibBase (Zotero), embedded in index.html
      data/consulting.json → selected consultation work cards
      data/articles.json   → op-eds & articles, tagged by category
                             (climate / energy / politics / creative)
-     Substack RSS/API     → newsletter cards
+     data/substack.json   → newsletter cards (refreshed daily by
+                            .github/workflows/substack-fetch.yml); falls back to
+                            fetching the Substack feed directly in the browser
    Paths resolve against document.body.dataset.root so the same script works on
    the homepage ("") and on writing/<topic>/ sub-pages ("../../"). */
 
@@ -156,102 +159,36 @@
     });
   }
 
-  // ── Toast + BibTeX copy ───────────────────────────────────────────────────
-  function showToast(msg) {
-    const toast = document.getElementById("toast");
-    if (!toast) return;
-    toast.textContent = msg;
-    toast.classList.add("show");
-    setTimeout(() => toast.classList.remove("show"), 2200);
-  }
-
-  function generateBibTeX(pub) {
-    const firstAuthor = (pub.authors || "Dev, Ashutosh").split(",")[0].trim();
-    const surname = (firstAuthor.split(" ").pop() || "dev").toLowerCase().replace(/[^a-z]/g, "");
-    const year = pub.year || "";
-    const firstWord = (String(pub.title || "article").toLowerCase().match(/[a-z0-9]+/) || ["article"])[0];
-    const lines = [
-      `@article{${surname}${year}${firstWord},`,
-      `  title   = {${pub.title || ""}},`,
-      `  author  = {${pub.authors || ""}},`,
-      `  journal = {${pub.journal || ""}},`,
-      `  year    = {${year}},`,
-    ];
-    if (pub.doi && !String(pub.doi).startsWith("TODO")) {
-      lines.push(`  doi     = {${pub.doi}},`);
-    }
-    lines.push("}");
-    return lines.join("\n");
-  }
-
-  function initBibButtons() {
-    document.addEventListener("click", async (e) => {
-      const btn = e.target.closest(".bib-btn");
-      if (!btn || !btn.dataset.bibtex) return;
-      e.preventDefault();
-      e.stopPropagation();
-
-      const bibtex = decodeURIComponent(btn.dataset.bibtex);
-      try {
-        await navigator.clipboard.writeText(bibtex);
-      } catch (_) {
-        const ta = document.createElement("textarea");
-        ta.value = bibtex;
-        ta.style.cssText = "position:fixed;opacity:0;";
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand("copy");
-        ta.remove();
+  // ── BibBase loading note ──────────────────────────────────────────────────
+  // BibBase injects its list next to its <script> tag. Remove the "loading"
+  // note once content shows up; offer a Scholar link if it never does.
+  function initBibbaseWatch() {
+    const note = document.getElementById("bibbaseNote");
+    const scroller = document.getElementById("bibbaseScroller");
+    if (!note || !scroller) return;
+    const started = Date.now();
+    const timer = setInterval(() => {
+      const loaded = scroller.querySelector('[class*="bibbase"]') ||
+        scroller.children.length > 3;
+      if (loaded) {
+        note.remove();
+        clearInterval(timer);
+      } else if (Date.now() - started > 10000) {
+        note.innerHTML = `Couldn't load the publication list — view it on
+          <a href="https://scholar.google.com/citations?user=attWSMsAAAAJ" target="_blank" rel="noopener">Google Scholar</a>.`;
+        clearInterval(timer);
       }
-      btn.classList.add("copied");
-      const orig = btn.textContent;
-      btn.textContent = "Copied";
-      showToast("BibTeX copied to clipboard");
-      setTimeout(() => { btn.classList.remove("copied"); btn.textContent = orig; }, 2000);
-    });
+    }, 500);
   }
 
-  // ── Publications gallery + stats ──────────────────────────────────────────
+  // ── Publication stats (list itself is rendered by BibBase) ───────────────
   function isUsablePub(p) {
     // Scholar auto-fetch sometimes appends sparse duplicates — require a title
     // and skip explicit placeholders.
     return p && p.title && !p._note;
   }
 
-  function renderPubCard(pub) {
-    const title = escapeHtml(pub.title);
-    const journal = escapeHtml(pub.journal || "");
-    const year = escapeHtml(String(pub.year || ""));
-    const authors = escapeHtml(pub.authors || "");
-    const url = pub.url || (pub.doi ? `https://doi.org/${pub.doi}` : "https://scholar.google.com/citations?user=attWSMsAAAAJ");
-    const citations = pub.citations != null ? Number(pub.citations) : null;
-    const thumb = pub.thumbnail ? ROOT + pub.thumbnail : "";
-    const bib = encodeURIComponent(generateBibTeX(pub));
-
-    const thumbHtml = thumb
-      ? `<img src="${escapeHtml(thumb)}" alt="${title}" class="pub-thumb" loading="lazy"
-             onerror="this.outerHTML='<div class=\\'pub-thumb-fallback\\'>${journal || "Journal Article"}</div>'">`
-      : `<div class="pub-thumb-fallback">${journal || "Journal Article"}</div>`;
-
-    const meta = [journal, year].filter(Boolean).join(" · ");
-
-    return `
-      <a href="${escapeHtml(url)}" target="_blank" rel="noopener" class="pub-card" data-slide>
-        ${thumbHtml}
-        <div class="pub-body">
-          ${meta ? `<p class="pub-journal">${meta}</p>` : ""}
-          <h3 class="pub-title">${title}</h3>
-          ${authors ? `<p class="pub-authors">${authors}</p>` : ""}
-          <div class="pub-foot">
-            <span class="pub-cite-count">${citations != null ? `${citations} citation${citations === 1 ? "" : "s"}` : ""}</span>
-            <button class="bib-btn" data-bibtex="${bib}" title="Copy BibTeX">BibTeX</button>
-          </div>
-        </div>
-      </a>`;
-  }
-
-  async function loadPublications() {
-    const gallery = document.getElementById("pubGallery");
+  async function loadPublicationStats() {
     try {
       const pubs = (await fetchJson("publications.json")).filter(isUsablePub);
       // De-duplicate near-identical Scholar re-fetches by normalised title prefix
@@ -262,20 +199,10 @@
         seen.add(key);
         return true;
       });
-      unique.sort((a, b) => (Number(b.year) || 0) - (Number(a.year) || 0));
-
-      if (gallery) {
-        gallery.innerHTML = unique.length
-          ? unique.map(renderPubCard).join("")
-          : `<p class="loading-note">Publications will appear here once publications.json has entries.</p>`;
-      }
-
       const totalCites = unique.reduce((s, p) => s + (Number(p.citations) || 0), 0);
       setStat("statPubs", unique.length);
       setStat("statCites", totalCites);
-    } catch (err) {
-      if (gallery) gallery.innerHTML = `<p class="loading-note">Could not load publications.json.</p>`;
-    }
+    } catch (err) { /* stats stay at the placeholder dash */ }
   }
 
   // ── Consulting work ───────────────────────────────────────────────────────
@@ -482,6 +409,14 @@
   }
 
   async function fetchSubstackPosts() {
+    // Primary source: data/substack.json, refreshed daily by the
+    // substack-fetch GitHub Action (no CORS issues, works everywhere).
+    try {
+      const cached = await fetchJson("data/substack.json");
+      const arr = Array.isArray(cached) ? cached : cached?.posts;
+      if (Array.isArray(arr) && arr.length) return arr.map(normalizePost);
+    } catch (_) {}
+    // Fallbacks: fetch the Substack API/feed directly from the browser.
     const jsonUrls = [
       `${SUBSTACK_BASE}/api/v1/archive`,
       `https://r.jina.ai/${SUBSTACK_BASE}/api/v1/archive`,
@@ -528,8 +463,8 @@
     initNav();
     initReveal();
     initScrollers();
-    initBibButtons();
-    loadPublications();
+    initBibbaseWatch();
+    loadPublicationStats();
     loadConsulting();
     loadArticles();
     loadSubstack();
