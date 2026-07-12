@@ -1,9 +1,8 @@
 /* Ashutosh Dev — site logic
    Data sources (all auto-rendered, no HTML edits needed to add content):
-     publications.json    → stats strip only (refreshed weekly by
-                            .github/workflows/scholar-fetch.yml from Google Scholar);
-                            the visible publication list is BibBase (Zotero), embedded in index.html
-     data/consulting.json → selected consultation work cards
+     BibBase (Zotero)     → publication list, embedded directly in index.html
+     data/consulting.json → consultation work gallery cards
+     data/projects.json   → live project status cards
      data/articles.json   → op-eds & articles, tagged by category
                             (climate / energy / politics / creative)
      data/substack.json   → newsletter cards (refreshed daily by
@@ -129,31 +128,6 @@
     }, 2500);
   }
 
-  // ── Stat counters (count up once visible) ─────────────────────────────────
-  function setStat(id, value) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const target = Number(value) || 0;
-    if (REDUCED_MOTION || !("IntersectionObserver" in window)) {
-      el.textContent = String(target);
-      return;
-    }
-    el.textContent = "0";
-    const io = new IntersectionObserver((entries) => {
-      if (!entries.some((e) => e.isIntersecting)) return;
-      io.disconnect();
-      const start = performance.now();
-      const dur = 900;
-      const tick = (now) => {
-        const t = Math.min((now - start) / dur, 1);
-        el.textContent = String(Math.round(target * (1 - Math.pow(1 - t, 3))));
-        if (t < 1) requestAnimationFrame(tick);
-      };
-      requestAnimationFrame(tick);
-    }, { threshold: 0.5 });
-    io.observe(el);
-  }
-
   // ── Horizontal scroller buttons ───────────────────────────────────────────
   function initScrollers() {
     $$(".scroll-btn").forEach((btn) => {
@@ -192,30 +166,6 @@
     }, 500);
   }
 
-  // ── Publication stats (list itself is rendered by BibBase) ───────────────
-  function isUsablePub(p) {
-    // Scholar auto-fetch sometimes appends sparse duplicates — require a title
-    // and skip explicit placeholders.
-    return p && p.title && !p._note;
-  }
-
-  async function loadPublicationStats() {
-    try {
-      const pubs = (await fetchJson("publications.json")).filter(isUsablePub);
-      // De-duplicate near-identical Scholar re-fetches by normalised title prefix
-      const seen = new Set();
-      const unique = pubs.filter((p) => {
-        const key = p.title.toLowerCase().replace(/[^a-z0-9]/g, "").slice(0, 60);
-        if (seen.has(key)) return false;
-        seen.add(key);
-        return true;
-      });
-      const totalCites = unique.reduce((s, p) => s + (Number(p.citations) || 0), 0);
-      setStat("statPubs", unique.length);
-      setStat("statCites", totalCites);
-    } catch (err) { /* stats stay at the placeholder dash */ }
-  }
-
   // ── Consulting work ───────────────────────────────────────────────────────
   function renderConsultCard(item) {
     const title = escapeHtml(item.title || "Untitled project");
@@ -242,7 +192,7 @@
       : `<span class="consult-link pending">Material coming soon</span>`;
 
     return `
-      <article class="consult-card">
+      <article class="consult-card" data-slide>
         ${imgHtml}
         <div class="consult-body">
           ${meta ? `<p class="consult-meta">${meta}</p>` : ""}
@@ -255,15 +205,52 @@
   }
 
   async function loadConsulting() {
-    const grid = document.getElementById("consultingGrid");
-    if (!grid) return;
+    const track = document.getElementById("consultingTrack");
+    if (!track) return;
     try {
       const items = await fetchJson("data/consulting.json");
       if (!Array.isArray(items) || !items.length) throw new Error("empty");
-      grid.innerHTML = items.map(renderConsultCard).join("");
-      setStat("statProjects", items.filter((i) => !i._sample).length || items.length);
+      track.innerHTML = items.map(renderConsultCard).join("");
     } catch (err) {
-      grid.innerHTML = `<p class="loading-note">Add entries to <code>data/consulting.json</code> and they will appear here.</p>`;
+      track.innerHTML = `<p class="loading-note">Add entries to <code>data/consulting.json</code> and they will appear here.</p>`;
+    }
+  }
+
+  // ── Live projects ─────────────────────────────────────────────────────────
+  const STATUS_LABELS = { live: "Live", ongoing: "In progress", completed: "Completed" };
+
+  function renderProjectCard(p) {
+    const title = escapeHtml(p.title || "Untitled project");
+    const desc = escapeHtml(p.description || "");
+    const status = (p.status || "ongoing").toLowerCase();
+    const label = STATUS_LABELS[status] || escapeHtml(p.status);
+    const updated = p.updated ? `Updated ${formatDate(p.updated)}` : "";
+    const link = p.link || "";
+    const href = link && !link.startsWith("http") ? ROOT + link : link;
+    const linkLabel = escapeHtml(p.linkLabel || "Open project →");
+
+    return `
+      <article class="project-card">
+        <div class="project-top">
+          <span class="status-badge status-${escapeHtml(status)}"><span class="dot"></span>${label}</span>
+          ${updated ? `<span class="project-updated">${escapeHtml(updated)}</span>` : ""}
+        </div>
+        <h3 class="project-title">${title}</h3>
+        ${desc ? `<p class="project-desc">${desc}</p>` : ""}
+        ${Array.isArray(p.tags) && p.tags.length ? `<div class="consult-tags">${p.tags.map((t) => `<span class="mini-tag">${escapeHtml(t)}</span>`).join("")}</div>` : ""}
+        ${href ? `<a class="project-link" href="${escapeHtml(href)}" target="_blank" rel="noopener">${linkLabel}</a>` : ""}
+      </article>`;
+  }
+
+  async function loadProjects() {
+    const grid = document.getElementById("projectsGrid");
+    if (!grid) return;
+    try {
+      const items = await fetchJson("data/projects.json");
+      if (!Array.isArray(items) || !items.length) throw new Error("empty");
+      grid.innerHTML = items.map(renderProjectCard).join("");
+    } catch (err) {
+      grid.innerHTML = `<p class="loading-note">Add entries to <code>data/projects.json</code> and they will appear here.</p>`;
     }
   }
 
@@ -355,7 +342,6 @@
           : `<p class="loading-note">No ${cat} pieces published yet — add them to <code>data/articles.json</code>.</p>`;
       }
 
-      setStat("statArticles", ALL_ARTICLES.filter((a) => !a._sample).length || ALL_ARTICLES.length);
     } catch (err) {
       if (list) list.innerHTML = `<p class="loading-note">Add entries to <code>data/articles.json</code> and they will appear here.</p>`;
     }
@@ -475,8 +461,8 @@
     initReveal();
     initScrollers();
     initBibbaseWatch();
-    loadPublicationStats();
     loadConsulting();
+    loadProjects();
     loadArticles();
     loadSubstack();
   });

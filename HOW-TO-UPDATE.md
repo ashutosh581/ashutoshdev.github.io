@@ -66,10 +66,26 @@ The visible publication list is rendered by **BibBase** directly from your
 
 - **To add a paper:** add it to that Zotero collection — the site updates
   itself, no commit needed.
-- The **stats strip** (publication + citation counts) comes from
-  `publications.json`, auto-updated weekly (Mondays 02:00 UTC) from Google
-  Scholar by `.github/workflows/scholar-fetch.yml`. You can edit it
-  manually to fix metadata; manual edits are preserved by the Action.
+
+## 3b. Add / update a live project
+
+Edit **`data/projects.json`** (the "Live Projects" section):
+
+```json
+{
+  "title": "Project name",
+  "status": "live",
+  "updated": "2025-06-01",
+  "description": "One or two sentences about the project.",
+  "link": "https://… or a file in this repo",
+  "linkLabel": "Open the live map →",
+  "tags": ["Geospatial", "Energy Access"]
+}
+```
+
+- `status` is one of **`live`** (green pulsing badge), **`ongoing`**
+  (amber "In progress"), or **`completed`**.
+- Change `updated` whenever you touch the project — it shows on the card.
 
 ## 4. Substack
 

@@ -1,0 +1,11 @@
+[
+  {
+    "title": "HKH Energy Vulnerability — Interactive Map",
+    "status": "live",
+    "updated": "2025-06-01",
+    "description": "District-level interactive map of the Hindu Kush Himalaya combining an Energy Tier Index (ETI) and Climate Shock Index (CSI), built from the ICIMOD VACA survey. Explore energy vulnerability across the region directly in the browser.",
+    "link": "Figure12_Interactive_Map.html",
+    "linkLabel": "Open the live map →",
+    "tags": ["Geospatial", "Energy Access", "Climate Vulnerability", "ICIMOD VACA"]
+  }
+]
