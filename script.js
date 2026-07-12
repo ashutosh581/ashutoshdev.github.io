@@ -1,7 +1,18 @@
+/* Ashutosh Dev — site logic
+   Data sources (all auto-rendered, no HTML edits needed to add content):
+     publications.json    → publications gallery + stats (refreshed weekly by
+                            .github/workflows/scholar-fetch.yml from Google Scholar)
+     data/consulting.json → selected consultation work cards
+     data/articles.json   → op-eds & articles, tagged by category
+                            (climate / energy / politics / creative)
+     Substack RSS/API     → newsletter cards
+   Paths resolve against document.body.dataset.root so the same script works on
+   the homepage ("") and on writing/<topic>/ sub-pages ("../../"). */
+
 (() => {
   const SUBSTACK_BASE = "https://ashutoshdev.substack.com";
+  const ROOT = document.body.dataset.root || "";
 
-  // ── Helpers ──────────────────────────────────────────────────────────────────
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
@@ -21,251 +32,401 @@
     return d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "2-digit" });
   }
 
-  function initIcons() {
-    if (window.lucide && typeof window.lucide.createIcons === "function") {
-      window.lucide.createIcons();
-    }
+  async function fetchJson(path) {
+    const res = await fetch(ROOT + path, { cache: "no-store" });
+    if (!res.ok) throw new Error(`HTTP ${res.status}: ${path}`);
+    return await res.json();
   }
 
+  const REDUCED_MOTION = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // ── Chrome: year, nav, progress bar, back-to-top ──────────────────────────
   function initYear() {
     const el = document.getElementById("year");
     if (el) el.textContent = new Date().getFullYear();
   }
 
-  // ── Slider / horizontal scroll ────────────────────────────────────────────────
-  function initSliders() {
-    $$(".slider-container").forEach((container) => {
-      const track = $(".slider-track", container);
-      if (!track) return;
+  function initNav() {
+    const nav = document.getElementById("siteNav");
+    const toggle = document.getElementById("navToggle");
+    const drawer = document.getElementById("navDrawer");
+    const progress = document.getElementById("scrollProgress");
+    const toTop = document.getElementById("toTop");
 
-      const prevBtns = $$(".prev-btn", container);
-      const nextBtns = $$(".next-btn", container);
-
-      const getGap = () => {
-        const cs = window.getComputedStyle(track);
-        const gap = parseFloat(cs.gap || cs.columnGap || "24");
-        return Number.isFinite(gap) ? gap : 24;
+    if (toggle && drawer) {
+      const setOpen = (open) => {
+        drawer.classList.toggle("open", open);
+        toggle.setAttribute("aria-expanded", String(open));
       };
+      toggle.addEventListener("click", () => setOpen(!drawer.classList.contains("open")));
+      $$("a", drawer).forEach((a) => a.addEventListener("click", () => setOpen(false)));
+    }
 
-      const getScrollAmount = () => {
-        const slide = track.querySelector("[data-slide]") || track.firstElementChild;
-        if (!slide) return 0;
-        return slide.getBoundingClientRect().width + getGap();
-      };
-
-      prevBtns.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          track.scrollBy({ left: -getScrollAmount(), behavior: "smooth" });
-        });
-      });
-
-      nextBtns.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          track.scrollBy({ left: getScrollAmount(), behavior: "smooth" });
-        });
-      });
-    });
-  }
-
-  // ── Mobile hamburger menu ─────────────────────────────────────────────────────
-  function initMobileMenu() {
-    const btn = document.getElementById("hamburger-btn");
-    const menu = document.getElementById("mobile-menu");
-    const icon = document.getElementById("hamburger-icon");
-    if (!btn || !menu) return;
-
-    const close = () => {
-      menu.classList.remove("open");
-      btn.setAttribute("aria-expanded", "false");
-      if (icon) {
-        icon.setAttribute("data-lucide", "menu");
-        initIcons();
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (nav) nav.classList.toggle("scrolled", y > 10);
+      if (toTop) toTop.classList.toggle("show", y > 700);
+      if (progress) {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        progress.style.width = max > 0 ? `${(y / max) * 100}%` : "0";
       }
     };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
 
-    btn.addEventListener("click", () => {
-      const isOpen = menu.classList.contains("open");
-      if (isOpen) {
-        close();
-      } else {
-        menu.classList.add("open");
-        btn.setAttribute("aria-expanded", "true");
-        if (icon) {
-          icon.setAttribute("data-lucide", "x");
-          initIcons();
+    if (toTop) {
+      toTop.addEventListener("click", () =>
+        window.scrollTo({ top: 0, behavior: REDUCED_MOTION ? "auto" : "smooth" }));
+    }
+
+    // Highlight the nav link of the section currently in view
+    const navLinks = $$("[data-nav]");
+    const sections = navLinks
+      .map((a) => document.getElementById(a.getAttribute("href").slice(1)))
+      .filter(Boolean);
+    if (navLinks.length && sections.length && "IntersectionObserver" in window) {
+      const spy = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          navLinks.forEach((a) =>
+            a.classList.toggle("active", a.getAttribute("href") === `#${entry.target.id}`));
+        });
+      }, { rootMargin: "-40% 0px -55% 0px" });
+      sections.forEach((s) => spy.observe(s));
+    }
+  }
+
+  // ── Reveal-on-scroll ──────────────────────────────────────────────────────
+  function initReveal() {
+    const els = $$(".reveal");
+    if (!els.length) return;
+    if (REDUCED_MOTION || !("IntersectionObserver" in window)) {
+      els.forEach((el) => el.classList.add("in"));
+      return;
+    }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in");
+          io.unobserve(entry.target);
         }
-      }
-    });
+      });
+    }, { threshold: 0.08 });
+    els.forEach((el) => io.observe(el));
+  }
 
-    // Close menu when any mobile nav link is clicked
-    $$(".mobile-nav-link", menu).forEach((link) => {
-      link.addEventListener("click", close);
-    });
+  // ── Stat counters (count up once visible) ─────────────────────────────────
+  function setStat(id, value) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const target = Number(value) || 0;
+    if (REDUCED_MOTION || !("IntersectionObserver" in window)) {
+      el.textContent = String(target);
+      return;
+    }
+    el.textContent = "0";
+    const io = new IntersectionObserver((entries) => {
+      if (!entries.some((e) => e.isIntersecting)) return;
+      io.disconnect();
+      const start = performance.now();
+      const dur = 900;
+      const tick = (now) => {
+        const t = Math.min((now - start) / dur, 1);
+        el.textContent = String(Math.round(target * (1 - Math.pow(1 - t, 3))));
+        if (t < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }, { threshold: 0.5 });
+    io.observe(el);
+  }
 
-    // Close menu on outside click
-    document.addEventListener("click", (e) => {
-      if (!btn.contains(e.target) && !menu.contains(e.target)) {
-        close();
-      }
+  // ── Horizontal scroller buttons ───────────────────────────────────────────
+  function initScrollers() {
+    $$(".scroll-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const track = document.getElementById(btn.dataset.target);
+        if (!track) return;
+        const card = track.querySelector("[data-slide]") || track.firstElementChild;
+        const amount = card ? card.getBoundingClientRect().width + 20 : 340;
+        track.scrollBy({
+          left: amount * Number(btn.dataset.dir || 1),
+          behavior: REDUCED_MOTION ? "auto" : "smooth",
+        });
+      });
     });
   }
 
-  // ── Publications (reads from publications.json) ───────────────────────────────
-  /**
-   * Builds the Microlink screenshot URL for an article URL.
-   * Falls back gracefully to a placeholder if the API call fails.
-   * Free tier: https://microlink.io — limited req/month, enough for a small portfolio.
-   */
-  function microlinkScreenshotUrl(articleUrl) {
-    return (
-      "https://api.microlink.io/?url=" +
-      encodeURIComponent(articleUrl) +
-      "&screenshot=true&meta=false&embed=screenshot.url"
-    );
+  // ── Toast + BibTeX copy ───────────────────────────────────────────────────
+  function showToast(msg) {
+    const toast = document.getElementById("toast");
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 2200);
   }
 
-  function renderPublicationCard(pub) {
-    const title = escapeHtml(pub.title || "Untitled");
+  function generateBibTeX(pub) {
+    const firstAuthor = (pub.authors || "Dev, Ashutosh").split(",")[0].trim();
+    const surname = (firstAuthor.split(" ").pop() || "dev").toLowerCase().replace(/[^a-z]/g, "");
+    const year = pub.year || "";
+    const firstWord = (String(pub.title || "article").toLowerCase().match(/[a-z0-9]+/) || ["article"])[0];
+    const lines = [
+      `@article{${surname}${year}${firstWord},`,
+      `  title   = {${pub.title || ""}},`,
+      `  author  = {${pub.authors || ""}},`,
+      `  journal = {${pub.journal || ""}},`,
+      `  year    = {${year}},`,
+    ];
+    if (pub.doi && !String(pub.doi).startsWith("TODO")) {
+      lines.push(`  doi     = {${pub.doi}},`);
+    }
+    lines.push("}");
+    return lines.join("\n");
+  }
+
+  function initBibButtons() {
+    document.addEventListener("click", async (e) => {
+      const btn = e.target.closest(".bib-btn");
+      if (!btn || !btn.dataset.bibtex) return;
+      e.preventDefault();
+      e.stopPropagation();
+
+      const bibtex = decodeURIComponent(btn.dataset.bibtex);
+      try {
+        await navigator.clipboard.writeText(bibtex);
+      } catch (_) {
+        const ta = document.createElement("textarea");
+        ta.value = bibtex;
+        ta.style.cssText = "position:fixed;opacity:0;";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        ta.remove();
+      }
+      btn.classList.add("copied");
+      const orig = btn.textContent;
+      btn.textContent = "Copied";
+      showToast("BibTeX copied to clipboard");
+      setTimeout(() => { btn.classList.remove("copied"); btn.textContent = orig; }, 2000);
+    });
+  }
+
+  // ── Publications gallery + stats ──────────────────────────────────────────
+  function isUsablePub(p) {
+    // Scholar auto-fetch sometimes appends sparse duplicates — require a title
+    // and skip explicit placeholders.
+    return p && p.title && !p._note;
+  }
+
+  function renderPubCard(pub) {
+    const title = escapeHtml(pub.title);
     const journal = escapeHtml(pub.journal || "");
     const year = escapeHtml(String(pub.year || ""));
-    const doi = escapeHtml(pub.doi || "");
-    const url = pub.url || "#";
-    const citations = pub.citations != null ? pub.citations : null;
-    const isPlaceholder = !!(pub._note);
+    const authors = escapeHtml(pub.authors || "");
+    const url = pub.url || (pub.doi ? `https://doi.org/${pub.doi}` : "https://scholar.google.com/citations?user=attWSMsAAAAJ");
+    const citations = pub.citations != null ? Number(pub.citations) : null;
+    const thumb = pub.thumbnail ? ROOT + pub.thumbnail : "";
+    const bib = encodeURIComponent(generateBibTeX(pub));
 
-    // Prefer a local thumbnail; fall back to Microlink screenshot of the DOI page.
-    const imgSrc = pub.thumbnail
-      ? escapeHtml(pub.thumbnail)
-      : microlinkScreenshotUrl(url);
+    const thumbHtml = thumb
+      ? `<img src="${escapeHtml(thumb)}" alt="${title}" class="pub-thumb" loading="lazy"
+             onerror="this.outerHTML='<div class=\\'pub-thumb-fallback\\'>${journal || "Journal Article"}</div>'">`
+      : `<div class="pub-thumb-fallback">${journal || "Journal Article"}</div>`;
 
-    const badgeLabel = [journal, year].filter(Boolean).join(" \u2022 ");
-
-    const placeholderBadge = isPlaceholder
-      ? `<span class="text-xs font-bold px-2.5 py-1 rounded-full bg-amber-100 text-amber-700 border border-amber-200 ml-2">Update needed</span>`
-      : "";
+    const meta = [journal, year].filter(Boolean).join(" · ");
 
     return `
-      <a class="w-[88%] sm:w-[92%] md:w-[600px] shrink-0 snap-center bg-white border border-slate-200 rounded-2xl overflow-hidden card-hover"
-         data-slide href="${escapeHtml(url)}" target="_blank" rel="noopener">
-        <div class="h-44 sm:h-48 bg-slate-100 overflow-hidden relative">
-          <img src="${imgSrc}" alt="${title}"
-               class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-               loading="lazy"
-               onerror="this.outerHTML='<div class=&quot;w-full h-full img-fallback&quot;>${escapeHtml(journal || "Publication")}</div>'">
-        </div>
-        <div class="p-6 sm:p-8">
-          <div class="flex items-start gap-4">
-            <div class="mt-1 bg-slate-900 text-white p-2 rounded-lg shrink-0">
-              <i data-lucide="book-open" class="w-4 h-4"></i>
-            </div>
-            <div class="flex-1 min-w-0">
-              ${badgeLabel ? `<div class="text-xs font-bold text-teal-600 uppercase tracking-widest mb-2 flex items-center flex-wrap gap-1">${badgeLabel}${placeholderBadge}</div>` : ""}
-              <h3 class="text-base sm:text-lg font-semibold text-slate-900 leading-snug">${title}</h3>
-              ${doi && !doi.startsWith("TODO") ? `<div class="mt-2 text-xs font-mono text-slate-500 truncate">DOI: ${doi}</div>` : ""}
-              ${citations != null && !isPlaceholder ? `<div class="mt-1 text-xs text-slate-400">${citations} citation${citations !== 1 ? "s" : ""}</div>` : ""}
-            </div>
-          </div>
-          <div class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-teal-600 hover:text-teal-800 transition-colors">
-            <span>${isPlaceholder ? "View Scholar profile" : "Read paper"}</span><span aria-hidden="true">&rarr;</span>
+      <a href="${escapeHtml(url)}" target="_blank" rel="noopener" class="pub-card" data-slide>
+        ${thumbHtml}
+        <div class="pub-body">
+          ${meta ? `<p class="pub-journal">${meta}</p>` : ""}
+          <h3 class="pub-title">${title}</h3>
+          ${authors ? `<p class="pub-authors">${authors}</p>` : ""}
+          <div class="pub-foot">
+            <span class="pub-cite-count">${citations != null ? `${citations} citation${citations === 1 ? "" : "s"}` : ""}</span>
+            <button class="bib-btn" data-bibtex="${bib}" title="Copy BibTeX">BibTeX</button>
           </div>
         </div>
-      </a>
-    `;
+      </a>`;
   }
 
   async function loadPublications() {
-    const track = document.getElementById("pubTrack");
-    const status = document.getElementById("pubStatus");
-    if (!track) return;
-
+    const gallery = document.getElementById("pubGallery");
     try {
-      const res = await fetch("publications.json", { cache: "no-store" });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const pubs = await res.json();
+      const pubs = (await fetchJson("publications.json")).filter(isUsablePub);
+      // De-duplicate near-identical Scholar re-fetches by normalised title prefix
+      const seen = new Set();
+      const unique = pubs.filter((p) => {
+        const key = p.title.toLowerCase().replace(/[^a-z0-9]/g, "").slice(0, 60);
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+      unique.sort((a, b) => (Number(b.year) || 0) - (Number(a.year) || 0));
 
-      if (!Array.isArray(pubs) || pubs.length === 0) throw new Error("Empty");
+      if (gallery) {
+        gallery.innerHTML = unique.length
+          ? unique.map(renderPubCard).join("")
+          : `<p class="loading-note">Publications will appear here once publications.json has entries.</p>`;
+      }
 
-      track.innerHTML = pubs.map(renderPublicationCard).join("");
-      if (status) status.textContent = `${pubs.length} publication${pubs.length !== 1 ? "s" : ""} — updated automatically via GitHub Actions.`;
-      initIcons();
-      // Re-initialise sliders now that cards are injected
-      initSliders();
+      const totalCites = unique.reduce((s, p) => s + (Number(p.citations) || 0), 0);
+      setStat("statPubs", unique.length);
+      setStat("statCites", totalCites);
     } catch (err) {
-      track.innerHTML = `
-        <div class="w-[88%] sm:w-[92%] md:w-[600px] shrink-0 snap-center bg-white border border-slate-200 rounded-2xl p-8 text-slate-500" data-slide>
-          Could not load <code>publications.json</code>. Add publications to that file and they will appear here.
-        </div>`;
-      if (status) status.textContent = "Could not load publications.json.";
+      if (gallery) gallery.innerHTML = `<p class="loading-note">Could not load publications.json.</p>`;
     }
   }
 
-  // ── Consultant Reports (reads from data/reports.json) ─────────────────────────
-  /**
-   * To add a new consultant report:
-   *   1. Edit data/reports.json — add an object with title, date, description, link, tags.
-   *   2. Optionally place the PDF in assets/reports/ and update "link".
-   * No JavaScript changes are needed.
-   */
-  function renderReportCard(report) {
-    const title = escapeHtml(report.title || "Untitled Report");
-    const date = formatDate(report.date);
-    const description = escapeHtml(report.description || "");
-    const link = report.link || "#";
-    const tags = Array.isArray(report.tags) ? report.tags : [];
-    const isDownload = link !== "#" && !link.startsWith("http");
+  // ── Consulting work ───────────────────────────────────────────────────────
+  function renderConsultCard(item) {
+    const title = escapeHtml(item.title || "Untitled project");
+    const client = escapeHtml(item.client || "");
+    const date = formatDate(item.date);
+    const desc = escapeHtml(item.description || "");
+    const tags = Array.isArray(item.tags) ? item.tags : [];
+    const link = item.link || "";
+    const image = item.image ? ROOT + item.image : "";
+    const sample = item._sample ? `<span class="sample-badge">Sample — edit data/consulting.json</span>` : "";
 
-    const tagHtml = tags
-      .map((t) => `<span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-teal-50 text-teal-700 border border-teal-100">${escapeHtml(t)}</span>`)
-      .join("");
+    const meta = [client, date].filter(Boolean).join(" · ");
+    const isPdf = link && !link.startsWith("http");
 
-    const linkAttrs = isDownload
-      ? `href="${escapeHtml(link)}" download`
-      : `href="${escapeHtml(link)}" target="_blank" rel="noopener"`;
+    const imgHtml = image
+      ? `<img src="${escapeHtml(image)}" alt="${title}" class="consult-img" loading="lazy"
+             onerror="this.outerHTML='<div class=\\'consult-img-fallback\\'>Report</div>'">`
+      : `<div class="consult-img-fallback">Report</div>`;
+
+    const linkHtml = link
+      ? `<a class="consult-link" href="${escapeHtml(isPdf ? ROOT + link : link)}" ${isPdf ? "download" : 'target="_blank" rel="noopener"'}>
+           ${isPdf ? "Download report ↧" : "View project →"}
+         </a>`
+      : `<span class="consult-link pending">Material coming soon</span>`;
 
     return `
-      <div class="bg-white border border-teal-100 rounded-2xl p-6 sm:p-7 flex flex-col gap-4 card-hover shadow-sm">
-        ${date ? `<div class="text-xs font-bold text-slate-400 uppercase tracking-widest">${escapeHtml(date)}</div>` : ""}
-        <div class="flex items-start gap-3">
-          <div class="mt-0.5 bg-slate-900 text-white p-2 rounded-lg shrink-0">
-            <i data-lucide="file-text" class="w-4 h-4"></i>
-          </div>
-          <h3 class="text-lg font-semibold text-slate-900 leading-snug">${title}</h3>
+      <article class="consult-card">
+        ${imgHtml}
+        <div class="consult-body">
+          ${meta ? `<p class="consult-meta">${meta}</p>` : ""}
+          <h3 class="consult-title">${title}${sample}</h3>
+          ${desc ? `<p class="consult-desc">${desc}</p>` : ""}
+          ${tags.length ? `<div class="consult-tags">${tags.map((t) => `<span class="mini-tag">${escapeHtml(t)}</span>`).join("")}</div>` : ""}
+          ${linkHtml}
         </div>
-        ${description ? `<p class="text-slate-500 leading-relaxed text-sm line-clamp-3">${description}</p>` : ""}
-        ${tagHtml ? `<div class="flex flex-wrap gap-2">${tagHtml}</div>` : ""}
-        <a ${linkAttrs}
-           class="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-teal-600 hover:text-teal-800 transition-colors">
-          ${isDownload ? '<i data-lucide="download" class="w-4 h-4"></i><span>Download PDF</span>' : '<i data-lucide="external-link" class="w-4 h-4"></i><span>View report</span>'}
-        </a>
-      </div>
-    `;
+      </article>`;
   }
 
-  async function loadReports() {
-    const grid = document.getElementById("reportsGrid");
+  async function loadConsulting() {
+    const grid = document.getElementById("consultingGrid");
     if (!grid) return;
-
     try {
-      const res = await fetch("data/reports.json", { cache: "no-store" });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const reports = await res.json();
-
-      if (!Array.isArray(reports) || reports.length === 0) throw new Error("Empty");
-
-      grid.innerHTML = reports.map(renderReportCard).join("");
-      initIcons();
+      const items = await fetchJson("data/consulting.json");
+      if (!Array.isArray(items) || !items.length) throw new Error("empty");
+      grid.innerHTML = items.map(renderConsultCard).join("");
+      setStat("statProjects", items.filter((i) => !i._sample).length || items.length);
     } catch (err) {
-      grid.innerHTML = `
-        <div class="col-span-full bg-white border border-teal-100 rounded-2xl p-8 text-slate-500">
-          Could not load <code>data/reports.json</code>. Add report entries to that file and they will appear here.
-        </div>`;
+      grid.innerHTML = `<p class="loading-note">Add entries to <code>data/consulting.json</code> and they will appear here.</p>`;
     }
   }
 
-  // ── Substack / Writing ────────────────────────────────────────────────────────
+  // ── Op-Eds & Articles ─────────────────────────────────────────────────────
+  const CAT_LABELS = { climate: "Climate", energy: "Energy", politics: "Politics", creative: "Creative" };
+  let ALL_ARTICLES = [];
+
+  function renderArticleRow(a) {
+    const title = escapeHtml(a.title || "Untitled");
+    const outlet = escapeHtml([a.outlet, formatDate(a.date), a.language].filter(Boolean).join(" · "));
+    const cat = (a.category || "").toLowerCase();
+    const url = a.url || "#";
+    const image = a.image ? ROOT + a.image : "";
+    const sample = a._sample ? `<span class="sample-badge">Sample</span>` : "";
+
+    const thumbHtml = image
+      ? `<img src="${escapeHtml(image)}" alt="" class="article-thumb" loading="lazy"
+             onerror="this.outerHTML='<div class=\\'article-thumb-fallback\\'>${escapeHtml(CAT_LABELS[cat] || "Article")}</div>'">`
+      : `<div class="article-thumb-fallback">${escapeHtml(CAT_LABELS[cat] || "Article")}</div>`;
+
+    return `
+      <a class="article-row" href="${escapeHtml(url)}" target="_blank" rel="noopener" data-cat="${escapeHtml(cat)}">
+        ${thumbHtml}
+        <div class="article-info">
+          <h3>${title}${sample}</h3>
+          <p class="article-outlet">${outlet}</p>
+        </div>
+        ${cat ? `<span class="article-cat cat-${escapeHtml(cat)}">${escapeHtml(CAT_LABELS[cat] || cat)}</span>` : ""}
+      </a>`;
+  }
+
+  function renderFeature(a) {
+    if (!a) return "";
+    const image = a.image ? ROOT + a.image : "";
+    if (!image && !a.quote) return "";
+    return `
+      <div class="oped-feature">
+        ${image ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(a.title || "")}" class="oped-feature-img"
+             onerror="this.style.display='none'">` : "<div></div>"}
+        <div>
+          ${a.quote ? `<p class="oped-quote">“${escapeHtml(a.quote)}”</p>` : `<p class="oped-quote">${escapeHtml(a.title || "")}</p>`}
+          <p class="oped-quote-src">${escapeHtml([a.outlet, formatDate(a.date)].filter(Boolean).join(" · "))}
+            ${a.url ? ` — <a href="${escapeHtml(a.url)}" target="_blank" rel="noopener">read the piece</a>` : ""}
+          </p>
+        </div>
+      </div>`;
+  }
+
+  function applyArticleFilter(cat) {
+    const list = document.getElementById("articleList");
+    if (!list) return;
+    const items = cat === "all" ? ALL_ARTICLES : ALL_ARTICLES.filter((a) => (a.category || "").toLowerCase() === cat);
+    list.innerHTML = items.length
+      ? items.map(renderArticleRow).join("")
+      : `<p class="loading-note">No articles in this category yet.</p>`;
+  }
+
+  async function loadArticles() {
+    const list = document.getElementById("articleList");
+    const feature = document.getElementById("opedFeature");
+    const tabs = document.getElementById("topicTabs");
+
+    try {
+      const items = await fetchJson("data/articles.json");
+      if (!Array.isArray(items)) throw new Error("bad format");
+      ALL_ARTICLES = items.slice().sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+
+      // Homepage: featured clipping + filterable list
+      if (feature) feature.innerHTML = renderFeature(ALL_ARTICLES.find((a) => a.featured));
+      if (list) applyArticleFilter("all");
+
+      if (tabs) {
+        tabs.addEventListener("click", (e) => {
+          const btn = e.target.closest(".tab[data-cat]");
+          if (!btn) return;
+          $$(".tab", tabs).forEach((t) => t.classList.remove("active"));
+          btn.classList.add("active");
+          applyArticleFilter(btn.dataset.cat);
+        });
+      }
+
+      // Topic sub-pages: element with data-topic-list="<cat>"
+      const topicList = document.querySelector("[data-topic-list]");
+      if (topicList) {
+        const cat = topicList.dataset.topicList;
+        const filtered = ALL_ARTICLES.filter((a) => (a.category || "").toLowerCase() === cat);
+        topicList.innerHTML = filtered.length
+          ? filtered.map(renderArticleRow).join("")
+          : `<p class="loading-note">No ${cat} pieces published yet — add them to <code>data/articles.json</code>.</p>`;
+      }
+
+      setStat("statArticles", ALL_ARTICLES.filter((a) => !a._sample).length || ALL_ARTICLES.length);
+    } catch (err) {
+      if (list) list.innerHTML = `<p class="loading-note">Add entries to <code>data/articles.json</code> and they will appear here.</p>`;
+    }
+  }
+
+  // ── Substack ──────────────────────────────────────────────────────────────
   async function fetchText(url) {
     const res = await fetch(url, { cache: "no-store" });
-    if (!res.ok) throw new Error(`Fetch failed ${res.status}: ${url}`);
+    if (!res.ok) throw new Error(`Fetch failed ${res.status}`);
     return await res.text();
   }
 
@@ -278,163 +439,99 @@
   }
 
   function normalizePost(raw) {
-    const title = raw?.title || raw?.name || "Untitled";
-    const url =
-      raw?.canonical_url || raw?.canonicalUrl || raw?.url || raw?.link ||
-      (raw?.slug ? `${SUBSTACK_BASE}/p/${raw.slug}` : SUBSTACK_BASE);
-    const cover =
-      raw?.cover_image || raw?.coverImage || raw?.cover_image_url ||
-      raw?.social_image || raw?.image || raw?.thumbnail || null;
-    const date =
-      raw?.post_date || raw?.postDate || raw?.published_at ||
-      raw?.pubDate || raw?.date || null;
-    const subtitle =
-      raw?.subtitle || raw?.description || raw?.sub_title || raw?.teaser || "";
-    return { title, url, cover, date, subtitle };
+    return {
+      title: raw?.title || "Untitled",
+      url: raw?.canonical_url || raw?.url || raw?.link || (raw?.slug ? `${SUBSTACK_BASE}/p/${raw.slug}` : SUBSTACK_BASE),
+      cover: raw?.cover_image || raw?.cover_image_url || raw?.social_image || raw?.image || null,
+      date: raw?.post_date || raw?.published_at || raw?.pubDate || raw?.date || null,
+      subtitle: raw?.subtitle || raw?.description || "",
+    };
   }
 
-  function renderSubstackCard(post) {
+  function renderSubCard(post) {
     const title = escapeHtml(post.title);
-    const subtitle = escapeHtml(post.subtitle || "");
-    const date = formatDate(post.date);
-
     const img = post.cover
-      ? `<img src="${post.cover}" alt="${title}" class="w-full h-full object-cover" loading="lazy"
-              onerror="this.outerHTML='<div class=&quot;w-full h-full img-fallback&quot;>Substack</div>'">`
-      : `<div class="w-full h-full img-fallback">Substack</div>`;
-
+      ? `<img src="${post.cover}" alt="${title}" class="sub-card-img" loading="lazy"
+             onerror="this.outerHTML='<div class=\\'sub-card-fallback\\'>Substack</div>'">`
+      : `<div class="sub-card-fallback">Substack</div>`;
     return `
-      <a href="${post.url}" target="_blank" rel="noopener"
-         class="w-[88%] sm:w-[92%] md:w-[520px] shrink-0 snap-center bg-white border border-slate-200 rounded-2xl overflow-hidden card-hover"
-         data-slide>
-        <div class="h-52 sm:h-64 overflow-hidden bg-slate-100">${img}</div>
-        <div class="p-6 sm:p-7">
-          <div class="flex items-center justify-between gap-3">
-            <div class="text-xs font-bold text-teal-600 uppercase tracking-widest">Writing</div>
-            <div class="text-xs text-slate-400">${escapeHtml(date)}</div>
-          </div>
-          <h3 class="mt-3 text-lg sm:text-xl font-semibold text-slate-900 leading-snug">${title}</h3>
-          ${subtitle ? `<p class="mt-3 text-slate-500 leading-relaxed line-clamp-2 text-sm sm:text-base">${subtitle}</p>` : ""}
-          <div class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-teal-600 hover:text-teal-800 transition-colors">
-            <span>Read</span><span aria-hidden="true">&rarr;</span>
-          </div>
+      <a href="${post.url}" target="_blank" rel="noopener" class="sub-card" data-slide>
+        ${img}
+        <div class="sub-card-body">
+          <div class="sub-card-meta"><span>Substack</span><span>${escapeHtml(formatDate(post.date))}</span></div>
+          <h3 class="sub-card-title">${title}</h3>
+          ${post.subtitle ? `<p class="sub-card-sub">${escapeHtml(post.subtitle)}</p>` : ""}
         </div>
-      </a>
-    `;
+      </a>`;
   }
 
-  function parseRssToPosts(xmlText) {
-    const parser = new DOMParser();
-    const xml = parser.parseFromString(xmlText, "text/xml");
-    const items = Array.from(xml.querySelectorAll("item"));
-    return items.map((item) => {
-      const title = item.querySelector("title")?.textContent?.trim() || "Untitled";
-      const url = item.querySelector("link")?.textContent?.trim() || SUBSTACK_BASE;
-      const pubDate = item.querySelector("pubDate")?.textContent?.trim() || null;
-      const html =
-        item.querySelector("content\\:encoded")?.textContent ||
+  function parseRss(xmlText) {
+    const xml = new DOMParser().parseFromString(xmlText, "text/xml");
+    return Array.from(xml.querySelectorAll("item")).map((item) => {
+      const html = item.querySelector("content\\:encoded")?.textContent ||
         item.querySelector("description")?.textContent || "";
-      let cover = null;
       const imgMatch = html.match(/<img[^>]+src="([^"]+)"/i);
-      if (imgMatch && imgMatch[1]) cover = imgMatch[1];
-      const descText = (item.querySelector("description")?.textContent || "").trim();
-      return normalizePost({ title, link: url, pubDate, image: cover, description: descText });
+      return normalizePost({
+        title: item.querySelector("title")?.textContent?.trim(),
+        link: item.querySelector("link")?.textContent?.trim(),
+        pubDate: item.querySelector("pubDate")?.textContent?.trim(),
+        image: imgMatch ? imgMatch[1] : null,
+        description: (item.querySelector("description")?.textContent || "").trim(),
+      });
     });
   }
 
   async function fetchSubstackPosts() {
-    const archiveUrls = [
+    const jsonUrls = [
       `${SUBSTACK_BASE}/api/v1/archive`,
-      `https://r.jina.ai/https://ashutoshdev.substack.com/api/v1/archive`,
-      `https://r.jina.ai/http://ashutoshdev.substack.com/api/v1/archive`,
+      `https://r.jina.ai/${SUBSTACK_BASE}/api/v1/archive`,
     ];
-
-    for (const url of archiveUrls) {
+    for (const url of jsonUrls) {
       try {
-        const txt = await fetchText(url);
-        const data = safeJsonParse(txt);
-        const arr = Array.isArray(data) ? data
-          : Array.isArray(data?.posts) ? data.posts
-          : Array.isArray(data?.items) ? data.items : null;
-        if (arr && arr.length) {
-          const posts = arr.map(normalizePost).filter((p) => p.url && p.title);
-          if (posts.length) return posts;
-        }
+        const data = safeJsonParse(await fetchText(url));
+        const arr = Array.isArray(data) ? data : data?.posts || data?.items;
+        if (Array.isArray(arr) && arr.length) return arr.map(normalizePost);
       } catch (_) {}
     }
-
-    const feedUrls = [
-      `${SUBSTACK_BASE}/feed`,
-      `https://r.jina.ai/https://ashutoshdev.substack.com/feed`,
-      `https://r.jina.ai/http://ashutoshdev.substack.com/feed`,
-    ];
-
-    for (const url of feedUrls) {
+    const rssUrls = [`${SUBSTACK_BASE}/feed`, `https://r.jina.ai/${SUBSTACK_BASE}/feed`];
+    for (const url of rssUrls) {
       try {
-        const xmlText = await fetchText(url);
-        const posts = parseRssToPosts(xmlText);
+        const posts = parseRss(await fetchText(url));
         if (posts.length) return posts;
       } catch (_) {}
     }
-
     return [];
   }
 
-  async function loadWritingFromSubstack() {
+  async function loadSubstack() {
     const track = document.getElementById("substackTrack");
-    const status = document.getElementById("substackStatus");
-    const openBtn = document.getElementById("substackOpen");
-
     if (!track) return;
-    if (openBtn) openBtn.href = `${SUBSTACK_BASE}/archive`;
-
-    // Show loading skeleton
-    track.innerHTML = `
-      <div class="w-[88%] sm:w-[92%] md:w-[520px] shrink-0 snap-center bg-white border border-slate-200 rounded-2xl overflow-hidden" data-slide>
-        <div class="h-52 sm:h-64 bg-slate-100 animate-pulse"></div>
-        <div class="p-6 sm:p-7">
-          <div class="h-3 w-24 bg-slate-200 rounded animate-pulse"></div>
-          <div class="mt-4 h-5 w-3/4 bg-slate-200 rounded animate-pulse"></div>
-          <div class="mt-3 h-4 w-5/6 bg-slate-200 rounded animate-pulse"></div>
-          <div class="mt-2 h-4 w-2/3 bg-slate-200 rounded animate-pulse"></div>
-        </div>
-      </div>
-    `;
-
     try {
       const posts = await fetchSubstackPosts();
-      if (!posts.length) throw new Error("No posts returned");
-
-      track.innerHTML = posts.slice(0, 10).map(renderSubstackCard).join("");
-      if (status) status.textContent = "Latest posts automatically pulled from Substack.";
-      initIcons();
+      if (!posts.length) throw new Error("no posts");
+      track.innerHTML = posts.slice(0, 12).map(renderSubCard).join("");
     } catch (err) {
       track.innerHTML = `
-        <a href="${SUBSTACK_BASE}/archive" target="_blank" rel="noopener"
-           class="w-[88%] sm:w-[92%] md:w-[520px] shrink-0 snap-center bg-white border border-slate-200 rounded-2xl overflow-hidden card-hover"
-           data-slide>
-          <div class="h-52 sm:h-64 bg-slate-100 flex items-center justify-center text-slate-400">Substack</div>
-          <div class="p-6 sm:p-7">
-            <div class="text-xs font-bold text-teal-600 uppercase tracking-widest">Writing</div>
-            <h3 class="mt-3 text-xl font-semibold text-slate-900 serif">Open Substack &rarr;</h3>
-            <p class="mt-3 text-slate-500 leading-relaxed text-sm sm:text-base">
-              Posts couldn&rsquo;t load here (CORS/hosting limits) &mdash; open Substack directly.
-            </p>
+        <a href="${SUBSTACK_BASE}/archive" target="_blank" rel="noopener" class="sub-card" data-slide>
+          <div class="sub-card-fallback">Substack</div>
+          <div class="sub-card-body">
+            <h3 class="sub-card-title">Read on Substack →</h3>
+            <p class="sub-card-sub">Posts couldn't load inline (browser CORS limits) — open the archive directly.</p>
           </div>
-        </a>
-      `;
-      if (status) status.textContent = "Couldn\u2019t load posts automatically (CORS/hosting limits).";
+        </a>`;
     }
   }
 
-  // ── Boot ──────────────────────────────────────────────────────────────────────
+  // ── Boot ──────────────────────────────────────────────────────────────────
   document.addEventListener("DOMContentLoaded", () => {
     initYear();
-    initMobileMenu();
-    initSliders();
-    initIcons();
+    initNav();
+    initReveal();
+    initScrollers();
+    initBibButtons();
     loadPublications();
-    loadReports();
-    loadWritingFromSubstack();
+    loadConsulting();
+    loadArticles();
+    loadSubstack();
   });
 })();

@@ -1,0 +1,29 @@
+[
+  {
+    "title": "Carbon Pricing MRV Gap Analysis — Nepal",
+    "client": "Consulting Report",
+    "date": "2024-06-01",
+    "description": "Institutional MRV mapping, reporting architecture, verification pathways, and registry/compliance logic for Nepal's carbon pricing framework. Reviews monitoring, reporting, and verification gaps across key sectors.",
+    "image": "assets/carbon-01-mrv.png",
+    "link": "",
+    "tags": ["Carbon Finance", "MRV", "Nepal", "Policy"]
+  },
+  {
+    "title": "Community Cookstove Programme — Impact Assessment",
+    "client": "Field Assessment",
+    "date": "2024-03-01",
+    "description": "Field assessment of electric cookstove programme outcomes across 1,000+ households in rural Nepal — adoption constraints, fuel savings, indoor air quality improvements, and emission reductions.",
+    "image": "assets/carbon-02-community-cookstove.jpg",
+    "link": "",
+    "tags": ["Community Energy", "Cookstoves", "Impact Assessment", "Clean Cooking"]
+  },
+  {
+    "title": "HKH Energy-Shock Geospatial Analysis",
+    "client": "Research Analysis · ICIMOD VACA Survey",
+    "date": "2025-06-01",
+    "description": "Interactive district-level mapping of the Hindu Kush Himalaya region combining an Energy Tier Index (ETI) and Climate Shock Index (CSI) — explore energy vulnerability across the region.",
+    "image": "assets/carbon-03-field-mrv.jpg",
+    "link": "https://ashutoshdev.com.np/Figure12_Interactive_Map.html",
+    "tags": ["Geospatial", "Energy Access", "Climate Vulnerability", "HKH"]
+  }
+]

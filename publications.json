@@ -1,6 +1,6 @@
 [
   {
-    "title": "Exploring Aluminum as a Solid Thermal Storage Medium for Solar Cooking",
+    "title": "Exploring Aluminum as a Solid Thermal Storage Medium for Solar Cooking Application: An Experimental Investigation Coupled with Numerical Modeling using OpenFOAM",
     "journal": "Heliyon",
     "year": 2024,
     "authors": "Ashutosh Dev, Sunil Prasad Lohani, Subodh Dhakal",
@@ -20,7 +20,7 @@
     "citations": 0
   },
   {
-    "title": "Compatibility of Synthetic Natural Gas with Conventional LPG Burners",
+    "title": "Numerical Investigation of Compatibility of Synthetic Natural Gas with Conventional Liquefied Petroleum Gas Burners",
     "journal": "Journal of Physics: Conference Series",
     "year": 2023,
     "authors": "Ashutosh Dev, Sunil Prasad Lohani, Bikal Ghimire",
@@ -30,64 +30,22 @@
     "citations": 1
   },
   {
-    "title": "Energy Vulnerability and Household Energy Insecurity in the Hindu Kush Himalaya: Evidence from ICIMOD VACA Survey",
-    "journal": "TODO: Update with journal name",
-    "year": 2024,
-    "authors": "Ashutosh Dev et al.",
-    "doi": "TODO: Add DOI from Google Scholar",
-    "url": "https://scholar.google.com/citations?user=attWSMsAAAAJ&hl=en",
-    "thumbnail": "",
-    "citations": 0,
-    "_note": "PLACEHOLDER — update title, journal, doi, url, and thumbnail from your Google Scholar profile (paper 4 of 5)"
-  },
-  {
-    "title": "Thermal Energy Storage Pathways for Residential Heating in South Asia: A Review",
-    "journal": "TODO: Update with journal name",
-    "year": 2024,
-    "authors": "Ashutosh Dev, Sunil Prasad Lohani",
-    "doi": "TODO: Add DOI from Google Scholar",
-    "url": "https://scholar.google.com/citations?user=attWSMsAAAAJ&hl=en",
-    "thumbnail": "",
-    "citations": 0,
-    "_note": "PLACEHOLDER — update title, journal, doi, url, and thumbnail from your Google Scholar profile (paper 5 of 5)"
-  },
-  {
-    "title": "Exploring aluminum as a solid thermal storage medium for solar cooking application: An experimental investigation coupled with numerical modeling using OpenFOAM",
-    "journal": "",
-    "year": "2024",
-    "authors": "",
-    "doi": "",
-    "url": "",
-    "thumbnail": "",
-    "citations": 2
-  },
-  {
-    "title": "Numerical Investigation of Compatibility of Synthetic Natural Gas with Conventional Liquefied Petroleum Gas Burners",
-    "journal": "",
-    "year": "2023",
-    "authors": "",
-    "doi": "",
-    "url": "",
-    "thumbnail": "",
-    "citations": 1
-  },
-  {
     "title": "Modelling sustainable electric mobility transition in Nepal: Grid seasonality, systemic constraints and endogenous policy feedback within a bifurcated transport fleet",
     "journal": "",
     "year": "2026",
-    "authors": "",
+    "authors": "Ashutosh Dev et al.",
     "doi": "",
-    "url": "",
-    "thumbnail": "",
+    "url": "https://scholar.google.com/citations?user=attWSMsAAAAJ",
+    "thumbnail": "assets/research-04-system-dynamics-vensim.jpg",
     "citations": 0
   },
   {
     "title": "Energy Storage Potential of Used Electric Vehicle Batteries for Supporting Surplus Hydro-Energy in Nepal",
     "journal": "",
     "year": "",
-    "authors": "",
+    "authors": "Ashutosh Dev et al.",
     "doi": "",
-    "url": "",
+    "url": "https://scholar.google.com/citations?user=attWSMsAAAAJ",
     "thumbnail": "",
     "citations": 0
   }
