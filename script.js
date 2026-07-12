@@ -100,6 +100,9 @@
   }
 
   // ── Reveal-on-scroll ──────────────────────────────────────────────────────
+  // The opacity-0 start state only applies under html.js (set inline in
+  // <head>), so a broken script can't blank the page. As extra insurance,
+  // anything still hidden 2.5s after load is forced visible.
   function initReveal() {
     const els = $$(".reveal");
     if (!els.length) return;
@@ -116,6 +119,14 @@
       });
     }, { threshold: 0.08 });
     els.forEach((el) => io.observe(el));
+    setTimeout(() => {
+      els.forEach((el) => {
+        if (!el.classList.contains("in") &&
+            el.getBoundingClientRect().top < window.innerHeight) {
+          el.classList.add("in");
+        }
+      });
+    }, 2500);
   }
 
   // ── Stat counters (count up once visible) ─────────────────────────────────
