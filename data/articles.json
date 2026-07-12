@@ -6,7 +6,7 @@
     "date": "2025-07-10",
     "language": "English",
     "url": "https://theannapurnaexpress.com/story/65469/",
-    "image": "",
+    "image": "anna1.jpg",
     "featured": true,
     "quote": "As a result of ad-hoc development, energy legislation has laudable objectives but a fragmented approach — one where judicial intervention increasingly undermines policy certainty.",
     "_sample": true
@@ -18,17 +18,17 @@
     "date": "2024-04-24",
     "language": "English",
     "url": "https://nepalitimes.com/nepal-is-a-13-day-country",
-    "image": "",
+    "image": "nt1.jpg",
     "_sample": true
   },
   {
-    "title": "Sample creative piece — essay, poetry, or fiction",
+    "title": "aestheticization of politics and the thought it consumes",
     "category": "creative",
-    "outlet": "Outlet name",
-    "date": "2024-08-01",
-    "language": "Nepali",
-    "url": "https://example.com",
-    "image": "",
+    "outlet": "Substack",
+    "date": "2025-03-01",
+    "language": "English",
+    "url": "https://substack.com/home/post/p-203679874",
+    "image": "demo1.jpg",
     "_sample": true
   }
 ]
